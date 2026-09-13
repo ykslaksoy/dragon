@@ -22,31 +22,6 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-@keyframes dragon-blink {
-  0%,
-  88%,
-  100% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  91% {
-    transform: scaleY(0.08);
-    opacity: 0.35;
-  }
-  94% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  96% {
-    transform: scaleY(0.12);
-    opacity: 0.45;
-  }
-  98% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-
 @keyframes ghost-breathe {
   0%,
   100% {
@@ -74,11 +49,6 @@ body {
   animation: ghost-breathe 10s ease-in-out infinite;
 }
 
-.dragon-blink {
-  transform-origin: 50% 45%;
-  animation: dragon-blink 6.8s ease-in-out infinite;
-}
-
 .brand-rise {
   animation: brand-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -98,7 +68,6 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .dragon-ghost,
-  .dragon-blink,
   .brand-rise,
   .brand-rise-delay {
     animation: none;
