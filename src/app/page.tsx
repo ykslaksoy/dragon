@@ -3,11 +3,11 @@ import { DragonTopLogo } from "./components/DragonTopLogo";
 
 export default function Home() {
   return (
-    <div className="relative flex min-h-full flex-1 flex-col overflow-hidden bg-[#070708] text-white">
-      {/* Full-bleed atmosphere from Meta share ghost mark */}
+    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-[#070708] text-white">
+      {/* Full-bleed atmosphere — kept behind content, does not affect layout */}
       <div
         aria-hidden
-        className="dragon-ghost pointer-events-none absolute left-1/2 top-1/2 z-0 w-[min(620px,92vw)] ghost-mask"
+        className="dragon-ghost pointer-events-none absolute left-1/2 top-[42%] z-0 w-[min(620px,92vw)] ghost-mask"
       >
         <Image
           src="/dragon-mark.png"
@@ -20,35 +20,29 @@ export default function Home() {
         />
       </div>
 
-      {/* Soft vignette so brand stays readable */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(7,7,8,0.35)_55%,rgba(7,7,8,0.92)_100%)]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(7,7,8,0.25)_50%,rgba(7,7,8,0.88)_100%)]"
       />
 
-      {/* Meta-style top bar: wordmark + animated top logo */}
-      <header className="relative z-20 flex h-[76px] shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#070708]/90 px-6 backdrop-blur-xl sm:px-10">
-        <div className="flex items-center gap-8">
-          <span className="text-[16px] font-medium tracking-[0.38em] text-white">
-            DRAGON
-          </span>
-          <div className="hidden items-center gap-3 font-mono text-[10px] tracking-[0.2em] text-white/30 md:flex">
-            <span className="h-px w-8 bg-white/10" />
-            <span>YAYINDA</span>
-          </div>
-        </div>
+      {/* Sticky top bar — always in the first viewport (esp. mobile) */}
+      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#070708]/95 px-4 backdrop-blur-md sm:h-[76px] sm:px-10">
+        <span className="text-[15px] font-medium tracking-[0.38em] text-white sm:text-[16px]">
+          DRAGON
+        </span>
         <DragonTopLogo />
       </header>
 
-      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
+      {/* Hero sits below the header; justify-center only within remaining space */}
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pb-16 pt-8 text-center sm:pb-24 sm:pt-10">
         <p className="brand-rise mb-5 font-mono text-[10px] uppercase tracking-[0.38em] text-white/35">
           Yayında
         </p>
-        <h1 className="brand-rise text-6xl font-semibold tracking-[-0.04em] text-white sm:text-8xl">
+        <h1 className="brand-rise text-5xl font-semibold tracking-[-0.04em] text-white sm:text-8xl">
           Dragon
         </h1>
         <p
-          className="brand-rise-delay mt-5 font-[family-name:var(--font-cormorant)] text-2xl italic tracking-[0.02em] text-white/35 sm:text-[30px]"
+          className="brand-rise-delay mt-5 text-2xl italic tracking-[0.02em] text-white/35 sm:text-[30px]"
           style={{ fontFamily: "var(--font-cormorant), serif" }}
         >
           Dragon Awakens
