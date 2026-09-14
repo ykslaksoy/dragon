@@ -42,13 +42,13 @@ export type Dictionary = {
   saturationLabel: string;
   currency: string;
   productNames: Record<string, string>;
-  modes: { k: "all" | "A" | "B" | "C"; label: string }[];
-  modeStatus: Record<"all" | "A" | "B" | "C", string>;
-  cards: {
-    id: "A" | "B" | "C";
-    title: string;
-    desc: string;
-  }[];
+  modeAll: string;
+  modeStatusAll: string;
+  /** `{platform}` + `{role}` */
+  modeLabel: string;
+  /** `{platform}` */
+  modeStatus: string;
+  cardRoles: { label: string; desc: string }[];
   features: { title: string; desc: string }[];
   footerLeft: string;
   footerRight: string;
@@ -110,7 +110,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "Talep, doygunluk, risk.",
     heroLine2: "Net kârı gör.",
     subtitle:
-      "Amazon, Shopify, TikTok ve daha fazlasında tara. Her üründe talep analizi, doygunluk, Dragon risk skoru ve net kâr birlikte. Dropship / Shopify yolu tipik olarak daha düşük risk — yüksek kâr / yüksek riski de bilinçli seçebilirsin.",
+      "{platforms} ve daha fazlasında tara; sonuçları bölge, ülke ve en çok kazandırana göre filtrele. Her üründe talep, doygunluk, Dragon risk skoru ve net kâr. Dropship / Shopify yolu tipik düşük risk — yüksek kâr+risk bilinçli seçilebilir.",
     cta: "ÜRÜN AVINI BAŞLAT",
     quickSearch: "⌘K • HIZLI ARA",
     integrationsLabel: "ENTEGRASYONLAR",
@@ -150,36 +150,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
     saturationLabel: "DOYGUNLUK",
     currency: "₺",
     productNames: PRODUCT_NAMES_TR,
-    modes: [
-      { k: "all", label: "TÜM PLATFORMLAR" },
-      { k: "A", label: "AMAZON • Ürün Araştırması" },
-      { k: "B", label: "SHOPIFY • Mağaza İstihbaratı" },
-      { k: "C", label: "TIKTOK • Viral Av" },
-    ],
-    modeStatus: {
-      all: "TÜM PLATFORMLAR",
-      A: "AMAZON MODU",
-      B: "SHOPIFY MODU",
-      C: "TIKTOK MODU",
-    },
-    cards: [
+    modeAll: "TÜM PLATFORMLAR",
+    modeStatusAll: "TÜM PLATFORMLAR",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "{platform} MODU",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
+        label: "Ürün Araştırması",
         desc: "Talep, doygunluk, risk skoru ve net kâr — platform listesinde birlikte",
       },
       {
-        id: "B",
-        title: "Shopify",
+        label: "Mağaza İstihbaratı",
         desc: "Dropship yolu: tipik düşük risk + talep/doygunluk + net kâr sinyali",
       },
       {
-        id: "C",
-        title: "TikTok",
+        label: "Trend Av",
         desc: "Viral talep yükselişi, doygunluk ve Dragon risk skoruyla listele",
       },
     ],
     features: [
+      {
+        title: "Optimal tedarikçi",
+        desc: "{platforms} ve daha fazlasında tedarikçi bul — sadece en ucuz değil, optimal öneri.",
+      },
       {
         title: "Talep & doygunluk",
         desc: "Her üründe talep analizi ve pazar doygunluğu — kalabalık nişleri erken gör.",
@@ -190,7 +183,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
       {
         title: "Bölge · ülke · kâr",
-        desc: "Bölge ve ülkeye göre tara; en çok kazandıran veya risk bandına göre sırala/filtrele.",
+        desc: "Araştırma sonuçlarını bölge, ülke ve en yüksek net kâra göre seç ve sırala.",
       },
     ],
     footerLeft: "© DRAGON • TALEP · DOYGUNLUK · RİSK · NET KÂR",
@@ -206,7 +199,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "Demand, saturation, risk.",
     heroLine2: "See net profit.",
     subtitle:
-      "Scan Amazon, Shopify, TikTok and more. Every product shows demand analysis, saturation, Dragon’s risk score, and net profit together. Dropship / Shopify paths tend toward lower risk — you can still choose high profit / high risk on purpose.",
+      "Scan {platforms} and more; filter by region, country, and highest profit. Every product shows demand, saturation, Dragon’s risk score, and net profit. Dropship / Shopify paths tend lower risk — high profit+risk stays a conscious choice.",
     cta: "START THE HUNT",
     quickSearch: "⌘K • QUICK SEARCH",
     integrationsLabel: "INTEGRATIONS",
@@ -272,36 +265,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
       miniFan: "Mini USB fan",
       gamingChair: "Gaming chair",
     },
-    modes: [
-      { k: "all", label: "ALL PLATFORMS" },
-      { k: "A", label: "AMAZON • Product Research" },
-      { k: "B", label: "SHOPIFY • Store Spy" },
-      { k: "C", label: "TIKTOK • Viral Hunt" },
-    ],
-    modeStatus: {
-      all: "ALL PLATFORMS",
-      A: "AMAZON MODE",
-      B: "SHOPIFY MODE",
-      C: "TIKTOK MODE",
-    },
-    cards: [
+    modeAll: "ALL PLATFORMS",
+    modeStatusAll: "ALL PLATFORMS",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "{platform} MODE",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
+        label: "Product Research",
         desc: "Demand, saturation, risk score, and net profit — together on the platform list",
       },
       {
-        id: "B",
-        title: "Shopify",
+        label: "Store Spy",
         desc: "Dropship path: typically lower risk + demand/saturation + net profit signal",
       },
       {
-        id: "C",
-        title: "TikTok",
+        label: "Trend Hunt",
         desc: "Rising viral demand, saturation, and Dragon risk score in one list",
       },
     ],
     features: [
+      {
+        title: "Optimal suppliers",
+        desc: "Find suppliers on {platforms} and more — optimal picks, not only the cheapest.",
+      },
       {
         title: "Demand & saturation",
         desc: "Demand analysis and market saturation on every product — spot crowded niches early.",
@@ -312,7 +298,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
       {
         title: "Region · country · profit",
-        desc: "Scan by region and country; sort/filter by most profitable or risk band.",
+        desc: "Filter and sort research by region, country, and highest net profit.",
       },
     ],
     footerLeft: "© DRAGON • DEMAND · SATURATION · RISK · NET PROFIT",
@@ -328,7 +314,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "Nachfrage, Sättigung, Risiko.",
     heroLine2: "Nettogewinn sehen.",
     subtitle:
-      "Scanne Amazon, Shopify, TikTok und mehr. Jedes Produkt zeigt Nachfrageanalyse, Sättigung, Dragon-Risikoscore und Nettogewinn. Dropship / Shopify tendiert zu niedrigerem Risiko — hoher Gewinn / hohes Risiko bleibt wählbar.",
+      "Scanne {platforms} und mehr; filtere nach Region, Land und höchstem Gewinn. Jedes Produkt zeigt Nachfrage, Sättigung, Dragon-Risikoscore und Nettogewinn. Dropship / Shopify tendiert niedrigeres Risiko — hoher Gewinn+Risiko bleibt wählbar.",
     cta: "JAGD STARTEN",
     quickSearch: "⌘K • SCHNELLSUCHE",
     integrationsLabel: "INTEGRATIONEN",
@@ -394,47 +380,40 @@ export const dictionaries: Record<Locale, Dictionary> = {
       miniFan: "Mini-USB-Ventilator",
       gamingChair: "Gaming-Stuhl",
     },
-    modes: [
-      { k: "all", label: "ALLE PLATTFORMEN" },
-      { k: "A", label: "AMAZON • Produktforschung" },
-      { k: "B", label: "SHOPIFY • Store Spy" },
-      { k: "C", label: "TIKTOK • Viral Hunt" },
-    ],
-    modeStatus: {
-      all: "ALLE PLATTFORMEN",
-      A: "AMAZON-MODUS",
-      B: "SHOPIFY-MODUS",
-      C: "TIKTOK-MODUS",
-    },
-    cards: [
+    modeAll: "ALLE PLATTFORMEN",
+    modeStatusAll: "ALLE PLATTFORMEN",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "{platform}-MODUS",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
-        desc: "Nachfrage, Sättigung, Risikoscore und Nettogewinn — zusammen in der Plattformliste",
+        label: "Produktforschung",
+        desc: "Nachfrage, Sättigung, Risikowert und Nettogewinn — gemeinsam in der Plattformliste",
       },
       {
-        id: "B",
-        title: "Shopify",
+        label: "Store Spy",
         desc: "Dropship-Pfad: typisch niedrigeres Risiko + Nachfrage/Sättigung + Nettogewinn",
       },
       {
-        id: "C",
-        title: "TikTok",
-        desc: "Steigende virale Nachfrage, Sättigung und Dragon-Risikoscore in einer Liste",
+        label: "Trend-Jagd",
+        desc: "Steigende virale Nachfrage, Sättigung und Dragon-Risikowert in einer Liste",
       },
     ],
     features: [
       {
-        title: "Nachfrage & Sättigung",
-        desc: "Nachfrageanalyse und Marktsättigung bei jedem Produkt — überfüllte Nischen früh erkennen.",
+        title: "Optimale Lieferanten",
+        desc: "Lieferanten auf {platforms} und mehr — optimal, nicht nur am günstigsten.",
       },
       {
-        title: "Dragon-Risikoscore",
-        desc: "Risikoscore neben Nettogewinn. Sanft niedrig für Dropship/Shopify; hoher Gewinn+Risiko wählbar.",
+        title: "Nachfrage & Sättigung",
+        desc: "Nachfrageanalyse und Marktsättigung auf jedem Produkt — volle Nischen früh sehen.",
+      },
+      {
+        title: "Dragon-Risikowert",
+        desc: "Risikowert neben Nettogewinn. Soft niedriges Risiko für Dropship/Shopify; hoher Gewinn+Risiko wählbar.",
       },
       {
         title: "Region · Land · Gewinn",
-        desc: "Nach Region und Land scannen; nach Gewinn oder Risikoband sortieren/filtern.",
+        desc: "Forschung nach Region, Land und höchstem Nettogewinn filtern und sortieren.",
       },
     ],
     footerLeft: "© DRAGON • NACHFRAGE · SÄTTIGUNG · RISIKO · NETTOGEWINN",
@@ -450,7 +429,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "Demande, saturation, risque.",
     heroLine2: "Voir le bénéfice net.",
     subtitle:
-      "Scannez Amazon, Shopify, TikTok et plus. Chaque produit affiche analyse de demande, saturation, score de risque Dragon et bénéfice net. Dropship / Shopify tend vers un risque plus bas — profit élevé / risque élevé reste un choix conscient.",
+      "Scannez {platforms} et plus ; filtrez par région, pays et profit le plus élevé. Chaque produit affiche demande, saturation, score de risque Dragon et bénéfice net. Dropship / Shopify tend vers un risque plus bas — haut profit+risque reste un choix conscient.",
     cta: "LANCER LA CHASSE",
     quickSearch: "⌘K • RECHERCHE RAPIDE",
     integrationsLabel: "INTÉGRATIONS",
@@ -516,47 +495,40 @@ export const dictionaries: Record<Locale, Dictionary> = {
       miniFan: "Mini ventilateur USB",
       gamingChair: "Fauteuil gaming",
     },
-    modes: [
-      { k: "all", label: "TOUTES LES PLATEFORMES" },
-      { k: "A", label: "AMAZON • Recherche produit" },
-      { k: "B", label: "SHOPIFY • Store Spy" },
-      { k: "C", label: "TIKTOK • Chasse virale" },
-    ],
-    modeStatus: {
-      all: "TOUTES LES PLATEFORMES",
-      A: "MODE AMAZON",
-      B: "MODE SHOPIFY",
-      C: "MODE TIKTOK",
-    },
-    cards: [
+    modeAll: "TOUTES LES PLATEFORMES",
+    modeStatusAll: "TOUTES LES PLATEFORMES",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "MODE {platform}",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
+        label: "Recherche produit",
         desc: "Demande, saturation, score de risque et bénéfice net — ensemble sur la liste",
       },
       {
-        id: "B",
-        title: "Shopify",
+        label: "Store Spy",
         desc: "Voie dropship : risque typiquement plus bas + demande/saturation + bénéfice net",
       },
       {
-        id: "C",
-        title: "TikTok",
+        label: "Chasse tendance",
         desc: "Demande virale en hausse, saturation et score de risque Dragon en une liste",
       },
     ],
     features: [
+      {
+        title: "Fournisseurs optimaux",
+        desc: "Trouvez des fournisseurs sur {platforms} et plus — optimal, pas seulement le moins cher.",
+      },
       {
         title: "Demande & saturation",
         desc: "Analyse de demande et saturation marché sur chaque produit — repérez les niches saturées tôt.",
       },
       {
         title: "Score de risque Dragon",
-        desc: "Score de risque à côté du bénéfice net. Soft bas pour dropship/Shopify ; haut profit+risque sélectionnable.",
+        desc: "Score de risque à côté du bénéfice net. Soft faible risque dropship/Shopify ; haut profit+risque sélectionnable.",
       },
       {
         title: "Région · pays · profit",
-        desc: "Scannez par région et pays ; triez/filtrez par rentabilité ou bande de risque.",
+        desc: "Filtrez et triez la recherche par région, pays et bénéfice net le plus élevé.",
       },
     ],
     footerLeft: "© DRAGON • DEMANDE · SATURATION · RISQUE · BÉNÉFICE NET",
@@ -572,7 +544,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "需求、饱和度、风险。",
     heroLine2: "看见净利润。",
     subtitle:
-      "扫描 Amazon、Shopify、TikTok 等。每个产品同时展示需求分析、市场饱和度、Dragon 风险评分与净利润。Dropship / Shopify 路径通常风险更低——你仍可主动选择高利润 / 高风险。",
+      "扫描 {platforms} 等；按地区、国家和最高利润筛选。每个产品展示需求、饱和度、Dragon 风险评分与净利润。Dropship / Shopify 通常风险更低——高利润+高风险仍可主动选择。",
     cta: "开始寻猎",
     quickSearch: "⌘K • 快速搜索",
     integrationsLabel: "集成",
@@ -638,47 +610,40 @@ export const dictionaries: Record<Locale, Dictionary> = {
       miniFan: "迷你 USB 风扇",
       gamingChair: "电竞椅",
     },
-    modes: [
-      { k: "all", label: "全部平台" },
-      { k: "A", label: "AMAZON • 选品研究" },
-      { k: "B", label: "SHOPIFY • 店铺情报" },
-      { k: "C", label: "TIKTOK • 爆款追踪" },
-    ],
-    modeStatus: {
-      all: "全部平台",
-      A: "AMAZON 模式",
-      B: "SHOPIFY 模式",
-      C: "TIKTOK 模式",
-    },
-    cards: [
+    modeAll: "全部平台",
+    modeStatusAll: "全部平台",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "{platform} 模式",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
-        desc: "需求、饱和度、风险评分与净利润 — 同列展示",
+        label: "选品研究",
+        desc: "需求、饱和度、风险分与净利润 — 同列于平台列表",
       },
       {
-        id: "B",
-        title: "Shopify",
-        desc: "一件代发路径：典型更低风险 + 需求/饱和度 + 净利润信号",
+        label: "店铺情报",
+        desc: "一件代发路径：通常更低风险 + 需求/饱和度 + 净利润信号",
       },
       {
-        id: "C",
-        title: "TikTok",
-        desc: "上升病毒需求、饱和度与 Dragon 风险评分一表呈现",
+        label: "趋势追踪",
+        desc: "上升病毒需求、饱和度与 Dragon 风险分一表呈现",
       },
     ],
     features: [
       {
-        title: "需求与饱和度",
-        desc: "每个产品的需求分析与市场饱和度 — 尽早发现拥挤赛道。",
+        title: "最优供应商",
+        desc: "在 {platforms} 等寻找供应商 — 最优，而不只是最便宜。",
       },
       {
-        title: "Dragon 风险评分",
-        desc: "风险评分与净利润并排。Dropship/Shopify 轻引导低风险；高利润+高风险可选。",
+        title: "需求与饱和度",
+        desc: "每件产品都有需求分析与市场饱和度 — 尽早发现拥挤赛道。",
+      },
+      {
+        title: "Dragon 风险分",
+        desc: "风险分与净利润并列。一件代发/Shopify 轻引导低风险；高利润+高风险可选。",
       },
       {
         title: "地区 · 国家 · 利润",
-        desc: "按地区与国家扫描；按最赚钱或风险区间排序/筛选。",
+        desc: "按地区、国家和最高净利润筛选并排序研究结果。",
       },
     ],
     footerLeft: "© DRAGON • 需求 · 饱和度 · 风险 · 净利润",
@@ -694,7 +659,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     heroLine1: "Спрос, насыщенность, риск.",
     heroLine2: "Видьте чистую прибыль.",
     subtitle:
-      "Сканируйте Amazon, Shopify, TikTok и другие. У каждого товара — анализ спроса, насыщенность, риск-скор Dragon и чистая прибыль. Dropship / Shopify обычно с более низким риском — высокий профит / высокий риск остаётся осознанным выбором.",
+      "Сканируйте {platforms} и другие; фильтруйте по региону, стране и максимальной прибыли. У каждого товара — спрос, насыщенность, риск-скор Dragon и чистая прибыль. Dropship / Shopify обычно с более низким риском — высокий профит+риск остаётся осознанным выбором.",
     cta: "НАЧАТЬ ОХОТУ",
     quickSearch: "⌘K • БЫСТРЫЙ ПОИСК",
     integrationsLabel: "ИНТЕГРАЦИИ",
@@ -760,47 +725,40 @@ export const dictionaries: Record<Locale, Dictionary> = {
       miniFan: "Мини USB-вентилятор",
       gamingChair: "Игровое кресло",
     },
-    modes: [
-      { k: "all", label: "ВСЕ ПЛАТФОРМЫ" },
-      { k: "A", label: "AMAZON • Исследование товаров" },
-      { k: "B", label: "SHOPIFY • Store Spy" },
-      { k: "C", label: "TIKTOK • Вирусный поиск" },
-    ],
-    modeStatus: {
-      all: "ВСЕ ПЛАТФОРМЫ",
-      A: "РЕЖИМ AMAZON",
-      B: "РЕЖИМ SHOPIFY",
-      C: "РЕЖИМ TIKTOK",
-    },
-    cards: [
+    modeAll: "ВСЕ ПЛАТФОРМЫ",
+    modeStatusAll: "ВСЕ ПЛАТФОРМЫ",
+    modeLabel: "{platform} • {role}",
+    modeStatus: "РЕЖИМ {platform}",
+    cardRoles: [
       {
-        id: "A",
-        title: "Amazon",
-        desc: "Спрос, насыщенность, риск-скор и чистая прибыль — вместе в списке платформы",
+        label: "Исследование товаров",
+        desc: "Спрос, насыщенность, оценка риска и чистая прибыль — вместе в списке платформы",
       },
       {
-        id: "B",
-        title: "Shopify",
-        desc: "Путь dropship: типично ниже риск + спрос/насыщенность + чистая прибыль",
+        label: "Store Spy",
+        desc: "Путь dropship: обычно ниже риск + спрос/насыщенность + сигнал чистой прибыли",
       },
       {
-        id: "C",
-        title: "TikTok",
-        desc: "Растущий вирусный спрос, насыщенность и риск-скор Dragon в одном списке",
+        label: "Охота за трендом",
+        desc: "Растущий вирусный спрос, насыщенность и оценка риска Dragon в одном списке",
       },
     ],
     features: [
       {
-        title: "Спрос и насыщенность",
-        desc: "Анализ спроса и насыщенности рынка на каждом товаре — рано видьте переполненные ниши.",
+        title: "Оптимальные поставщики",
+        desc: "Поставщики на {platforms} и др. — оптимальный выбор, не только самый дешёвый.",
       },
       {
-        title: "Риск-скор Dragon",
-        desc: "Риск рядом с чистой прибылью. Мягкий низкий риск для dropship/Shopify; высокий профит+риск выбираем.",
+        title: "Спрос и насыщенность",
+        desc: "Анализ спроса и насыщенности рынка на каждом товаре — рано замечайте тесные ниши.",
+      },
+      {
+        title: "Оценка риска Dragon",
+        desc: "Оценка риска рядом с чистой прибылью. Мягкий низкий риск для dropship/Shopify; высокий профит+риск доступен.",
       },
       {
         title: "Регион · страна · прибыль",
-        desc: "Сканируйте по региону и стране; сортируйте/фильтруйте по прибыли или полосе риска.",
+        desc: "Фильтруйте и сортируйте исследование по региону, стране и максимальной чистой прибыли.",
       },
     ],
     footerLeft: "© DRAGON • СПРОС · НАСЫЩЕННОСТЬ · РИСК · ЧИСТАЯ ПРИБЫЛЬ",
