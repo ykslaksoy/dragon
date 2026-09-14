@@ -116,8 +116,8 @@ export default function Home() {
       </header>
 
       {/* Region chips + compact country / sort / risk */}
-      <div className="relative z-10 border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
-        <div className="flex flex-col items-center gap-2.5">
+      <div className="relative z-40 overflow-visible border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
+        <div className="flex flex-col items-center gap-2.5 overflow-visible">
           <RegionChips
             selected={regions}
             onChange={setRegions}

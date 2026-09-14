@@ -50,7 +50,7 @@ export function CompactSelect<T extends string>({
   if (!current) return null;
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="relative z-20">
       <button
         type="button"
         aria-label={ariaLabel}
@@ -58,7 +58,7 @@ export function CompactSelect<T extends string>({
         aria-expanded={open}
         aria-controls={listId}
         onClick={() => setOpen((v) => !v)}
-        className="flex max-w-[200px] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+        className="flex max-w-[220px] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white"
       >
         {prefix ? (
           <span className="mono shrink-0 tracking-wider text-white/35 uppercase">
