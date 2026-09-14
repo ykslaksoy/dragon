@@ -1,30 +1,39 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DragonTopLogo } from "./components/DragonTopLogo";
+import { HuntFilters } from "./components/HuntFilters";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import {
   PlatformIntegrations,
   PlatformName,
 } from "./components/PlatformMark";
+import { ProductResults } from "./components/ProductResults";
 import { RegionChips } from "./components/RegionChips";
+import type { CountryId } from "./i18n/countries";
+import { countriesForRegions } from "./i18n/countries";
 import {
   DEFAULT_LOCALE,
   getDictionary,
   type Locale,
 } from "./i18n/dictionaries";
 import {
+  DEMO_PRODUCTS,
+  filterAndSortProducts,
+  type RiskMode,
+  type SortMode,
+} from "./i18n/demo-products";
+import {
   DEFAULT_REGIONS,
   platformsForRegions,
   type RegionId,
 } from "./i18n/regions";
 
-function scrollToMods(e: React.MouseEvent<HTMLAnchorElement>) {
+function scrollToHunt(e: React.MouseEvent<HTMLAnchorElement>) {
   e.preventDefault();
-  const el = document.getElementById("mods");
+  const el = document.getElementById("hunt");
   if (!el) return;
-  // Keep URL clean (no #mods) so reloads never jump past the header.
   history.replaceState(null, "", window.location.pathname + window.location.search);
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -33,12 +42,33 @@ export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
   const [mode, setMode] = useState<"all" | "A" | "B" | "C">("all");
   const [regions, setRegions] = useState<RegionId[]>(DEFAULT_REGIONS);
+  const [country, setCountry] = useState<CountryId | "all">("all");
+  const [sort, setSort] = useState<SortMode>("profit");
+  const [riskMode, setRiskMode] = useState<RiskMode>("low");
   const t = getDictionary(lang);
   const platforms = platformsForRegions(regions);
 
   useEffect(() => {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
+
+  // Drop country filter when it no longer belongs to selected regions
+  const effectiveCountry = useMemo((): CountryId | "all" => {
+    if (country === "all") return "all";
+    const allowed = countriesForRegions(regions).some((c) => c.id === country);
+    return allowed ? country : "all";
+  }, [regions, country]);
+
+  const products = useMemo(
+    () =>
+      filterAndSortProducts(DEMO_PRODUCTS, {
+        regions,
+        country: effectiveCountry,
+        riskMode,
+        sort,
+      }),
+    [regions, effectiveCountry, riskMode, sort],
+  );
 
   return (
     <div className="m-0 min-h-dvh bg-[#070708] p-0 text-white selection:bg-[#8CFF4D]/30">
@@ -58,11 +88,6 @@ export default function Home() {
         />
       </div>
 
-      {/*
-        Document-flow header at y=0. sticky+top-0 is an insurance so iOS cannot
-        leave the brand scrolled just out of the first viewport; at scrollY=0 it
-        looks identical to a static header.
-      */}
       <header
         id="top"
         className="sticky top-0 z-50 m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8"
@@ -90,18 +115,46 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Region chips — multi-select market filter */}
+      {/* Region chips + compact country / sort / risk */}
       <div className="relative z-10 border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
-        <RegionChips
-          selected={regions}
-          onChange={setRegions}
-          labels={t.regions}
-          allLabel={t.regionsAll}
-          ariaLabel={t.regionsAria}
-        />
+        <div className="flex flex-col items-center gap-2.5">
+          <RegionChips
+            selected={regions}
+            onChange={setRegions}
+            labels={t.regions}
+            allLabel={t.regionsAll}
+            ariaLabel={t.regionsAria}
+          />
+          <HuntFilters
+            regions={regions}
+            country={effectiveCountry}
+            onCountryChange={setCountry}
+            sort={sort}
+            onSortChange={setSort}
+            riskMode={riskMode}
+            onRiskModeChange={setRiskMode}
+            copy={{
+              countryAria: t.countryAria,
+              countryPrefix: t.countryPrefix,
+              countryAll: t.countryAll,
+              countries: t.countries,
+              sortAria: t.sortAria,
+              sortPrefix: t.sortPrefix,
+              sortProfit: t.sortProfit,
+              sortRisk: t.sortRisk,
+              riskAria: t.riskAria,
+              riskPrefix: t.riskPrefix,
+              riskLow: t.riskLow,
+              riskLowHint: t.riskLowHint,
+              riskBalanced: t.riskBalanced,
+              riskBalancedHint: t.riskBalancedHint,
+              riskHigh: t.riskHigh,
+              riskHighHint: t.riskHighHint,
+            }}
+          />
+        </div>
       </div>
 
-      {/* Hero — matches desired first viewport under flush header */}
       <section className="relative z-10 flex flex-col items-center px-5 pb-10 pt-10 sm:px-10 sm:pt-14">
         <p
           className="italic tracking-[0.02em]"
@@ -134,8 +187,8 @@ export default function Home() {
 
         <div className="mt-7 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
           <a
-            href="#mods"
-            onClick={scrollToMods}
+            href="#hunt"
+            onClick={scrollToHunt}
             className="group relative rounded-full bg-[#8CFF4D] px-7 py-[12px] text-[12px] font-semibold tracking-[0.08em] text-black shadow-[0_0_0_1px_#8CFF4D,0_0_30px_rgba(140,255,77,0.45),0_0_60px_rgba(140,255,77,0.2)] transition-all hover:translate-y-[-1px] hover:shadow-[0_0_0_1px_#8CFF4D,0_0_45px_rgba(140,255,77,0.65),0_0_90px_rgba(140,255,77,0.3)] sm:px-8 sm:py-[14px] sm:text-[13px]"
           >
             <span className="relative z-10 flex items-center gap-2">
@@ -151,6 +204,21 @@ export default function Home() {
           emptyLabel={t.regionsEmpty}
         />
       </section>
+
+      <ProductResults
+        products={products}
+        nameOf={(key) => t.productNames[key] ?? key}
+        copy={{
+          title: t.huntTitle,
+          empty: t.huntEmpty,
+          softSteer: t.huntSoftSteer,
+          profitLabel: t.profitLabel,
+          riskLabel: t.riskLabel,
+          demandLabel: t.demandLabel,
+          saturationLabel: t.saturationLabel,
+          currency: t.currency,
+        }}
+      />
 
       <section
         id="mods"
