@@ -2,12 +2,7 @@
 
 import Image from "next/image";
 import type { Platform } from "../i18n/regions";
-
-const CARD_LOGOS: Record<string, string> = {
-  Amazon: "/platforms/amazon.svg",
-  Shopify: "/platforms/shopify.svg",
-  TikTok: "/platforms/tiktok.svg",
-};
+import { logoForPlatformName } from "../i18n/regions";
 
 type Props = {
   label: string;
@@ -53,17 +48,19 @@ export function PlatformIntegrations({ label, platforms, emptyLabel }: Props) {
 
 export function PlatformName({
   title,
+  src,
   className = "",
 }: {
   title: string;
+  src?: string;
   className?: string;
 }) {
-  const src = CARD_LOGOS[title];
+  const logo = src ?? logoForPlatformName(title);
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      {src ? (
+      {logo ? (
         <Image
-          src={src}
+          src={logo}
           alt=""
           width={26}
           height={26}

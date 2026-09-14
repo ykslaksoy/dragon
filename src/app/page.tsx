@@ -25,7 +25,11 @@ import {
   type SortMode,
 } from "./i18n/demo-products";
 import {
+  cardPlatformsForRegions,
+  copyPlatformsForRegions,
   DEFAULT_REGIONS,
+  fillPlatforms,
+  formatPlatformNames,
   platformsForRegions,
   type RegionId,
 } from "./i18n/regions";
@@ -40,19 +44,29 @@ function scrollToHunt(e: React.MouseEvent<HTMLAnchorElement>) {
 
 export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
-  const [mode, setMode] = useState<"all" | "A" | "B" | "C">("all");
+  const [mode, setMode] = useState<string>("all");
   const [regions, setRegions] = useState<RegionId[]>(DEFAULT_REGIONS);
   const [country, setCountry] = useState<CountryId | "all">("all");
   const [sort, setSort] = useState<SortMode>("profit");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
   const t = getDictionary(lang);
   const platforms = platformsForRegions(regions);
+  const cardPlatforms = cardPlatformsForRegions(regions);
+  const copyNames = formatPlatformNames(copyPlatformsForRegions(regions));
+  const subtitle = fillPlatforms(t.subtitle, copyNames || "—");
+  const features = t.features.map((f) => ({
+    title: f.title,
+    desc: fillPlatforms(f.desc, copyNames || "—"),
+  }));
+  const activeMode =
+    mode === "all" || cardPlatforms.some((p) => p.id === mode)
+      ? mode
+      : "all";
 
   useEffect(() => {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
 
-  // Drop country filter when it no longer belongs to selected regions
   const effectiveCountry = useMemo((): CountryId | "all" => {
     if (country === "all") return "all";
     const allowed = countriesForRegions(regions).some((c) => c.id === country);
@@ -70,9 +84,18 @@ export default function Home() {
     [regions, effectiveCountry, riskMode, sort],
   );
 
+  const modeStatus =
+    activeMode === "all"
+      ? t.modeStatusAll
+      : t.modeStatus.replaceAll(
+          "{platform}",
+          (
+            cardPlatforms.find((p) => p.id === activeMode)?.name ?? activeMode
+          ).toUpperCase(),
+        );
+
   return (
     <div className="m-0 min-h-dvh bg-[#070708] p-0 text-white selection:bg-[#8CFF4D]/30">
-      {/* Meta ghost — behind content, does not affect layout */}
       <div
         aria-hidden
         className="pointer-events-none fixed left-1/2 top-[45%] z-0 w-[min(620px,92vw)] -translate-x-1/2 -translate-y-1/2 opacity-[0.20]"
@@ -182,7 +205,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-5 max-w-[640px] text-center text-[13px] leading-[1.65] text-white/50 sm:mt-6 sm:text-[15px]">
-          {t.subtitle}
+          {subtitle}
         </p>
 
         <div className="mt-7 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
@@ -224,8 +247,8 @@ export default function Home() {
         id="mods"
         className="relative z-10 mx-auto max-w-[1280px] px-4 pb-10 sm:px-10 sm:pb-12"
       >
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[14px] border border-white/[0.06] bg-white/[0.06] p-px md:grid-cols-3">
-          {t.features.map((f) => (
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[14px] border border-white/[0.06] bg-white/[0.06] p-px md:grid-cols-2">
+          {features.map((f) => (
             <div key={f.title} className="bg-[#0E0E10] px-5 py-5 sm:px-6 sm:py-6">
               <h2 className="text-[16px] font-semibold tracking-[-0.01em] text-white/90 sm:text-[17px]">
                 {f.title}
@@ -241,33 +264,51 @@ export default function Home() {
       <section className="relative z-10 mx-auto max-w-[1280px] px-4 pb-16 sm:px-10 sm:pb-20">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2 rounded-full border border-white/[0.06] bg-[#0E0E10] p-1">
-            {t.modes.map((m) => (
-              <button
-                key={m.k}
-                type="button"
-                onClick={() => setMode(m.k)}
-                className={`mono rounded-full px-3 py-2 text-[10px] tracking-[0.08em] transition-all sm:px-4 sm:text-[11px] ${
-                  mode === m.k
-                    ? "bg-white text-black"
-                    : "text-white/40 hover:bg-white/[0.04] hover:text-white/70"
-                }`}
-              >
-                {m.label}
-              </button>
-            ))}
+            <button
+              type="button"
+              onClick={() => setMode("all")}
+              className={`mono rounded-full px-3 py-2 text-[10px] tracking-[0.08em] transition-all sm:px-4 sm:text-[11px] ${
+                activeMode === "all"
+                  ? "bg-white text-black"
+                  : "text-white/40 hover:bg-white/[0.04] hover:text-white/70"
+              }`}
+            >
+              {t.modeAll}
+            </button>
+            {cardPlatforms.map((p, i) => {
+              const role = t.cardRoles[i % t.cardRoles.length]?.label ?? "";
+              const label = t.modeLabel
+                .replaceAll("{platform}", p.name.toUpperCase())
+                .replaceAll("{role}", role);
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setMode(p.id)}
+                  className={`mono rounded-full px-3 py-2 text-[10px] tracking-[0.08em] transition-all sm:px-4 sm:text-[11px] ${
+                    activeMode === p.id
+                      ? "bg-white text-black"
+                      : "text-white/40 hover:bg-white/[0.04] hover:text-white/70"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
           <div className="mono flex items-center gap-2 text-[11px] text-white/30">
             <span className="h-2 w-2 rounded-full bg-[#8CFF4D]" />
-            {t.modeStatus[mode]} • {t.live}
+            {modeStatus} • {t.live}
           </div>
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-px rounded-[14px] border border-white/[0.06] bg-white/[0.06] p-px md:grid-cols-3">
-          {t.cards.map((card) => {
-            const active = mode === "all" || mode === card.id;
+          {cardPlatforms.map((p, i) => {
+            const active = activeMode === "all" || activeMode === p.id;
+            const role = t.cardRoles[i % t.cardRoles.length];
             return (
               <div
-                key={card.id}
+                key={p.id}
                 className={`flex items-start gap-3 px-4 py-4 transition-all ${
                   active ? "bg-[#0E0E10]" : "bg-[#0A0A0C] opacity-40"
                 }`}
@@ -278,9 +319,9 @@ export default function Home() {
                   }`}
                 />
                 <div>
-                  <PlatformName title={card.title} />
+                  <PlatformName title={p.name} src={p.src} />
                   <div className="mt-1.5 text-[12px] leading-[1.4] text-white/35">
-                    {card.desc}
+                    {role?.desc}
                   </div>
                 </div>
               </div>
