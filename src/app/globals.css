@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #070708;
+  --foreground: #f4f4f5;
+  --accent: #8cff4d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  margin: 0;
+  padding: 0;
+  scroll-padding-top: 0;
+  scroll-behavior: auto;
+  overflow-anchor: none;
+  background: #070708;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  padding: 0;
+  background: #070708;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-anchor: none;
+  overflow-x: hidden;
+  /* Avoid iOS creating a scrollport that starts mid-page */
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.serif {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+}
+
+/* Meta LOCKED ghost mask — radial 30% → 80% */
+.ghost-mask {
+  -webkit-mask-image: radial-gradient(
+    ellipse at center,
+    black 30%,
+    rgba(0, 0, 0, 0.55) 52%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 30%,
+    rgba(0, 0, 0, 0.55) 52%,
+    transparent 80%
+  );
+}
+
+/* Meta LOCKED crisp logo — seamless #070708 plate, no glow */
+.crisp-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  background: #070708 !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
