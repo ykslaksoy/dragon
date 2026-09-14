@@ -3,40 +3,63 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type Phase = "closed" | "waking" | "open" | "idle";
+type Phase = "hidden" | "opening" | "open";
+
+const REVEAL_MS = 3000;
+const OPEN_MS = 900;
+
+function phaseFromSearch(): Phase | null {
+  if (typeof window === "undefined") return null;
+  const v = new URLSearchParams(window.location.search).get("logo");
+  if (v === "hidden" || v === "closed") return "hidden";
+  if (v === "open" || v === "idle") return "open";
+  if (v === "opening") return "opening";
+  return null;
+}
 
 /**
- * Meta share top logo — exact wake sequence from the artifact:
- * closed (0.35) → waking @3s (6.9s ease) → open @9.9s → idle blink @11.9s
+ * Logo: fully hidden in darkness → after 3s eye-open reveal → then blink.
+ * Optional `?logo=hidden|opening|open` locks phase for QA screenshots.
  */
 export function DragonTopLogo() {
-  const [phase, setPhase] = useState<Phase>("closed");
+  const [phase, setPhase] = useState<Phase>("hidden");
+  const [locked, setLocked] = useState(false);
   const [blinking, setBlinking] = useState(false);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setPhase("idle");
+    const fromQuery = phaseFromSearch();
+    if (fromQuery) {
+      setLocked(true);
+      setPhase(fromQuery);
       return;
     }
-    const wake = window.setTimeout(() => setPhase("waking"), 3000);
-    const open = window.setTimeout(() => setPhase("open"), 9900);
-    const idle = window.setTimeout(() => setPhase("idle"), 11900);
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setPhase("open");
+      return;
+    }
+
+    const openTimer = window.setTimeout(() => setPhase("opening"), REVEAL_MS);
+    const doneTimer = window.setTimeout(
+      () => setPhase("open"),
+      REVEAL_MS + OPEN_MS,
+    );
+
     return () => {
-      window.clearTimeout(wake);
-      window.clearTimeout(open);
-      window.clearTimeout(idle);
+      window.clearTimeout(openTimer);
+      window.clearTimeout(doneTimer);
     };
   }, []);
 
   useEffect(() => {
-    if (phase !== "idle") return;
+    if (phase !== "open" || locked) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 
     let timer: number;
     const schedule = () => {
-      const wait = 6000 + Math.random() * 1500;
+      const wait = 5500 + Math.random() * 1500;
       timer = window.setTimeout(() => {
         setBlinking(true);
         window.setTimeout(() => {
@@ -45,38 +68,50 @@ export function DragonTopLogo() {
         }, 140);
       }, wait);
     };
-    schedule();
+    timer = window.setTimeout(schedule, 500);
     return () => window.clearTimeout(timer);
-  }, [phase]);
+  }, [phase, locked]);
 
-  const opacity =
-    phase === "closed" ? 0.35 : phase === "waking" ? 0.85 : 1;
+  const visible = phase !== "hidden";
+  const lidsClosed = phase === "hidden" || blinking;
 
   return (
-    <div className="relative" style={{ width: 120 }}>
+    <div
+      className="relative h-[40px] w-[100px] bg-[#070708] sm:h-[48px] sm:w-[120px]"
+      aria-label="Dragon logo"
+      aria-hidden={phase === "hidden"}
+      data-logo-phase={phase}
+      data-logo-locked={locked ? "1" : "0"}
+    >
       <div
-        className="relative overflow-hidden"
+        className="relative h-full w-full overflow-hidden bg-[#070708]"
         style={{
-          opacity,
-          transform: blinking ? "scaleY(0.08)" : "scaleY(1)",
+          opacity: visible ? 1 : 0,
+          transform: lidsClosed ? "scaleY(0.05)" : "scaleY(1)",
           transformOrigin: "50% 45%",
-          transition:
-            phase === "waking"
-              ? "opacity 6.9s cubic-bezier(0.16, 1, 0.3, 1)"
-              : "opacity 0.6s ease, transform 0.14s ease",
+          transition: locked
+            ? "none"
+            : phase === "opening"
+              ? "opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1)"
+              : "opacity 0.35s ease, transform 0.14s ease",
           filter: "none",
           boxShadow: "none",
+          backgroundColor: "#070708",
         }}
       >
         <Image
           src="/dragon-eyes.png"
-          alt="dragon top logo"
+          alt="Dragon"
           width={912}
           height={440}
           priority
-          className="crisp-img h-auto w-[120px] select-none bg-transparent"
+          className="crisp-img h-auto w-full select-none bg-[#070708]"
           draggable={false}
-          style={{ filter: "none", boxShadow: "none" }}
+          style={{
+            filter: "none",
+            boxShadow: "none",
+            backgroundColor: "#070708",
+          }}
         />
       </div>
     </div>

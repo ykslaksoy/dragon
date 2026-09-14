@@ -34,11 +34,11 @@ export default function Home() {
   const [mode, setMode] = useState<(typeof MODES)[number]["k"]>("all");
 
   return (
-    <div className="min-h-screen bg-[#070708] text-white selection:bg-[#8CFF4D]/30">
-      {/* Meta ghost — fixed 0.20 opacity, radial mask */}
+    <div className="m-0 min-h-dvh bg-[#070708] p-0 text-white selection:bg-[#8CFF4D]/30">
+      {/* Meta ghost — behind content, does not affect layout */}
       <div
         aria-hidden
-        className="pointer-events-none fixed left-1/2 top-1/2 z-0 w-[620px] max-w-[92vw] -translate-x-1/2 -translate-y-[42%] opacity-[0.20]"
+        className="pointer-events-none fixed left-1/2 top-[45%] z-0 w-[min(620px,92vw)] -translate-x-1/2 -translate-y-1/2 opacity-[0.20]"
       >
         <Image
           src="/dragon-mark.png"
@@ -51,10 +51,10 @@ export default function Home() {
         />
       </div>
 
-      {/* Header — Meta look, top of document flow (NOT sticky) */}
-      <header className="relative z-50 flex h-[76px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-6 md:px-10">
-        <div className="flex items-center gap-8">
-          <span className="text-[16px] font-medium tracking-[0.38em] text-white">
+      {/* Absolute top of page (y=0) — no spacer, no sticky, no safe-area push */}
+      <header className="relative z-50 m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8">
+        <div className="flex min-w-0 items-center gap-4 sm:gap-8">
+          <span className="shrink-0 text-[15px] font-medium tracking-[0.42em] text-white sm:text-[16px]">
             DRAGON
           </span>
           <div className="mono hidden items-center gap-3 text-[10px] tracking-[0.2em] text-white/30 md:flex">
@@ -62,7 +62,7 @@ export default function Home() {
             <span>AMAZON • DS FUSION • v2.1</span>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex shrink-0 items-center gap-4 sm:gap-6">
           <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
             KEEPA • LIVE
@@ -71,12 +71,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero — Meta copy & layout */}
-      <section className="relative z-10 flex flex-col items-center px-6 pb-10 pt-20 md:px-10 md:pt-28">
+      {/* Hero — matches desired first viewport under flush header */}
+      <section className="relative z-10 flex flex-col items-center px-5 pb-10 pt-10 sm:px-10 sm:pt-14">
         <p
           className="italic tracking-[0.02em]"
           style={{
-            fontSize: 30,
+            fontSize: "clamp(22px, 5vw, 30px)",
             fontWeight: 400,
             color: "rgba(255,255,255,0.35)",
             fontFamily: 'var(--font-cormorant), "Cormorant Garamond", serif',
@@ -84,13 +84,13 @@ export default function Home() {
         >
           Dragon Awakens
         </p>
-        <div className="mono mt-3 flex items-center gap-4 text-[10px] tracking-[0.28em] text-white/25">
-          <span className="h-px w-12 bg-white/10" />
+        <div className="mono mt-2 flex items-center gap-3 text-[9px] tracking-[0.28em] text-white/25 sm:gap-4 sm:text-[10px]">
+          <span className="h-px w-8 bg-white/10 sm:w-12" />
           <span>SABIT • 0.20 OPACITY • DEGRADE</span>
-          <span className="h-px w-12 bg-white/10" />
+          <span className="h-px w-8 bg-white/10 sm:w-12" />
         </div>
 
-        <h1 className="mt-10 max-w-[820px] text-center text-[42px] font-bold leading-[0.95] tracking-[-0.03em] md:text-[72px]">
+        <h1 className="mt-6 max-w-[820px] text-center text-[32px] font-bold leading-[0.95] tracking-[-0.03em] sm:mt-10 sm:text-[42px] md:text-[72px]">
           <span className="text-white">Validated by Amazon.</span>
           <br />
           <span className="bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
@@ -98,16 +98,16 @@ export default function Home() {
           </span>
         </h1>
 
-        <p className="mt-6 max-w-[560px] text-center text-[14px] leading-[1.6] text-white/50 md:text-[15px]">
+        <p className="mt-5 max-w-[560px] text-center text-[13px] leading-[1.6] text-white/50 sm:mt-6 sm:text-[15px]">
           {lang === "tr"
             ? "Amazon'da kanıtlanmış ürünü bul, en ucuz tedarikçiyi gör, Shopify'a tek tıkla aktar"
             : "Find proven winners on Amazon with Amazon Product Research, see the cheapest supplier instantly, push to Shopify in one click."}
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row">
+        <div className="mt-7 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
           <a
             href="#mods"
-            className="group relative rounded-full bg-[#8CFF4D] px-8 py-[14px] text-[13px] font-semibold tracking-[0.08em] text-black shadow-[0_0_0_1px_#8CFF4D,0_0_30px_rgba(140,255,77,0.45),0_0_60px_rgba(140,255,77,0.2)] transition-all hover:translate-y-[-1px] hover:shadow-[0_0_0_1px_#8CFF4D,0_0_45px_rgba(140,255,77,0.65),0_0_90px_rgba(140,255,77,0.3)]"
+            className="group relative rounded-full bg-[#8CFF4D] px-7 py-[12px] text-[12px] font-semibold tracking-[0.08em] text-black shadow-[0_0_0_1px_#8CFF4D,0_0_30px_rgba(140,255,77,0.45),0_0_60px_rgba(140,255,77,0.2)] transition-all hover:translate-y-[-1px] hover:shadow-[0_0_0_1px_#8CFF4D,0_0_45px_rgba(140,255,77,0.65),0_0_90px_rgba(140,255,77,0.3)] sm:px-8 sm:py-[14px] sm:text-[13px]"
           >
             <span className="relative z-10 flex items-center gap-2">
               ÜRÜN AVINI BAŞLAT <span className="text-[16px]">↗</span>
@@ -125,11 +125,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-6 border-y border-white/[0.06] bg-white/[0.01] px-6 py-4 backdrop-blur md:gap-12">
+        <div className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 border-y border-white/[0.06] bg-white/[0.01] px-4 py-3 backdrop-blur sm:mt-16 sm:gap-12 sm:px-6 sm:py-4">
           <span className="mono text-[10px] tracking-[0.2em] text-white/20">
             ENTEGRASYONLAR
           </span>
-          <span className="text-[13px] text-white/40">
+          <span className="text-center text-[12px] text-white/40 sm:text-[13px]">
             Amazon API • Keepa • Shopify API • TikTok Ads • AliExpress •
             CJdropshipping • Temu
           </span>
@@ -138,7 +138,7 @@ export default function Home() {
 
       <section
         id="mods"
-        className="relative z-10 mx-auto max-w-[1280px] px-6 pb-20 md:px-10"
+        className="relative z-10 mx-auto max-w-[1280px] px-4 pb-16 sm:px-10 sm:pb-20"
       >
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2 rounded-full border border-white/[0.06] bg-[#0E0E10] p-1">
@@ -147,7 +147,7 @@ export default function Home() {
                 key={m.k}
                 type="button"
                 onClick={() => setMode(m.k)}
-                className={`mono rounded-full px-4 py-2 text-[11px] tracking-[0.08em] transition-all ${
+                className={`mono rounded-full px-3 py-2 text-[10px] tracking-[0.08em] transition-all sm:px-4 sm:text-[11px] ${
                   mode === m.k
                     ? "bg-white text-black"
                     : "text-white/40 hover:bg-white/[0.04] hover:text-white/70"

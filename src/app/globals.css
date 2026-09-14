@@ -16,9 +16,22 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background: #070708;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  scroll-padding-top: 0;
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 .mono {
@@ -45,11 +58,11 @@ body {
   );
 }
 
-/* Meta LOCKED crisp logo rendering — no glow / no plate */
+/* Meta LOCKED crisp logo rendering — seamless #070708 plate, no glow */
 .crisp-img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-  background: transparent !important;
+  background: #070708 !important;
   box-shadow: none !important;
   filter: none !important;
 }

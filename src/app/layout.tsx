@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="tr"
       className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased`}
     >
-      <body className="min-h-screen bg-[#070708] font-sans text-white">
+      <body className="m-0 min-h-dvh bg-[#070708] p-0 font-sans text-white">
         {children}
       </body>
     </html>
