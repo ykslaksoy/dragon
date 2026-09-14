@@ -164,7 +164,7 @@ export function summarizeMarketSelection(
     return copy.regionCount.replaceAll("{n}", String(fullRegions.length));
   }
 
-  // One full region + one extra country → “Avrupa + TR”
+  // One full region + extras → “Avrupa + TR” or “Türkiye +4”
   if (fullRegions.length === 1) {
     const regionIds = new Set(countriesInRegion(fullRegions[0]!));
     const extras = selected.filter((id) => !regionIds.has(id));
@@ -172,6 +172,11 @@ export function summarizeMarketSelection(
       return copy.regionPlus
         .replaceAll("{region}", copy.regions[fullRegions[0]!])
         .replaceAll("{extra}", copy.countries[extras[0]!]);
+    }
+    if (extras.length > 1) {
+      return copy.plusMore
+        .replaceAll("{name}", copy.regions[fullRegions[0]!])
+        .replaceAll("{n}", String(extras.length));
     }
   }
 
