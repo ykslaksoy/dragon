@@ -8,11 +8,17 @@ import {
   PlatformIntegrations,
   PlatformName,
 } from "./components/PlatformMark";
+import { RegionChips } from "./components/RegionChips";
 import {
   DEFAULT_LOCALE,
   getDictionary,
   type Locale,
 } from "./i18n/dictionaries";
+import {
+  DEFAULT_REGIONS,
+  platformsForRegions,
+  type RegionId,
+} from "./i18n/regions";
 
 function scrollToMods(e: React.MouseEvent<HTMLAnchorElement>) {
   e.preventDefault();
@@ -26,7 +32,9 @@ function scrollToMods(e: React.MouseEvent<HTMLAnchorElement>) {
 export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
   const [mode, setMode] = useState<"all" | "A" | "B" | "C">("all");
+  const [regions, setRegions] = useState<RegionId[]>(DEFAULT_REGIONS);
   const t = getDictionary(lang);
+  const platforms = platformsForRegions(regions);
 
   useEffect(() => {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
@@ -82,6 +90,17 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Region chips — multi-select market filter */}
+      <div className="relative z-10 border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
+        <RegionChips
+          selected={regions}
+          onChange={setRegions}
+          labels={t.regions}
+          allLabel={t.regionsAll}
+          ariaLabel={t.regionsAria}
+        />
+      </div>
+
       {/* Hero — matches desired first viewport under flush header */}
       <section className="relative z-10 flex flex-col items-center px-5 pb-10 pt-10 sm:px-10 sm:pt-14">
         <p
@@ -126,7 +145,11 @@ export default function Home() {
           <span className="mono text-[11px] text-white/30">{t.quickSearch}</span>
         </div>
 
-        <PlatformIntegrations label={t.integrationsLabel} />
+        <PlatformIntegrations
+          label={t.integrationsLabel}
+          platforms={platforms}
+          emptyLabel={t.regionsEmpty}
+        />
       </section>
 
       <section
