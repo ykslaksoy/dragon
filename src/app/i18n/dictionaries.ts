@@ -1,3 +1,5 @@
+import type { RegionId } from "./regions";
+
 export type Locale = "tr" | "en" | "de" | "fr" | "zh" | "ru";
 
 export type Dictionary = {
@@ -10,6 +12,10 @@ export type Dictionary = {
   cta: string;
   quickSearch: string;
   integrationsLabel: string;
+  regionsAria: string;
+  regionsAll: string;
+  regionsEmpty: string;
+  regions: Record<RegionId, string>;
   modes: { k: "all" | "A" | "B" | "C"; label: string }[];
   modeStatus: Record<"all" | "A" | "B" | "C", string>;
   cards: {
@@ -52,6 +58,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "ÜRÜN AVINI BAŞLAT",
     quickSearch: "⌘K • HIZLI ARA",
     integrationsLabel: "ENTEGRASYONLAR",
+    regionsAria: "Bölge seçimi",
+    regionsAll: "Hepsi",
+    regionsEmpty: "En az bir bölge seçin",
+    regions: {
+      tr: "Türkiye",
+      eu: "Avrupa",
+      us: "Amerika",
+      me: "Orta Doğu",
+      asia: "Asya",
+    },
     modes: [
       { k: "all", label: "TÜM PLATFORMLAR" },
       { k: "A", label: "AMAZON • Ürün Araştırması" },
@@ -112,6 +128,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "START THE HUNT",
     quickSearch: "⌘K • QUICK SEARCH",
     integrationsLabel: "INTEGRATIONS",
+    regionsAria: "Region selection",
+    regionsAll: "All",
+    regionsEmpty: "Select at least one region",
+    regions: {
+      tr: "Türkiye",
+      eu: "Europe",
+      us: "Americas",
+      me: "Middle East",
+      asia: "Asia",
+    },
     modes: [
       { k: "all", label: "ALL PLATFORMS" },
       { k: "A", label: "AMAZON • Product Research" },
@@ -172,6 +198,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "JAGD STARTEN",
     quickSearch: "⌘K • SCHNELLSUCHE",
     integrationsLabel: "INTEGRATIONEN",
+    regionsAria: "Regionsauswahl",
+    regionsAll: "Alle",
+    regionsEmpty: "Mindestens eine Region wählen",
+    regions: {
+      tr: "Türkiye",
+      eu: "Europa",
+      us: "Amerika",
+      me: "Naher Osten",
+      asia: "Asien",
+    },
     modes: [
       { k: "all", label: "ALLE PLATTFORMEN" },
       { k: "A", label: "AMAZON • Produktforschung" },
@@ -232,6 +268,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "LANCER LA CHASSE",
     quickSearch: "⌘K • RECHERCHE RAPIDE",
     integrationsLabel: "INTÉGRATIONS",
+    regionsAria: "Sélection de région",
+    regionsAll: "Toutes",
+    regionsEmpty: "Sélectionnez au moins une région",
+    regions: {
+      tr: "Türkiye",
+      eu: "Europe",
+      us: "Amériques",
+      me: "Moyen-Orient",
+      asia: "Asie",
+    },
     modes: [
       { k: "all", label: "TOUTES LES PLATEFORMES" },
       { k: "A", label: "AMAZON • Recherche produit" },
@@ -292,6 +338,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "开始寻猎",
     quickSearch: "⌘K • 快速搜索",
     integrationsLabel: "集成",
+    regionsAria: "地区选择",
+    regionsAll: "全部",
+    regionsEmpty: "请至少选择一个地区",
+    regions: {
+      tr: "土耳其",
+      eu: "欧洲",
+      us: "美洲",
+      me: "中东",
+      asia: "亚洲",
+    },
     modes: [
       { k: "all", label: "全部平台" },
       { k: "A", label: "AMAZON • 选品研究" },
@@ -352,6 +408,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     cta: "НАЧАТЬ ОХОТУ",
     quickSearch: "⌘K • БЫСТРЫЙ ПОИСК",
     integrationsLabel: "ИНТЕГРАЦИИ",
+    regionsAria: "Выбор региона",
+    regionsAll: "Все",
+    regionsEmpty: "Выберите хотя бы один регион",
+    regions: {
+      tr: "Турция",
+      eu: "Европа",
+      us: "Америка",
+      me: "Ближний Восток",
+      asia: "Азия",
+    },
     modes: [
       { k: "all", label: "ВСЕ ПЛАТФОРМЫ" },
       { k: "A", label: "AMAZON • Исследование товаров" },
