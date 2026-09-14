@@ -5,14 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { DragonTopLogo } from "./components/DragonTopLogo";
 import { HuntFilters } from "./components/HuntFilters";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
+import { MarketPicker } from "./components/MarketPicker";
 import {
   PlatformIntegrations,
   PlatformName,
 } from "./components/PlatformMark";
 import { ProductResults } from "./components/ProductResults";
-import { RegionChips } from "./components/RegionChips";
 import type { CountryId } from "./i18n/countries";
-import { countriesForRegions } from "./i18n/countries";
 import {
   DEFAULT_LOCALE,
   getDictionary,
@@ -25,13 +24,15 @@ import {
   type SortMode,
 } from "./i18n/demo-products";
 import {
+  DEFAULT_COUNTRIES,
+  regionsFromCountries,
+} from "./i18n/market-groups";
+import {
   cardPlatformsForRegions,
   copyPlatformsForRegions,
-  DEFAULT_REGIONS,
   fillPlatforms,
   formatPlatformNames,
   platformsForRegions,
-  type RegionId,
 } from "./i18n/regions";
 
 function scrollToHunt(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -45,11 +46,11 @@ function scrollToHunt(e: React.MouseEvent<HTMLAnchorElement>) {
 export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
   const [mode, setMode] = useState<string>("all");
-  const [regions, setRegions] = useState<RegionId[]>(DEFAULT_REGIONS);
-  const [country, setCountry] = useState<CountryId | "all">("all");
+  const [countries, setCountries] = useState<CountryId[]>(DEFAULT_COUNTRIES);
   const [sort, setSort] = useState<SortMode>("profit");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
   const t = getDictionary(lang);
+  const regions = useMemo(() => regionsFromCountries(countries), [countries]);
   const platforms = platformsForRegions(regions);
   const cardPlatforms = cardPlatformsForRegions(regions);
   const copyNames = formatPlatformNames(copyPlatformsForRegions(regions));
@@ -67,21 +68,15 @@ export default function Home() {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
 
-  const effectiveCountry = useMemo((): CountryId | "all" => {
-    if (country === "all") return "all";
-    const allowed = countriesForRegions(regions).some((c) => c.id === country);
-    return allowed ? country : "all";
-  }, [regions, country]);
-
   const products = useMemo(
     () =>
       filterAndSortProducts(DEMO_PRODUCTS, {
         regions,
-        country: effectiveCountry,
+        countries,
         riskMode,
         sort,
       }),
-    [regions, effectiveCountry, riskMode, sort],
+    [regions, countries, riskMode, sort],
   );
 
   const modeStatus =
@@ -124,43 +119,53 @@ export default function Home() {
             <span>{t.headerTag}</span>
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-3 sm:gap-5">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
             {t.keepaLive}
           </div>
-          <LanguageSwitcher
-            locale={lang}
-            onChange={setLang}
-            ariaLabel={t.langAria}
+          <MarketPicker
+            countries={countries}
+            onChange={setCountries}
+            copy={{
+              ariaLabel: t.marketAria,
+              regionsAria: t.regionsAria,
+              regionsChipAll: t.regionsAll,
+              countriesAll: t.marketCountriesAll,
+              regionsAll: t.marketRegionsAll,
+              countriesSection: t.marketCountriesSection,
+              regionsSection: t.marketRegionsSection,
+              groupSelectAll: t.marketGroupSelectAll,
+              marketGroups: t.marketGroups,
+              countries: t.countries,
+              regions: t.regions,
+              countryCount: t.marketCountryCount,
+              regionCount: t.marketRegionCount,
+              plusMore: t.marketPlusMore,
+              regionPlus: t.marketRegionPlus,
+            }}
           />
+          {/* Language sits slightly right of the market picker */}
+          <div className="ml-1 sm:ml-2">
+            <LanguageSwitcher
+              locale={lang}
+              onChange={setLang}
+              ariaLabel={t.langAria}
+            />
+          </div>
           <DragonTopLogo />
         </div>
       </header>
 
-      {/* Region chips + compact country / sort / risk */}
+      {/* Compact hunt filters: sort · risk (region/country in header picker) */}
       <div className="relative z-40 overflow-visible border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
         <div className="flex flex-col items-center gap-2.5 overflow-visible">
-          <RegionChips
-            selected={regions}
-            onChange={setRegions}
-            labels={t.regions}
-            allLabel={t.regionsAll}
-            ariaLabel={t.regionsAria}
-          />
           <HuntFilters
-            regions={regions}
-            country={effectiveCountry}
-            onCountryChange={setCountry}
             sort={sort}
             onSortChange={setSort}
             riskMode={riskMode}
             onRiskModeChange={setRiskMode}
             copy={{
-              countryAria: t.countryAria,
-              countryPrefix: t.countryPrefix,
-              countryAll: t.countryAll,
-              countries: t.countries,
               sortAria: t.sortAria,
               sortPrefix: t.sortPrefix,
               sortProfit: t.sortProfit,
