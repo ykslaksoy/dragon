@@ -21,16 +21,17 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: "Dragon",
-  description: "Dragon sayfası. Site yayında.",
+  description:
+    "Amazon'da kanıtlanmış ürünü bul, en ucuz tedarikçiyi gör, Shopify'a tek tıkla aktar.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} min-h-dvh antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased`}
     >
-      <body className="flex min-h-dvh flex-col bg-background font-sans text-foreground">
+      <body className="min-h-screen bg-[#070708] font-sans text-white">
         {children}
       </body>
     </html>

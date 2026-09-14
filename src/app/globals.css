@@ -4,7 +4,6 @@
   --background: #070708;
   --foreground: #f4f4f5;
   --accent: #8cff4d;
-  --muted: rgba(255, 255, 255, 0.45);
 }
 
 @theme inline {
@@ -17,59 +16,40 @@
 }
 
 body {
-  background: var(--background);
+  background: #070708;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-@keyframes ghost-breathe {
-  0%,
-  100% {
-    opacity: 0.18;
-    transform: translate(-50%, -42%) scale(1);
-  }
-  50% {
-    opacity: 0.26;
-    transform: translate(-50%, -44%) scale(1.02);
-  }
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-@keyframes brand-rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.serif {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
 }
 
-.dragon-ghost {
-  animation: ghost-breathe 10s ease-in-out infinite;
-}
-
-.brand-rise {
-  animation: brand-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.brand-rise-delay {
-  animation: brand-rise 1s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
-}
-
+/* Meta LOCKED ghost mask — radial 30% → 80% */
 .ghost-mask {
   -webkit-mask-image: radial-gradient(
-    circle at 50% 45%,
-    #000 28%,
-    transparent 78%
+    ellipse at center,
+    black 30%,
+    rgba(0, 0, 0, 0.55) 52%,
+    transparent 80%
   );
-  mask-image: radial-gradient(circle at 50% 45%, #000 28%, transparent 78%);
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 30%,
+    rgba(0, 0, 0, 0.55) 52%,
+    transparent 80%
+  );
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dragon-ghost,
-  .brand-rise,
-  .brand-rise-delay {
-    animation: none;
-  }
+/* Meta LOCKED crisp logo rendering — no glow / no plate */
+.crisp-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
