@@ -4,6 +4,15 @@ import Image from "next/image";
 import { useState } from "react";
 import { DragonTopLogo } from "./components/DragonTopLogo";
 
+function scrollToMods(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault();
+  const el = document.getElementById("mods");
+  if (!el) return;
+  // Keep URL clean (no #mods) so reloads never jump past the header.
+  history.replaceState(null, "", window.location.pathname + window.location.search);
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 const MODES = [
   { k: "all", label: "TÜM MODLAR" },
   { k: "A", label: "AMAZON • Product Research" },
@@ -51,8 +60,15 @@ export default function Home() {
         />
       </div>
 
-      {/* Absolute top of page (y=0) — no spacer, no sticky, no safe-area push */}
-      <header className="relative z-50 m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8">
+      {/*
+        Document-flow header at y=0. sticky+top-0 is an insurance so iOS cannot
+        leave the brand scrolled just out of the first viewport; at scrollY=0 it
+        looks identical to a static header.
+      */}
+      <header
+        id="top"
+        className="sticky top-0 z-50 m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8"
+      >
         <div className="flex min-w-0 items-center gap-4 sm:gap-8">
           <span className="shrink-0 text-[15px] font-medium tracking-[0.42em] text-white sm:text-[16px]">
             DRAGON
@@ -107,6 +123,7 @@ export default function Home() {
         <div className="mt-7 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
           <a
             href="#mods"
+            onClick={scrollToMods}
             className="group relative rounded-full bg-[#8CFF4D] px-7 py-[12px] text-[12px] font-semibold tracking-[0.08em] text-black shadow-[0_0_0_1px_#8CFF4D,0_0_30px_rgba(140,255,77,0.45),0_0_60px_rgba(140,255,77,0.2)] transition-all hover:translate-y-[-1px] hover:shadow-[0_0_0_1px_#8CFF4D,0_0_45px_rgba(140,255,77,0.65),0_0_90px_rgba(140,255,77,0.3)] sm:px-8 sm:py-[14px] sm:text-[13px]"
           >
             <span className="relative z-10 flex items-center gap-2">

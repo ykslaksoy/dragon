@@ -15,23 +15,26 @@
   --font-display: var(--font-cormorant);
 }
 
+html {
+  margin: 0;
+  padding: 0;
+  scroll-padding-top: 0;
+  scroll-behavior: auto;
+  overflow-anchor: none;
+  background: #070708;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: #070708;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-}
-
-html {
-  margin: 0;
-  padding: 0;
-  scroll-padding-top: 0;
-}
-
-html,
-body {
-  overflow-x: clip;
+  overflow-anchor: none;
+  overflow-x: hidden;
+  /* Avoid iOS creating a scrollport that starts mid-page */
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 .mono {
@@ -58,7 +61,7 @@ body {
   );
 }
 
-/* Meta LOCKED crisp logo rendering — seamless #070708 plate, no glow */
+/* Meta LOCKED crisp logo — seamless #070708 plate, no glow */
 .crisp-img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
