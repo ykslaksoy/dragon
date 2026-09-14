@@ -23,7 +23,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Dragon",
   description:
-    "Amazon'da kanıtlanmış ürünü bul, en ucuz tedarikçiyi gör, Shopify'a tek tıkla aktar.",
+    "Tüm platformları tara; platforma özel ve genel ürün listeleri. Optimal tedarikçi öner, satış hacmi, fiyat, maliyet ve net kâr katsayını gör.",
 };
 
 export const viewport: Viewport = {
