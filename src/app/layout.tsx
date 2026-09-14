@@ -23,7 +23,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Dragon",
   description:
-    "Tüm platformları tara; platforma özel ve genel ürün listeleri. Optimal tedarikçi öner, satış hacmi, fiyat, maliyet ve net kâr katsayını gör.",
+    "Talep, doygunluk, Dragon risk skoru ve net kâr — dropship/Shopify düşük risk soft yönlendirme; yüksek kâr+risk seçilebilir.",
 };
 
 export const viewport: Viewport = {
