@@ -1,4 +1,5 @@
 import type { CountryId } from "./countries";
+import type { MarketGroupId } from "./market-groups";
 import type { RegionId } from "./regions";
 
 export type Locale = "tr" | "en" | "de" | "fr" | "zh" | "ru";
@@ -21,6 +22,18 @@ export type Dictionary = {
   countryPrefix: string;
   countryAll: string;
   countries: Record<CountryId, string>;
+  /** Compact market picker (header). */
+  marketAria: string;
+  marketCountriesAll: string;
+  marketRegionsAll: string;
+  marketCountryCount: string;
+  marketRegionCount: string;
+  marketPlusMore: string;
+  marketRegionPlus: string;
+  marketCountriesSection: string;
+  marketRegionsSection: string;
+  marketGroupSelectAll: string;
+  marketGroups: Record<MarketGroupId, string>;
   sortAria: string;
   sortPrefix: string;
   sortProfit: string;
@@ -128,6 +141,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
     countryPrefix: "ÜLKE",
     countryAll: "Tümü",
     countries: COUNTRY_LABELS_LATIN,
+    marketAria: "Bölge ve ülke seçimi",
+    marketCountriesAll: "Ülke tümü",
+    marketRegionsAll: "Bölge tümü",
+    marketCountryCount: "{n} ülke",
+    marketRegionCount: "{n} bölge",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "Ülke · pazaryeri",
+    marketRegionsSection: "Bölge",
+    marketGroupSelectAll: "tümü",
+    marketGroups: {
+      turkiye: "Türkiye",
+      amazon: "Amazon",
+      noon: "Orta Doğu",
+      europe: "Avrupa diğer",
+      americas: "Amerika diğer",
+      asia: "Asya",
+    },
     sortAria: "Sıralama",
     sortPrefix: "SIRA",
     sortProfit: "En çok kazandıran",
@@ -229,6 +260,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       cn: "China",
       jp: "Japan",
       sg: "Singapore",
+    },
+    marketAria: "Region and country selection",
+    marketCountriesAll: "All countries",
+    marketRegionsAll: "All regions",
+    marketCountryCount: "{n} countries",
+    marketRegionCount: "{n} regions",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "Country · marketplace",
+    marketRegionsSection: "Region",
+    marketGroupSelectAll: "all",
+    marketGroups: {
+      turkiye: "Türkiye",
+      amazon: "Amazon",
+      noon: "Middle East",
+      europe: "Europe other",
+      americas: "Americas other",
+      asia: "Asia",
     },
     sortAria: "Sort",
     sortPrefix: "SORT",
@@ -345,6 +394,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       jp: "Japan",
       sg: "Singapur",
     },
+    marketAria: "Region- und Länderauswahl",
+    marketCountriesAll: "Alle Länder",
+    marketRegionsAll: "Alle Regionen",
+    marketCountryCount: "{n} Länder",
+    marketRegionCount: "{n} Regionen",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "Land · Marktplatz",
+    marketRegionsSection: "Region",
+    marketGroupSelectAll: "alle",
+    marketGroups: {
+      turkiye: "Türkiye",
+      amazon: "Amazon",
+      noon: "Naher Osten",
+      europe: "Europa andere",
+      americas: "Amerika andere",
+      asia: "Asien",
+    },
     sortAria: "Sortierung",
     sortPrefix: "SORT",
     sortProfit: "Höchster Gewinn",
@@ -459,6 +526,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       cn: "Chine",
       jp: "Japon",
       sg: "Singapour",
+    },
+    marketAria: "Sélection région et pays",
+    marketCountriesAll: "Tous les pays",
+    marketRegionsAll: "Toutes les régions",
+    marketCountryCount: "{n} pays",
+    marketRegionCount: "{n} régions",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "Pays · marketplace",
+    marketRegionsSection: "Région",
+    marketGroupSelectAll: "tous",
+    marketGroups: {
+      turkiye: "Türkiye",
+      amazon: "Amazon",
+      noon: "Moyen-Orient",
+      europe: "Europe autres",
+      americas: "Amériques autres",
+      asia: "Asie",
     },
     sortAria: "Tri",
     sortPrefix: "TRI",
@@ -575,6 +660,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       jp: "日本",
       sg: "新加坡",
     },
+    marketAria: "地区与国家选择",
+    marketCountriesAll: "全部国家",
+    marketRegionsAll: "全部地区",
+    marketCountryCount: "{n} 个国家",
+    marketRegionCount: "{n} 个地区",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "国家 · 市场",
+    marketRegionsSection: "地区",
+    marketGroupSelectAll: "全选",
+    marketGroups: {
+      turkiye: "土耳其",
+      amazon: "Amazon",
+      noon: "中东",
+      europe: "欧洲其他",
+      americas: "美洲其他",
+      asia: "亚洲",
+    },
     sortAria: "排序",
     sortPrefix: "排序",
     sortProfit: "最赚钱",
@@ -689,6 +792,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       cn: "Китай",
       jp: "Япония",
       sg: "Сингапур",
+    },
+    marketAria: "Выбор региона и страны",
+    marketCountriesAll: "Все страны",
+    marketRegionsAll: "Все регионы",
+    marketCountryCount: "{n} стран",
+    marketRegionCount: "{n} регионов",
+    marketPlusMore: "{name} +{n}",
+    marketRegionPlus: "{region} + {extra}",
+    marketCountriesSection: "Страна · маркетплейс",
+    marketRegionsSection: "Регион",
+    marketGroupSelectAll: "все",
+    marketGroups: {
+      turkiye: "Турция",
+      amazon: "Amazon",
+      noon: "Ближний Восток",
+      europe: "Европа прочее",
+      americas: "Америка прочее",
+      asia: "Азия",
     },
     sortAria: "Сортировка",
     sortPrefix: "СОРТ",

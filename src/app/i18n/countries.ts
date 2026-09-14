@@ -40,3 +40,7 @@ export function countriesForRegions(regions: RegionId[]): Country[] {
   const set = new Set(regions);
   return COUNTRIES.filter((c) => set.has(c.region));
 }
+
+export function countriesInRegion(region: RegionId): CountryId[] {
+  return COUNTRIES.filter((c) => c.region === region).map((c) => c.id);
+}

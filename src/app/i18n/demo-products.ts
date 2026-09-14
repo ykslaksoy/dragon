@@ -210,17 +210,19 @@ export function filterAndSortProducts(
   products: DemoProduct[],
   opts: {
     regions: RegionId[];
-    country: CountryId | "all";
+    /** Multi-country selection; empty treated as no match. */
+    countries: CountryId[];
     riskMode: RiskMode;
     sort: SortMode;
   },
 ): DemoProduct[] {
   const regionSet = new Set(opts.regions);
+  const countrySet = new Set(opts.countries);
   const band = riskBand(opts.riskMode);
 
   let list = products.filter((p) => {
     if (!regionSet.has(p.region)) return false;
-    if (opts.country !== "all" && p.country !== opts.country) return false;
+    if (countrySet.size > 0 && !countrySet.has(p.country)) return false;
     return p.risk >= band.min && p.risk <= band.max;
   });
 
