@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useId, useState } from "react";
-import type { DemoProduct, ProductPath } from "../i18n/demo-products";
-import { isLowRiskPath, riskBandLabel } from "../i18n/demo-products";
+import type { HuntProduct, ProductPath } from "@/lib/hunt";
+import { isLowRiskPath, riskBandLabel } from "@/lib/hunt";
 
 export type ProductResultsCopy = {
   title: string;
@@ -32,10 +32,28 @@ export type ProductResultsCopy = {
   detailPathSoft: string;
   detailPathMarket: string;
   detailPathAmazon: string;
+  scoresHeuristicBadge: string;
+  scoresLiveBadge: string;
+  detailSource: string;
+  detailBuyPrice: string;
+  detailBuyPriceUnknown: string;
+  detailCosts: string;
+  detailCostProduct: string;
+  detailCostShipping: string;
+  detailCostCommission: string;
+  detailCostAds: string;
+  detailCostUnknown: string;
+  detailUnitProfit: string;
+  detailMonthlyDemand: string;
+  detailMonthlyDemandUnit: string;
+  detailMonthlyProfit: string;
+  dataLive: string;
+  dataCatalog: string;
+  dataDemo: string;
 };
 
 type Props = {
-  products: DemoProduct[];
+  products: HuntProduct[];
   nameOf: (key: string) => string;
   copy: ProductResultsCopy;
 };
@@ -70,6 +88,12 @@ function fill(
   return out;
 }
 
+function money(currency: string, n: number | null | undefined): string {
+  if (n == null || Number.isNaN(n)) return "—";
+  const rounded = Math.round(n * 100) / 100;
+  return `${currency}${rounded.toLocaleString("tr-TR")}`;
+}
+
 function Metric({
   label,
   value,
@@ -95,12 +119,23 @@ function Metric({
   );
 }
 
+function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <li className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
+      <span className="mono shrink-0 text-[10px] tracking-[0.12em] text-white/35 sm:w-[11rem]">
+        {label}
+      </span>
+      <span className="text-[12px] leading-relaxed text-white/70">{children}</span>
+    </li>
+  );
+}
+
 function ProductRow({
   product: p,
   name,
   copy,
 }: {
-  product: DemoProduct;
+  product: HuntProduct;
   name: string;
   copy: ProductResultsCopy;
 }) {
@@ -108,6 +143,25 @@ function ProductRow({
   const panelId = useId();
   const soft = isLowRiskPath(p.path);
   const band = bandText(p.risk, copy);
+  const scoresBadge =
+    p.scoresMode === "live" ? copy.scoresLiveBadge : copy.scoresHeuristicBadge;
+  const dataBadge =
+    p.dataMode === "live"
+      ? copy.dataLive
+      : p.dataMode === "catalog"
+        ? copy.dataCatalog
+        : copy.dataDemo;
+
+  const costLines: { label: string; value: number | null; key: string }[] = [
+    { key: "product", label: copy.detailCostProduct, value: p.costs.product },
+    { key: "shipping", label: copy.detailCostShipping, value: p.costs.shipping },
+    {
+      key: "commission",
+      label: copy.detailCostCommission,
+      value: p.costs.commission,
+    },
+    { key: "ads", label: copy.detailCostAds, value: p.costs.ads },
+  ];
 
   return (
     <li className="bg-[#0E0E10]">
@@ -121,10 +175,11 @@ function ProductRow({
         >
           <Image
             src={p.imageSrc}
-            alt=""
+            alt={name}
             fill
             sizes="84px"
             className="object-cover transition-opacity hover:opacity-90"
+            unoptimized={p.imageSrc.startsWith("http")}
           />
         </a>
 
@@ -138,9 +193,14 @@ function ProductRow({
                 DS / SHOPIFY
               </span>
             ) : null}
+            <span className="mono rounded border border-white/10 bg-white/[0.03] px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-white/40">
+              {scoresBadge}
+            </span>
           </div>
-          <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
-            {p.platform}
+          <div className="mono mt-1 flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] tracking-[0.12em] text-white/30">
+            <span>{p.platform}</span>
+            <span className="text-white/15">·</span>
+            <span>{dataBadge}</span>
           </div>
 
           <div className="mt-2.5 flex flex-wrap items-end justify-between gap-2">
@@ -163,7 +223,7 @@ function ProductRow({
               />
               <Metric
                 label={copy.profitLabel}
-                value={`${copy.currency}${p.profit}`}
+                value={money(copy.currency, p.unitProfit)}
                 help={copy.scoreProfitHelp}
               />
             </div>
@@ -209,21 +269,45 @@ function ProductRow({
           <p className="mt-2 text-[12px] leading-relaxed text-white/70">
             {pathWhy(p.path, copy)}
           </p>
-          <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-white/55">
-            <li>{fill(copy.detailDemand, { n: p.demand })}</li>
-            <li>{fill(copy.detailSaturation, { n: p.saturation })}</li>
-            <li>
-              {fill(copy.detailRisk, {
-                n: p.risk,
-                band,
-              })}
-            </li>
-            <li>
-              {fill(copy.detailProfit, {
-                currency: copy.currency,
-                profit: p.profit,
-              })}
-            </li>
+          <ul className="mt-3 space-y-2.5">
+            <DetailRow label={copy.detailSource}>{p.supplier}</DetailRow>
+            <DetailRow label={copy.detailBuyPrice}>
+              {p.buyPrice != null
+                ? money(copy.currency, p.buyPrice)
+                : copy.detailBuyPriceUnknown}
+            </DetailRow>
+            <DetailRow label={copy.detailCosts}>
+              <span className="flex flex-col gap-1">
+                {costLines.map((line) => (
+                  <span key={line.key} className="tabular-nums">
+                    {line.label}:{" "}
+                    {line.value != null
+                      ? money(copy.currency, line.value)
+                      : copy.detailCostUnknown}
+                  </span>
+                ))}
+              </span>
+            </DetailRow>
+            <DetailRow label={copy.detailUnitProfit}>
+              {money(copy.currency, p.unitProfit)}
+            </DetailRow>
+            <DetailRow label={copy.detailMonthlyDemand}>
+              {p.monthlyDemandUnits.toLocaleString("tr-TR")}{" "}
+              {copy.detailMonthlyDemandUnit}
+              <span className="text-white/35">
+                {" "}
+                ({fill(copy.detailDemand, { n: p.demand })})
+              </span>
+            </DetailRow>
+            <DetailRow label={copy.detailMonthlyProfit}>
+              {money(copy.currency, p.monthlyProfit)}
+            </DetailRow>
+            <DetailRow label={copy.saturationLabel}>
+              {fill(copy.detailSaturation, { n: p.saturation })}
+            </DetailRow>
+            <DetailRow label={copy.riskLabel}>
+              {fill(copy.detailRisk, { n: p.risk, band })}
+            </DetailRow>
           </ul>
         </div>
       ) : null}
@@ -256,7 +340,7 @@ export function ProductResults({ products, nameOf, copy }: Props) {
             <ProductRow
               key={p.id}
               product={p}
-              name={nameOf(p.nameKey)}
+              name={p.title || (p.nameKey ? nameOf(p.nameKey) : p.id)}
               copy={copy}
             />
           ))}
