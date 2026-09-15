@@ -7,7 +7,7 @@ import { withEconomics } from "./scoring";
 import type { HuntProduct } from "./types";
 
 const UA =
-  "Mozilla/5.0 (compatible; DragonHunt/0.1; +https://dragon-yuksel2.vercel.app)";
+  "Mozilla/5.0 (compatible; DragonHunt/0.1; +https://superdragon.vercel.app)";
 
 type Parsed = {
   asin: string;
