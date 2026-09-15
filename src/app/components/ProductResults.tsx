@@ -64,9 +64,9 @@ function riskTone(risk: number): string {
   return "text-rose-300/90";
 }
 
-function pathWhy(path: ProductPath, copy: ProductResultsCopy): string {
+function pathWhy(path: ProductPath, risk: number, copy: ProductResultsCopy): string {
   if (path === "dropship" || path === "shopify") return copy.detailPathSoft;
-  if (path === "amazon") return copy.detailPathAmazon;
+  if (path === "amazon" && risk > 60) return copy.detailPathAmazon;
   return copy.detailPathMarket;
 }
 
@@ -267,7 +267,7 @@ function ProductRow({
             {copy.detailTitle}
           </p>
           <p className="mt-2 text-[12px] leading-relaxed text-white/70">
-            {pathWhy(p.path, copy)}
+            {pathWhy(p.path, p.risk, copy)}
           </p>
           <ul className="mt-3 space-y-2.5">
             <DetailRow label={copy.detailSource}>{p.supplier}</DetailRow>
