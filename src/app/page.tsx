@@ -108,7 +108,7 @@ export default function Home() {
 
       <header
         id="top"
-        className="sticky top-0 z-[100] m-0 flex h-[56px] items-center gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:justify-between sm:gap-0 sm:px-8"
+        className="sticky top-0 z-[100] m-0 flex h-[56px] items-center justify-between gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:gap-0 sm:px-8"
       >
         <div className="flex min-w-0 shrink-0 items-center gap-4 sm:gap-8">
           <span className="shrink-0 text-[13px] font-medium tracking-[0.28em] text-white sm:text-[16px] sm:tracking-[0.42em]">
@@ -119,7 +119,7 @@ export default function Home() {
             <span>{t.headerTag}</span>
           </div>
         </div>
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-1.5 sm:flex-initial sm:gap-3">
+        <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
           <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
             {t.keepaLive}
