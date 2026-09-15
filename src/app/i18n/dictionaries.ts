@@ -92,6 +92,24 @@ export type Dictionary = {
   detailMonthlyDemand: string;
   detailMonthlyDemandUnit: string;
   detailMonthlyProfit: string;
+  /** Sales / profit history + forecast charts (Öneri detayı). */
+  chartSalesTitle: string;
+  chartProfitTitle: string;
+  chartForecastTitle: string;
+  chartForecastSales: string;
+  chartForecastProfit: string;
+  chartLaunch: string;
+  chartPeak: string;
+  chartNow: string;
+  chartWeekly: string;
+  chartMonthly: string;
+  chartEstimatedBadge: string;
+  chartLiveBadge: string;
+  chartUnits: string;
+  /** `{n}` = week index */
+  chartWeekLabel: string;
+  /** `{n}` = month index */
+  chartMonthLabel: string;
   dataLive: string;
   dataCatalog: string;
   dataDemo: string;
@@ -263,6 +281,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "Aylık talep miktarı",
     detailMonthlyDemandUnit: "adet",
     detailMonthlyProfit: "Aylık toplam kâr",
+    chartSalesTitle: "Satış adedi · Açılış · Pik · Şimdi",
+    chartProfitTitle: "Kâr · Açılış · Pik · Şimdi",
+    chartForecastTitle: "İleriki dönem tahmini",
+    chartForecastSales: "Satış adedi (tahmini)",
+    chartForecastProfit: "Kâr (tahmini)",
+    chartLaunch: "Açılış",
+    chartPeak: "Pik",
+    chartNow: "Şimdi",
+    chartWeekly: "Haftalık",
+    chartMonthly: "Aylık",
+    chartEstimatedBadge: "TAHMİNİ",
+    chartLiveBadge: "CANLI GEÇMİŞ",
+    chartUnits: "adet",
+    chartWeekLabel: "H{n}",
+    chartMonthLabel: "A{n}",
     dataLive: "CANLI LİSTE",
     dataCatalog: "DOĞRULANMIŞ KATALOG",
     dataDemo: "DEMO",
@@ -428,6 +461,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "Monthly demand quantity",
     detailMonthlyDemandUnit: "units",
     detailMonthlyProfit: "Monthly total profit",
+    chartSalesTitle: "Sales volume · Launch · Peak · Now",
+    chartProfitTitle: "Profit · Launch · Peak · Now",
+    chartForecastTitle: "Forward outlook",
+    chartForecastSales: "Sales units (estimate)",
+    chartForecastProfit: "Profit (estimate)",
+    chartLaunch: "Launch",
+    chartPeak: "Peak",
+    chartNow: "Now",
+    chartWeekly: "Weekly",
+    chartMonthly: "Monthly",
+    chartEstimatedBadge: "ESTIMATED",
+    chartLiveBadge: "LIVE HISTORY",
+    chartUnits: "units",
+    chartWeekLabel: "W{n}",
+    chartMonthLabel: "M{n}",
     dataLive: "LIVE LISTING",
     dataCatalog: "VERIFIED CATALOG",
     dataDemo: "DEMO",
@@ -606,6 +654,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "Monatliche Nachfrage",
     detailMonthlyDemandUnit: "Stück",
     detailMonthlyProfit: "Monatlicher Gesamtgewinn",
+    chartSalesTitle: "Absatz · Start · Peak · Jetzt",
+    chartProfitTitle: "Gewinn · Start · Peak · Jetzt",
+    chartForecastTitle: "Ausblick",
+    chartForecastSales: "Absatz (Schätzung)",
+    chartForecastProfit: "Gewinn (Schätzung)",
+    chartLaunch: "Start",
+    chartPeak: "Peak",
+    chartNow: "Jetzt",
+    chartWeekly: "Wöchentlich",
+    chartMonthly: "Monatlich",
+    chartEstimatedBadge: "SCHÄTZUNG",
+    chartLiveBadge: "LIVE-HISTORIE",
+    chartUnits: "Stück",
+    chartWeekLabel: "W{n}",
+    chartMonthLabel: "M{n}",
     dataLive: "LIVE-LISTING",
     dataCatalog: "GEPRÜFTER KATALOG",
     dataDemo: "DEMO",
@@ -784,6 +847,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "Demande mensuelle",
     detailMonthlyDemandUnit: "unités",
     detailMonthlyProfit: "Profit mensuel total",
+    chartSalesTitle: "Volume · Lancement · Pic · Maintenant",
+    chartProfitTitle: "Profit · Lancement · Pic · Maintenant",
+    chartForecastTitle: "Perspectives",
+    chartForecastSales: "Unités (estimé)",
+    chartForecastProfit: "Profit (estimé)",
+    chartLaunch: "Lancement",
+    chartPeak: "Pic",
+    chartNow: "Maintenant",
+    chartWeekly: "Hebdo",
+    chartMonthly: "Mensuel",
+    chartEstimatedBadge: "ESTIMÉ",
+    chartLiveBadge: "HISTORIQUE LIVE",
+    chartUnits: "unités",
+    chartWeekLabel: "S{n}",
+    chartMonthLabel: "M{n}",
     dataLive: "LISTING LIVE",
     dataCatalog: "CATALOGUE VÉRIFIÉ",
     dataDemo: "DÉMO",
@@ -956,6 +1034,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "月需求量",
     detailMonthlyDemandUnit: "件",
     detailMonthlyProfit: "月总利润",
+    chartSalesTitle: "销量 · 上架 · 峰值 · 当前",
+    chartProfitTitle: "利润 · 上架 · 峰值 · 当前",
+    chartForecastTitle: "未来展望",
+    chartForecastSales: "销量（估算）",
+    chartForecastProfit: "利润（估算）",
+    chartLaunch: "上架",
+    chartPeak: "峰值",
+    chartNow: "当前",
+    chartWeekly: "周",
+    chartMonthly: "月",
+    chartEstimatedBadge: "估算",
+    chartLiveBadge: "实时历史",
+    chartUnits: "件",
+    chartWeekLabel: "第{n}周",
+    chartMonthLabel: "第{n}月",
     dataLive: "实时商品",
     dataCatalog: "已验证目录",
     dataDemo: "演示",
@@ -1134,6 +1227,21 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailMonthlyDemand: "Месячный спрос",
     detailMonthlyDemandUnit: "шт.",
     detailMonthlyProfit: "Месячная прибыль",
+    chartSalesTitle: "Продажи · Старт · Пик · Сейчас",
+    chartProfitTitle: "Прибыль · Старт · Пик · Сейчас",
+    chartForecastTitle: "Прогноз вперёд",
+    chartForecastSales: "Продажи (оценка)",
+    chartForecastProfit: "Прибыль (оценка)",
+    chartLaunch: "Старт",
+    chartPeak: "Пик",
+    chartNow: "Сейчас",
+    chartWeekly: "Недели",
+    chartMonthly: "Месяцы",
+    chartEstimatedBadge: "ОЦЕНКА",
+    chartLiveBadge: "ЖИВАЯ ИСТОРИЯ",
+    chartUnits: "шт.",
+    chartWeekLabel: "Н{n}",
+    chartMonthLabel: "М{n}",
     dataLive: "ЖИВОЙ ЛИСТИНГ",
     dataCatalog: "ПРОВЕРЕННЫЙ КАТАЛОГ",
     dataDemo: "ДЕМО",

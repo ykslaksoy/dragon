@@ -10,6 +10,15 @@ export { HUNT_RESULT_LIMIT } from "./types";
 export { isLowRiskPath, riskBandLabel } from "./scoring";
 export { filterAndSortProducts, TR_LIVE_PRODUCTS, huntApiStatus } from "./tr-catalog";
 export { DEMO_PRODUCTS } from "./demo-catalog";
+export {
+  buildProductChartSeries,
+  resolveChartHistoryMode,
+} from "./charts";
+export type {
+  ChartHistoryMode,
+  ChartPoint,
+  ProductChartSeries,
+} from "./charts";
 
 /**
  * Resolve hunt pool: TR uses live/catalog marketplace products;

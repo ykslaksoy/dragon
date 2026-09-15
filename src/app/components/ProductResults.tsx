@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useId, useState } from "react";
 import type { HuntProduct, ProductPath } from "@/lib/hunt";
 import { isLowRiskPath, riskBandLabel } from "@/lib/hunt";
+import {
+  ProductCharts,
+  type ProductChartsCopy,
+} from "./ProductCharts";
 
 export type ProductResultsCopy = {
   title: string;
@@ -50,7 +54,7 @@ export type ProductResultsCopy = {
   dataLive: string;
   dataCatalog: string;
   dataDemo: string;
-};
+} & ProductChartsCopy;
 
 type Props = {
   products: HuntProduct[];
@@ -309,6 +313,27 @@ function ProductRow({
               {fill(copy.detailRisk, { n: p.risk, band })}
             </DetailRow>
           </ul>
+          <ProductCharts
+            product={p}
+            copy={{
+              chartSalesTitle: copy.chartSalesTitle,
+              chartProfitTitle: copy.chartProfitTitle,
+              chartForecastTitle: copy.chartForecastTitle,
+              chartForecastSales: copy.chartForecastSales,
+              chartForecastProfit: copy.chartForecastProfit,
+              chartLaunch: copy.chartLaunch,
+              chartPeak: copy.chartPeak,
+              chartNow: copy.chartNow,
+              chartWeekly: copy.chartWeekly,
+              chartMonthly: copy.chartMonthly,
+              chartEstimatedBadge: copy.chartEstimatedBadge,
+              chartLiveBadge: copy.chartLiveBadge,
+              chartUnits: copy.chartUnits,
+              chartWeekLabel: copy.chartWeekLabel,
+              chartMonthLabel: copy.chartMonthLabel,
+              currency: copy.currency,
+            }}
+          />
         </div>
       ) : null}
     </li>
