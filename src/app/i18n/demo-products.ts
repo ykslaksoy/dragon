@@ -20,7 +20,14 @@ export type DemoProduct = {
   demand: number;
   /** Saturation / doygunluk 1–100 (lower = less crowded). */
   saturation: number;
+  /** Local product photo under /public/products. */
+  imageSrc: string;
+  /** External marketplace / product URL (opens in new tab). */
+  productUrl: string;
 };
+
+/** Top hunt picks shown in the results list. */
+export const HUNT_RESULT_LIMIT = 5;
 
 /**
  * Demo hunt results — dropship/Shopify paths carry lower risk by design
@@ -39,6 +46,9 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 22,
     demand: 71,
     saturation: 28,
+    imageSrc: "/products/desk-lamp.jpg",
+    productUrl:
+      "https://www.amazon.de/s?k=touch+desk+lamp&tag=dragon-demo-21",
   },
   {
     id: "ds-organizer",
@@ -51,6 +61,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 18,
     demand: 64,
     saturation: 22,
+    imageSrc: "/products/cable-organizer.jpg",
+    productUrl: "https://www.aliexpress.com/w/wholesale-cable-organizer.html",
   },
   {
     id: "ds-mug",
@@ -63,6 +75,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 24,
     demand: 68,
     saturation: 31,
+    imageSrc: "/products/travel-mug.jpg",
+    productUrl: "https://www.amazon.com/s?k=leak+proof+travel+mug",
   },
   {
     id: "tr-ds-lamp",
@@ -75,6 +89,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 20,
     demand: 69,
     saturation: 26,
+    imageSrc: "/products/desk-lamp.jpg",
+    productUrl: "https://www.trendyol.com/sr?q=dokunmatik%20masa%20lambasi",
   },
   {
     id: "tr-shop-mug",
@@ -87,6 +103,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 23,
     demand: 61,
     saturation: 29,
+    imageSrc: "/products/travel-mug.jpg",
+    productUrl: "https://www.trendyol.com/sr?q=seyahat%20termosu",
   },
   {
     id: "tr-home",
@@ -99,6 +117,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 24,
     demand: 76,
     saturation: 52,
+    imageSrc: "/products/home-organizer.jpg",
+    productUrl: "https://www.trendyol.com/sr?q=mutfak%20duzenleyici",
   },
   {
     id: "ptt-kit",
@@ -111,6 +131,22 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 22,
     demand: 58,
     saturation: 35,
+    imageSrc: "/products/kitchen-kit.jpg",
+    productUrl: "https://www.pttavm.com/arama?q=pisirme%20gerec%20seti",
+  },
+  {
+    id: "tr-cable",
+    nameKey: "cableOrganizer",
+    platform: "Hepsiburada",
+    path: "marketplace",
+    region: "tr",
+    country: "tr",
+    profit: 11,
+    risk: 21,
+    demand: 63,
+    saturation: 33,
+    imageSrc: "/products/cable-organizer.jpg",
+    productUrl: "https://www.hepsiburada.com/ara?q=kablo%20duzenleyici",
   },
   {
     id: "amz-oa",
@@ -123,6 +159,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 72,
     demand: 88,
     saturation: 78,
+    imageSrc: "/products/wireless-buds.jpg",
+    productUrl: "https://www.amazon.com/s?k=wireless+earbuds",
   },
   {
     id: "amz-eu",
@@ -135,6 +173,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 65,
     demand: 74,
     saturation: 66,
+    imageSrc: "/products/protein-shaker.jpg",
+    productUrl: "https://www.amazon.de/s?k=protein+shaker",
   },
   {
     id: "noon-gadget",
@@ -147,6 +187,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 48,
     demand: 62,
     saturation: 44,
+    imageSrc: "/products/phone-mount.jpg",
+    productUrl: "https://www.noon.com/uae-en/search?q=car%20phone%20mount",
   },
   {
     id: "tt-viral",
@@ -159,6 +201,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 69,
     demand: 91,
     saturation: 71,
+    imageSrc: "/products/led-strip.jpg",
+    productUrl: "https://www.amazon.com/s?k=led+strip+lights",
   },
   {
     id: "shop-me",
@@ -171,6 +215,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 26,
     demand: 55,
     saturation: 24,
+    imageSrc: "/products/prayer-mat.jpg",
+    productUrl: "https://www.noon.com/saudi-en/search?q=travel%20prayer%20mat",
   },
   {
     id: "shopee-asia",
@@ -183,6 +229,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 44,
     demand: 67,
     saturation: 49,
+    imageSrc: "/products/mini-fan.jpg",
+    productUrl: "https://shopee.sg/search?keyword=mini%20usb%20fan",
   },
   {
     id: "amz-high",
@@ -195,6 +243,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     risk: 84,
     demand: 82,
     saturation: 86,
+    imageSrc: "/products/gaming-chair.jpg",
+    productUrl: "https://www.amazon.fr/s?k=fauteuil+gaming",
   },
 ];
 
@@ -214,11 +264,14 @@ export function filterAndSortProducts(
     countries: CountryId[];
     riskMode: RiskMode;
     sort: SortMode;
+    /** Cap list length; default top hunt picks. */
+    limit?: number;
   },
 ): DemoProduct[] {
   const regionSet = new Set(opts.regions);
   const countrySet = new Set(opts.countries);
   const band = riskBand(opts.riskMode);
+  const limit = opts.limit ?? HUNT_RESULT_LIMIT;
 
   let list = products.filter((p) => {
     if (!regionSet.has(p.region)) return false;
@@ -245,9 +298,15 @@ export function filterAndSortProducts(
     return a.risk - b.risk;
   });
 
-  return list;
+  return list.slice(0, limit);
 }
 
 export function isLowRiskPath(path: ProductPath): boolean {
   return LOW_RISK_PATHS.has(path);
+}
+
+export function riskBandLabel(risk: number): "low" | "mid" | "high" {
+  if (risk <= 35) return "low";
+  if (risk <= 60) return "mid";
+  return "high";
 }
