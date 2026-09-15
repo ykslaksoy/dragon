@@ -19,7 +19,9 @@ import {
 } from "./i18n/dictionaries";
 import {
   DEMO_PRODUCTS,
+  TR_LIVE_PRODUCTS,
   filterAndSortProducts,
+  type HuntProduct,
   type RiskMode,
   type SortMode,
 } from "./i18n/demo-products";
@@ -43,12 +45,22 @@ function scrollToHunt(e: React.MouseEvent<HTMLAnchorElement>) {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function localHuntPool(regions: ReturnType<typeof regionsFromCountries>, countries: CountryId[]) {
+  const wantsTr = regions.includes("tr") || countries.includes("tr");
+  const wantsOther =
+    regions.some((r) => r !== "tr") || countries.some((c) => c !== "tr");
+  if (wantsTr && !wantsOther) return TR_LIVE_PRODUCTS;
+  if (!wantsTr) return DEMO_PRODUCTS.filter((p) => p.country !== "tr");
+  return [...TR_LIVE_PRODUCTS, ...DEMO_PRODUCTS.filter((p) => p.country !== "tr")];
+}
+
 export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
   const [mode, setMode] = useState<string>("all");
   const [countries, setCountries] = useState<CountryId[]>(DEFAULT_COUNTRIES);
   const [sort, setSort] = useState<SortMode>("profit");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
+  const [apiProducts, setApiProducts] = useState<HuntProduct[] | null>(null);
   const t = getDictionary(lang);
   const regions = useMemo(() => regionsFromCountries(countries), [countries]);
   const platforms = platformsForRegions(regions);
@@ -68,16 +80,35 @@ export default function Home() {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
 
-  const products = useMemo(
-    () =>
-      filterAndSortProducts(DEMO_PRODUCTS, {
-        regions,
-        countries,
-        riskMode,
-        sort,
-      }),
-    [regions, countries, riskMode, sort],
-  );
+  useEffect(() => {
+    const ac = new AbortController();
+    setApiProducts(null);
+    const qs = new URLSearchParams({
+      regions: regions.join(","),
+      countries: countries.join(","),
+      risk: riskMode,
+      sort,
+    });
+    fetch(`/api/hunt?${qs}`, { signal: ac.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((data: { products?: HuntProduct[] }) => {
+        if (Array.isArray(data.products)) setApiProducts(data.products);
+      })
+      .catch(() => {
+        /* keep local fallback */
+      });
+    return () => ac.abort();
+  }, [regions, countries, riskMode, sort]);
+
+  const products = useMemo(() => {
+    if (apiProducts) return apiProducts;
+    return filterAndSortProducts(localHuntPool(regions, countries), {
+      regions,
+      countries,
+      riskMode,
+      sort,
+    });
+  }, [apiProducts, regions, countries, riskMode, sort]);
 
   const modeStatus =
     activeMode === "all"
@@ -261,6 +292,24 @@ export default function Home() {
           detailPathSoft: t.detailPathSoft,
           detailPathMarket: t.detailPathMarket,
           detailPathAmazon: t.detailPathAmazon,
+          scoresHeuristicBadge: t.scoresHeuristicBadge,
+          scoresLiveBadge: t.scoresLiveBadge,
+          detailSource: t.detailSource,
+          detailBuyPrice: t.detailBuyPrice,
+          detailBuyPriceUnknown: t.detailBuyPriceUnknown,
+          detailCosts: t.detailCosts,
+          detailCostProduct: t.detailCostProduct,
+          detailCostShipping: t.detailCostShipping,
+          detailCostCommission: t.detailCostCommission,
+          detailCostAds: t.detailCostAds,
+          detailCostUnknown: t.detailCostUnknown,
+          detailUnitProfit: t.detailUnitProfit,
+          detailMonthlyDemand: t.detailMonthlyDemand,
+          detailMonthlyDemandUnit: t.detailMonthlyDemandUnit,
+          detailMonthlyProfit: t.detailMonthlyProfit,
+          dataLive: t.dataLive,
+          dataCatalog: t.dataCatalog,
+          dataDemo: t.dataDemo,
         }}
       />
 
