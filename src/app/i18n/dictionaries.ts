@@ -75,6 +75,26 @@ export type Dictionary = {
   detailPathSoft: string;
   detailPathMarket: string;
   detailPathAmazon: string;
+  /** Heuristic vs live score badge. */
+  scoresHeuristicBadge: string;
+  scoresLiveBadge: string;
+  /** Rich recommendation detail (TR-first). */
+  detailSource: string;
+  detailBuyPrice: string;
+  detailBuyPriceUnknown: string;
+  detailCosts: string;
+  detailCostProduct: string;
+  detailCostShipping: string;
+  detailCostCommission: string;
+  detailCostAds: string;
+  detailCostUnknown: string;
+  detailUnitProfit: string;
+  detailMonthlyDemand: string;
+  detailMonthlyDemandUnit: string;
+  detailMonthlyProfit: string;
+  dataLive: string;
+  dataCatalog: string;
+  dataDemo: string;
   productNames: Record<string, string>;
   modeAll: string;
   modeStatusAll: string;
@@ -228,6 +248,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Neden öneriyoruz: pazaryeri fırsatı; talep ve net kâr güçlü, doygunluk / riski birlikte oku.",
     detailPathAmazon:
       "Neden öneriyoruz: yüksek kâr potansiyeli; risk de yüksek — bilinçli seçim.",
+    scoresHeuristicBadge: "SKOR · TAHMİNİ",
+    scoresLiveBadge: "SKOR · CANLI",
+    detailSource: "Nereden alınabilir",
+    detailBuyPrice: "Kaç liraya alınabilir",
+    detailBuyPriceUnknown: "Alış fiyatı henüz bilinmiyor",
+    detailCosts: "Hangi maliyetler",
+    detailCostProduct: "Ürün",
+    detailCostShipping: "Kargo",
+    detailCostCommission: "Komisyon",
+    detailCostAds: "Reklam / diğer",
+    detailCostUnknown: "bilinmiyor",
+    detailUnitProfit: "Kaç lira kâr",
+    detailMonthlyDemand: "Aylık talep miktarı",
+    detailMonthlyDemandUnit: "adet",
+    detailMonthlyProfit: "Aylık toplam kâr",
+    dataLive: "CANLI LİSTE",
+    dataCatalog: "DOĞRULANMIŞ KATALOG",
+    dataDemo: "DEMO",
     productNames: PRODUCT_NAMES_TR,
     modeAll: "TÜM PLATFORMLAR",
     modeStatusAll: "TÜM PLATFORMLAR",
@@ -375,6 +413,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Why we recommend: marketplace opportunity; read demand and net profit with saturation / risk.",
     detailPathAmazon:
       "Why we recommend: high profit potential; risk is also high — intentional choice.",
+    scoresHeuristicBadge: "SCORE · HEURISTIC",
+    scoresLiveBadge: "SCORE · LIVE",
+    detailSource: "Where to source",
+    detailBuyPrice: "Buy / cost price",
+    detailBuyPriceUnknown: "Buy price not known yet",
+    detailCosts: "Cost breakdown",
+    detailCostProduct: "Product",
+    detailCostShipping: "Shipping",
+    detailCostCommission: "Commission",
+    detailCostAds: "Ads / other",
+    detailCostUnknown: "unknown",
+    detailUnitProfit: "Unit net profit",
+    detailMonthlyDemand: "Monthly demand quantity",
+    detailMonthlyDemandUnit: "units",
+    detailMonthlyProfit: "Monthly total profit",
+    dataLive: "LIVE LISTING",
+    dataCatalog: "VERIFIED CATALOG",
+    dataDemo: "DEMO",
     productNames: {
       deskLamp: "Touch desk lamp",
       cableOrganizer: "Cable organizer set",
@@ -535,6 +591,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Warum wir empfehlen: Marktplatz-Chance; Nachfrage und Nettogewinn mit Sättigung / Risiko lesen.",
     detailPathAmazon:
       "Warum wir empfehlen: hohes Gewinnpotenzial; Risiko ebenfalls hoch — bewusste Wahl.",
+    scoresHeuristicBadge: "SCORE · SCHÄTZUNG",
+    scoresLiveBadge: "SCORE · LIVE",
+    detailSource: "Bezugsquelle",
+    detailBuyPrice: "Einkaufspreis",
+    detailBuyPriceUnknown: "Einkaufspreis noch unbekannt",
+    detailCosts: "Kostenaufstellung",
+    detailCostProduct: "Produkt",
+    detailCostShipping: "Versand",
+    detailCostCommission: "Provision",
+    detailCostAds: "Werbung / sonstiges",
+    detailCostUnknown: "unbekannt",
+    detailUnitProfit: "Stückgewinn",
+    detailMonthlyDemand: "Monatliche Nachfrage",
+    detailMonthlyDemandUnit: "Stück",
+    detailMonthlyProfit: "Monatlicher Gesamtgewinn",
+    dataLive: "LIVE-LISTING",
+    dataCatalog: "GEPRÜFTER KATALOG",
+    dataDemo: "DEMO",
     productNames: {
       deskLamp: "Touch-Schreibtischlampe",
       cableOrganizer: "Kabelorganiser-Set",
@@ -695,6 +769,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Pourquoi on recommande : opportunité marketplace ; lire demande et bénéfice net avec saturation / risque.",
     detailPathAmazon:
       "Pourquoi on recommande : fort potentiel de profit ; risque aussi élevé — choix conscient.",
+    scoresHeuristicBadge: "SCORE · ESTIMÉ",
+    scoresLiveBadge: "SCORE · LIVE",
+    detailSource: "Où s'approvisionner",
+    detailBuyPrice: "Prix d'achat",
+    detailBuyPriceUnknown: "Prix d'achat encore inconnu",
+    detailCosts: "Répartition des coûts",
+    detailCostProduct: "Produit",
+    detailCostShipping: "Livraison",
+    detailCostCommission: "Commission",
+    detailCostAds: "Pubs / autre",
+    detailCostUnknown: "inconnu",
+    detailUnitProfit: "Profit unitaire",
+    detailMonthlyDemand: "Demande mensuelle",
+    detailMonthlyDemandUnit: "unités",
+    detailMonthlyProfit: "Profit mensuel total",
+    dataLive: "LISTING LIVE",
+    dataCatalog: "CATALOGUE VÉRIFIÉ",
+    dataDemo: "DÉMO",
     productNames: {
       deskLamp: "Lampe de bureau tactile",
       cableOrganizer: "Set range-câbles",
@@ -849,6 +941,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailPathSoft: "推荐原因：一件代发 / Shopify 路径通常风险更低 — 轻引导。",
     detailPathMarket: "推荐原因：市场机会；结合饱和度 / 风险阅读需求与净利润。",
     detailPathAmazon: "推荐原因：高利润潜力；风险也高 — 主动选择。",
+    scoresHeuristicBadge: "分数 · 估算",
+    scoresLiveBadge: "分数 · 实时",
+    detailSource: "货源 / 采购地",
+    detailBuyPrice: "采购价",
+    detailBuyPriceUnknown: "采购价未知",
+    detailCosts: "成本明细",
+    detailCostProduct: "商品",
+    detailCostShipping: "运费",
+    detailCostCommission: "佣金",
+    detailCostAds: "广告 / 其他",
+    detailCostUnknown: "未知",
+    detailUnitProfit: "单件净利润",
+    detailMonthlyDemand: "月需求量",
+    detailMonthlyDemandUnit: "件",
+    detailMonthlyProfit: "月总利润",
+    dataLive: "实时商品",
+    dataCatalog: "已验证目录",
+    dataDemo: "演示",
     productNames: {
       deskLamp: "触控台灯",
       cableOrganizer: "理线套装",
@@ -1009,6 +1119,24 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Почему рекомендуем: возможность маркетплейса; читайте спрос и прибыль вместе с насыщенностью / риском.",
     detailPathAmazon:
       "Почему рекомендуем: высокий потенциал прибыли; риск тоже высокий — осознанный выбор.",
+    scoresHeuristicBadge: "СКОР · ОЦЕНКА",
+    scoresLiveBadge: "СКОР · LIVE",
+    detailSource: "Где закупить",
+    detailBuyPrice: "Закупочная цена",
+    detailBuyPriceUnknown: "Закупочная цена пока неизвестна",
+    detailCosts: "Структура затрат",
+    detailCostProduct: "Товар",
+    detailCostShipping: "Доставка",
+    detailCostCommission: "Комиссия",
+    detailCostAds: "Реклама / прочее",
+    detailCostUnknown: "неизвестно",
+    detailUnitProfit: "Прибыль с единицы",
+    detailMonthlyDemand: "Месячный спрос",
+    detailMonthlyDemandUnit: "шт.",
+    detailMonthlyProfit: "Месячная прибыль",
+    dataLive: "ЖИВОЙ ЛИСТИНГ",
+    dataCatalog: "ПРОВЕРЕННЫЙ КАТАЛОГ",
+    dataDemo: "ДЕМО",
     productNames: {
       deskLamp: "Сенсорная настольная лампа",
       cableOrganizer: "Набор органайзеров кабелей",
