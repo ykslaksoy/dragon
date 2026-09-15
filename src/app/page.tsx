@@ -108,7 +108,7 @@ export default function Home() {
 
       <header
         id="top"
-        className="sticky top-0 z-50 m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8"
+        className="sticky top-0 z-[100] m-0 flex h-[56px] items-center justify-between border-b border-white/[0.06] bg-[#070708] px-4 pt-0 sm:h-[64px] sm:px-8"
       >
         <div className="flex min-w-0 items-center gap-4 sm:gap-8">
           <span className="shrink-0 text-[15px] font-medium tracking-[0.42em] text-white sm:text-[16px]">
@@ -157,8 +157,9 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Compact hunt filters: sort · risk (region/country in header picker) */}
-      <div className="relative z-40 overflow-visible border-b border-white/[0.06] bg-[#070708]/95 px-4 py-3 sm:px-8">
+      {/* Compact hunt filters: sort · risk (region/country in header picker).
+          Stacking: keep this chrome above hero (z-10) so open menus stay clickable. */}
+      <div className="relative z-[90] isolate overflow-visible border-b border-white/[0.06] bg-[#070708] px-4 py-3 sm:px-8">
         <div className="flex flex-col items-center gap-2.5 overflow-visible">
           <HuntFilters
             sort={sort}

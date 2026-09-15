@@ -50,7 +50,7 @@ export function CompactSelect<T extends string>({
   if (!current) return null;
 
   return (
-    <div ref={rootRef} className="relative z-20">
+    <div ref={rootRef} className={`relative ${open ? "z-[110]" : "z-20"}`}>
       <button
         type="button"
         aria-label={ariaLabel}
@@ -76,7 +76,7 @@ export function CompactSelect<T extends string>({
           id={listId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 z-[60] mt-2 min-w-[168px] overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+          className="absolute left-0 z-[120] mt-2 min-w-[168px] overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
         >
           {options.map((item) => {
             const selected = item.value === value;

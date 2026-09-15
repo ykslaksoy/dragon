@@ -91,7 +91,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
   }
 
   return (
-    <div ref={rootRef} className="relative z-30">
+    <div ref={rootRef} className={`relative ${open ? "z-[110]" : "z-30"}`}>
       <button
         type="button"
         aria-label={copy.ariaLabel}
@@ -113,7 +113,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
           role="listbox"
           aria-label={copy.ariaLabel}
           aria-multiselectable
-          className="absolute right-0 z-[70] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+          className="absolute right-0 z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
         >
           <button
             type="button"
