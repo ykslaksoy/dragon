@@ -54,6 +54,27 @@ export type Dictionary = {
   demandLabel: string;
   saturationLabel: string;
   currency: string;
+  /** Row actions + recommendation detail. */
+  openProduct: string;
+  detailOpen: string;
+  detailClose: string;
+  detailTitle: string;
+  /** Short tooltips (title) — beginner plain language. */
+  scoreDemandHelp: string;
+  scoreSaturationHelp: string;
+  scoreRiskHelp: string;
+  scoreProfitHelp: string;
+  /** Detail panel lines; `{n}` = score, `{currency}` `{profit}` for net. */
+  detailDemand: string;
+  detailSaturation: string;
+  detailRisk: string;
+  detailProfit: string;
+  riskBandLow: string;
+  riskBandMid: string;
+  riskBandHigh: string;
+  detailPathSoft: string;
+  detailPathMarket: string;
+  detailPathAmazon: string;
   productNames: Record<string, string>;
   modeAll: string;
   modeStatusAll: string;
@@ -180,6 +201,33 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "TALEP",
     saturationLabel: "DOYGUNLUK",
     currency: "₺",
+    openProduct: "Ürüne git",
+    detailOpen: "Öneri detayı",
+    detailClose: "Detayı kapat",
+    detailTitle: "Dragon önerisi",
+    scoreDemandHelp:
+      "Talep 0–100: seçilen pazarda göreli talep gücü (skor, ham sipariş değil).",
+    scoreSaturationHelp:
+      "Doygunluk 0–100: niş ne kadar dolu. Yüksek = daha kalabalık.",
+    scoreRiskHelp:
+      "Risk 0–100: Dragon satış/iş riski. Düşük sayı = daha güvenli (örn. 22 = düşük).",
+    scoreProfitHelp: "Net kâr: tahmini net kâr (para birimi).",
+    detailDemand:
+      "Talep {n}/100 — seçilen pazarda göreli talep gücü. Sinyal son ~30 gün / aylık arama-satış hızına dayanır (ham sipariş sayısı değil, skor).",
+    detailSaturation:
+      "Doygunluk {n}/100 — nişin ne kadar dolu olduğu (rekabet / satıcı yoğunluğu). Yüksek = daha kalabalık, girmek zorlaşır.",
+    detailRisk:
+      "Risk {n}/100 — Dragon’un satış/iş risk skoru. Düşük sayı = daha güvenli. Bu ürün: {band}.",
+    detailProfit: "Net kâr {currency}{profit} — tahmini net kâr (para birimi).",
+    riskBandLow: "düşük risk",
+    riskBandMid: "orta risk",
+    riskBandHigh: "yüksek risk",
+    detailPathSoft:
+      "Neden öneriyoruz: dropship / Shopify yolu tipik düşük risk — soft yönlendirme.",
+    detailPathMarket:
+      "Neden öneriyoruz: pazaryeri fırsatı; talep ve net kâr güçlü, doygunluk / riski birlikte oku.",
+    detailPathAmazon:
+      "Neden öneriyoruz: yüksek kâr potansiyeli; risk de yüksek — bilinçli seçim.",
     productNames: PRODUCT_NAMES_TR,
     modeAll: "TÜM PLATFORMLAR",
     modeStatusAll: "TÜM PLATFORMLAR",
@@ -300,6 +348,33 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "DEMAND",
     saturationLabel: "SATURATION",
     currency: "$",
+    openProduct: "Open product",
+    detailOpen: "Why we recommend",
+    detailClose: "Close detail",
+    detailTitle: "Dragon recommendation",
+    scoreDemandHelp:
+      "Demand 0–100: relative demand strength in the selected market (score, not raw orders).",
+    scoreSaturationHelp:
+      "Saturation 0–100: how crowded the niche is. Higher = more competition.",
+    scoreRiskHelp:
+      "Risk 0–100: Dragon sales/ops risk. Lower = safer (e.g. 22 = low).",
+    scoreProfitHelp: "Net profit: estimated net profit (currency).",
+    detailDemand:
+      "Demand {n}/100 — relative demand in the selected market. Based on ~30-day / monthly search–sales pace (a score, not raw order count).",
+    detailSaturation:
+      "Saturation {n}/100 — how full the niche is (competition / seller density). Higher = more crowded, harder entry.",
+    detailRisk:
+      "Risk {n}/100 — Dragon sales/ops risk score. Lower = safer. This product: {band}.",
+    detailProfit: "Net profit {currency}{profit} — estimated net profit (currency).",
+    riskBandLow: "low risk",
+    riskBandMid: "mid risk",
+    riskBandHigh: "high risk",
+    detailPathSoft:
+      "Why we recommend: dropship / Shopify path is typically lower risk — soft steer.",
+    detailPathMarket:
+      "Why we recommend: marketplace opportunity; read demand and net profit with saturation / risk.",
+    detailPathAmazon:
+      "Why we recommend: high profit potential; risk is also high — intentional choice.",
     productNames: {
       deskLamp: "Touch desk lamp",
       cableOrganizer: "Cable organizer set",
@@ -433,6 +508,33 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "NACHFRAGE",
     saturationLabel: "SÄTTIGUNG",
     currency: "€",
+    openProduct: "Produkt öffnen",
+    detailOpen: "Empfehlungsdetail",
+    detailClose: "Detail schließen",
+    detailTitle: "Dragon-Empfehlung",
+    scoreDemandHelp:
+      "Nachfrage 0–100: relative Nachfragestärke im gewählten Markt (Score, keine Rohbestellungen).",
+    scoreSaturationHelp:
+      "Sättigung 0–100: wie voll die Nische ist. Höher = mehr Wettbewerb.",
+    scoreRiskHelp:
+      "Risiko 0–100: Dragon Verkaufs-/Betriebsrisiko. Niedriger = sicherer (z. B. 22 = niedrig).",
+    scoreProfitHelp: "Nettogewinn: geschätzter Nettogewinn (Währung).",
+    detailDemand:
+      "Nachfrage {n}/100 — relative Nachfrage im gewählten Markt. Signal aus ~30 Tagen / monatlichem Such-Verkaufstempo (Score, keine Rohbestellzahl).",
+    detailSaturation:
+      "Sättigung {n}/100 — wie voll die Nische ist (Wettbewerb / Verkäuferdichte). Höher = voller, Einstieg schwerer.",
+    detailRisk:
+      "Risiko {n}/100 — Dragon Verkaufs-/Betriebsrisiko. Niedriger = sicherer. Dieses Produkt: {band}.",
+    detailProfit: "Nettogewinn {currency}{profit} — geschätzter Nettogewinn (Währung).",
+    riskBandLow: "niedriges Risiko",
+    riskBandMid: "mittleres Risiko",
+    riskBandHigh: "hohes Risiko",
+    detailPathSoft:
+      "Warum wir empfehlen: Dropship / Shopify-Pfad typisch niedrigeres Risiko — sanfte Führung.",
+    detailPathMarket:
+      "Warum wir empfehlen: Marktplatz-Chance; Nachfrage und Nettogewinn mit Sättigung / Risiko lesen.",
+    detailPathAmazon:
+      "Warum wir empfehlen: hohes Gewinnpotenzial; Risiko ebenfalls hoch — bewusste Wahl.",
     productNames: {
       deskLamp: "Touch-Schreibtischlampe",
       cableOrganizer: "Kabelorganiser-Set",
@@ -566,6 +668,33 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "DEMANDE",
     saturationLabel: "SATURATION",
     currency: "€",
+    openProduct: "Voir le produit",
+    detailOpen: "Détail de l’offre",
+    detailClose: "Fermer le détail",
+    detailTitle: "Recommandation Dragon",
+    scoreDemandHelp:
+      "Demande 0–100 : force relative de la demande sur le marché choisi (score, pas commandes brutes).",
+    scoreSaturationHelp:
+      "Saturation 0–100 : à quel point la niche est pleine. Plus haut = plus de concurrence.",
+    scoreRiskHelp:
+      "Risque 0–100 : risque vente/ops Dragon. Plus bas = plus sûr (ex. 22 = faible).",
+    scoreProfitHelp: "Bénéfice net : bénéfice net estimé (devise).",
+    detailDemand:
+      "Demande {n}/100 — demande relative sur le marché choisi. Signal ~30 jours / rythme recherche-ventes mensuel (score, pas nombre de commandes).",
+    detailSaturation:
+      "Saturation {n}/100 — densité de la niche (concurrence / vendeurs). Plus haut = plus rempli, entrée plus dure.",
+    detailRisk:
+      "Risque {n}/100 — score de risque vente/ops Dragon. Plus bas = plus sûr. Ce produit : {band}.",
+    detailProfit: "Bénéfice net {currency}{profit} — bénéfice net estimé (devise).",
+    riskBandLow: "faible risque",
+    riskBandMid: "risque moyen",
+    riskBandHigh: "risque élevé",
+    detailPathSoft:
+      "Pourquoi on recommande : voie dropship / Shopify typiquement plus bas risque — orientation douce.",
+    detailPathMarket:
+      "Pourquoi on recommande : opportunité marketplace ; lire demande et bénéfice net avec saturation / risque.",
+    detailPathAmazon:
+      "Pourquoi on recommande : fort potentiel de profit ; risque aussi élevé — choix conscient.",
     productNames: {
       deskLamp: "Lampe de bureau tactile",
       cableOrganizer: "Set range-câbles",
@@ -699,6 +828,27 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "需求",
     saturationLabel: "饱和度",
     currency: "¥",
+    openProduct: "打开商品",
+    detailOpen: "推荐详情",
+    detailClose: "关闭详情",
+    detailTitle: "Dragon 推荐",
+    scoreDemandHelp: "需求 0–100：所选市场的相对需求强度（评分，非原始订单数）。",
+    scoreSaturationHelp: "饱和度 0–100：赛道拥挤程度。越高越挤。",
+    scoreRiskHelp: "风险 0–100：Dragon 销售/运营风险。越低越安全（如 22 = 低）。",
+    scoreProfitHelp: "净利润：预估净利润（货币）。",
+    detailDemand:
+      "需求 {n}/100 — 所选市场的相对需求。信号基于近约 30 天 / 月度搜索-销售节奏（评分，非原始订单数）。",
+    detailSaturation:
+      "饱和度 {n}/100 — 赛道有多满（竞争 / 卖家密度）。越高越挤，越难进入。",
+    detailRisk:
+      "风险 {n}/100 — Dragon 销售/运营风险分。越低越安全。本产品：{band}。",
+    detailProfit: "净利润 {currency}{profit} — 预估净利润（货币）。",
+    riskBandLow: "低风险",
+    riskBandMid: "中风险",
+    riskBandHigh: "高风险",
+    detailPathSoft: "推荐原因：一件代发 / Shopify 路径通常风险更低 — 轻引导。",
+    detailPathMarket: "推荐原因：市场机会；结合饱和度 / 风险阅读需求与净利润。",
+    detailPathAmazon: "推荐原因：高利润潜力；风险也高 — 主动选择。",
     productNames: {
       deskLamp: "触控台灯",
       cableOrganizer: "理线套装",
@@ -832,6 +982,33 @@ export const dictionaries: Record<Locale, Dictionary> = {
     demandLabel: "СПРОС",
     saturationLabel: "НАСЫЩ.",
     currency: "$",
+    openProduct: "Открыть товар",
+    detailOpen: "Детали рекомендации",
+    detailClose: "Закрыть детали",
+    detailTitle: "Рекомендация Dragon",
+    scoreDemandHelp:
+      "Спрос 0–100: относительная сила спроса на выбранном рынке (скор, не сырые заказы).",
+    scoreSaturationHelp:
+      "Насыщенность 0–100: насколько ниша заполнена. Выше = больше конкуренции.",
+    scoreRiskHelp:
+      "Риск 0–100: риск продаж/операций Dragon. Ниже = безопаснее (напр. 22 = низкий).",
+    scoreProfitHelp: "Чистая прибыль: оценка чистой прибыли (валюта).",
+    detailDemand:
+      "Спрос {n}/100 — относительный спрос на выбранном рынке. Сигнал ~30 дней / месячный темп поиска-продаж (скор, не число заказов).",
+    detailSaturation:
+      "Насыщенность {n}/100 — насколько ниша заполнена (конкуренция / плотность продавцов). Выше = теснее, вход сложнее.",
+    detailRisk:
+      "Риск {n}/100 — оценка риска продаж/операций Dragon. Ниже = безопаснее. Этот товар: {band}.",
+    detailProfit: "Чистая прибыль {currency}{profit} — оценка чистой прибыли (валюта).",
+    riskBandLow: "низкий риск",
+    riskBandMid: "средний риск",
+    riskBandHigh: "высокий риск",
+    detailPathSoft:
+      "Почему рекомендуем: путь dropship / Shopify обычно с более низким риском — мягкий уклон.",
+    detailPathMarket:
+      "Почему рекомендуем: возможность маркетплейса; читайте спрос и прибыль вместе с насыщенностью / риском.",
+    detailPathAmazon:
+      "Почему рекомендуем: высокий потенциал прибыли; риск тоже высокий — осознанный выбор.",
     productNames: {
       deskLamp: "Сенсорная настольная лампа",
       cableOrganizer: "Набор органайзеров кабелей",
