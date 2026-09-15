@@ -99,7 +99,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
         aria-expanded={open}
         aria-controls={listId}
         onClick={() => setOpen((v) => !v)}
-        className="flex max-w-[200px] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white sm:max-w-[240px]"
+        className="flex max-w-[132px] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white sm:max-w-[240px]"
       >
         <span className="truncate">{summary}</span>
         <span className="shrink-0 text-white/35" aria-hidden>
@@ -113,7 +113,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
           role="listbox"
           aria-label={copy.ariaLabel}
           aria-multiselectable
-          className="absolute right-0 z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+          className="fixed left-1/2 top-[56px] z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:translate-x-0"
         >
           <button
             type="button"

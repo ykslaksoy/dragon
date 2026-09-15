@@ -77,7 +77,7 @@ export function DragonTopLogo() {
 
   return (
     <div
-      className="relative h-[40px] w-[100px] bg-[#070708] sm:h-[48px] sm:w-[120px]"
+      className="relative h-[28px] w-[70px] shrink-0 bg-[#070708] sm:h-[48px] sm:w-[120px]"
       aria-label="Dragon logo"
       aria-hidden={phase === "hidden"}
       data-logo-phase={phase}
