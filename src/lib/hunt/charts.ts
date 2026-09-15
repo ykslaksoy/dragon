@@ -3,10 +3,13 @@ import type { HuntProduct, ScoresMode } from "./types";
 /** Whether sales/profit series come from live history APIs or heuristics. */
 export type ChartHistoryMode = "live" | "estimated";
 
+/** Forward outlook length in months (UI: Aylık | 3 aylık | 6 aylık). */
+export type ForecastHorizonMonths = 1 | 3 | 6;
+
 export type ChartPoint = {
   /** Stable key for i18n (launch | peak | now) or period index label. */
   key: string;
-  /** Display label when not looked up via i18n (e.g. W1, M3). */
+  /** Display label when not looked up via i18n (e.g. M3). */
   label: string;
   sales: number;
   profit: number;
@@ -16,9 +19,10 @@ export type ProductChartSeries = {
   historyMode: ChartHistoryMode;
   /** Açılış · Pik · Şimdi — comparable monthly units + monthly profit. */
   history: ChartPoint[];
-  /** Next 8 weeks — weekly units + weekly profit. */
-  weeklyForecast: ChartPoint[];
-  /** Next 6 months — monthly units + monthly profit. */
+  /**
+   * Full next-6-month monthly series. UI slices to 1 / 3 / 6 months
+   * (Aylık | 3 aylık | 6 aylık).
+   */
   monthlyForecast: ChartPoint[];
 };
 
@@ -75,15 +79,47 @@ export function resolveChartHistoryMode(opts?: {
   return "estimated";
 }
 
+/** Slice the 6-month series to the selected horizon. */
+export function forecastForHorizon(
+  monthlyForecast: ChartPoint[],
+  months: ForecastHorizonMonths,
+): ChartPoint[] {
+  return monthlyForecast.slice(0, months);
+}
+
+function buildMonthlyPoints(
+  productId: string,
+  monthlySales: number,
+  unitProfit: number,
+  count: number,
+  live?: ChartPoint[],
+): ChartPoint[] {
+  if (live && live.length >= count) return live.slice(0, count);
+  return Array.from({ length: count }, (_, i) => {
+    // Planning curve: slight growth then plateau / soft decline.
+    const growth =
+      1 +
+      i * (0.04 + hash01(productId, 30) * 0.03) -
+      Math.max(0, i - 3) * 0.05;
+    const noise = 1 + (hash01(productId, 40 + i) - 0.5) * 0.06;
+    const sales = roundSales(monthlySales * growth * noise);
+    return {
+      key: `m${i + 1}`,
+      label: `M${i + 1}`,
+      sales,
+      profit: roundMoney(sales * unitProfit),
+    };
+  });
+}
+
 /**
- * Build launch · peak · now history and weekly/monthly forecasts from
- * available economics. When live history arrays are passed, they win.
+ * Build launch · peak · now history and a 6-month monthly forecast.
+ * UI toggles Aylık (1) / 3 aylık (3) / 6 aylık (6); default 3.
  */
 export function buildProductChartSeries(
   product: HuntProduct,
   live?: {
     history?: ChartPoint[];
-    weeklyForecast?: ChartPoint[];
     monthlyForecast?: ChartPoint[];
   },
 ): ProductChartSeries {
@@ -97,66 +133,48 @@ export function buildProductChartSeries(
 
   const monthlySales = Math.max(1, product.monthlyDemandUnits);
   const unitProfit = Math.max(1, product.unitProfit);
-  const monthlyProfit = Math.max(1, product.monthlyProfit || monthlySales * unitProfit);
+  const monthlyProfit = Math.max(
+    1,
+    product.monthlyProfit || monthlySales * unitProfit,
+  );
 
   const launchRatio = 0.38 + hash01(product.id, 1) * 0.18; // 38–56% of now
   const peakRatio = 1.12 + hash01(product.id, 2) * 0.38; // 112–150% of now
-  // Peak is never below current; launch always below current.
   const launchSales = roundSales(monthlySales * launchRatio);
-  const peakSales = roundSales(Math.max(monthlySales * peakRatio, monthlySales * 1.08));
+  const peakSales = roundSales(
+    Math.max(monthlySales * peakRatio, monthlySales * 1.08),
+  );
   const nowSales = roundSales(monthlySales);
 
-  const launchProfit = roundMoney(launchSales * unitProfit * (0.85 + hash01(product.id, 3) * 0.1));
-  const peakProfit = roundMoney(peakSales * unitProfit * (0.95 + hash01(product.id, 4) * 0.08));
+  const launchProfit = roundMoney(
+    launchSales * unitProfit * (0.85 + hash01(product.id, 3) * 0.1),
+  );
+  const peakProfit = roundMoney(
+    peakSales * unitProfit * (0.95 + hash01(product.id, 4) * 0.08),
+  );
   const nowProfit = roundMoney(monthlyProfit);
 
   const history: ChartPoint[] =
     live?.history && live.history.length >= 3
       ? live.history.slice(0, 3)
       : [
-          { key: "launch", label: "launch", sales: launchSales, profit: launchProfit },
+          {
+            key: "launch",
+            label: "launch",
+            sales: launchSales,
+            profit: launchProfit,
+          },
           { key: "peak", label: "peak", sales: peakSales, profit: peakProfit },
           { key: "now", label: "now", sales: nowSales, profit: nowProfit },
         ];
 
-  const weeklyBase = monthlySales / 4.33;
-  const weeklyForecast: ChartPoint[] =
-    live?.weeklyForecast && live.weeklyForecast.length >= 8
-      ? live.weeklyForecast.slice(0, 8)
-      : Array.from({ length: 8 }, (_, i) => {
-          // Clear mid-horizon peak for hunters (week 3–5), gentle fade after.
-          const wave =
-            0.82 +
-            0.28 * Math.sin((i / 7) * Math.PI) +
-            (hash01(product.id, 10 + i) - 0.5) * 0.08;
-          const peakBoost = i >= 2 && i <= 4 ? 1.08 + hash01(product.id, 20) * 0.12 : 1;
-          const sales = roundSales(weeklyBase * wave * peakBoost);
-          return {
-            key: `w${i + 1}`,
-            label: `W${i + 1}`,
-            sales,
-            profit: roundMoney(sales * unitProfit),
-          };
-        });
+  const monthlyForecast = buildMonthlyPoints(
+    product.id,
+    monthlySales,
+    unitProfit,
+    6,
+    live?.monthlyForecast,
+  );
 
-  const monthlyForecast: ChartPoint[] =
-    live?.monthlyForecast && live.monthlyForecast.length >= 6
-      ? live.monthlyForecast.slice(0, 6)
-      : Array.from({ length: 6 }, (_, i) => {
-          // Planning curve: slight growth then plateau / soft decline.
-          const growth =
-            1 +
-            i * (0.04 + hash01(product.id, 30) * 0.03) -
-            Math.max(0, i - 3) * 0.05;
-          const noise = 1 + (hash01(product.id, 40 + i) - 0.5) * 0.06;
-          const sales = roundSales(monthlySales * growth * noise);
-          return {
-            key: `m${i + 1}`,
-            label: `M${i + 1}`,
-            sales,
-            profit: roundMoney(sales * unitProfit),
-          };
-        });
-
-  return { historyMode, history, weeklyForecast, monthlyForecast };
+  return { historyMode, history, monthlyForecast };
 }

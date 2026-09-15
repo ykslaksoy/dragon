@@ -101,13 +101,13 @@ export type Dictionary = {
   chartLaunch: string;
   chartPeak: string;
   chartNow: string;
-  chartWeekly: string;
-  chartMonthly: string;
+  /** Forecast toggle: 1 / 3 / 6 months */
+  chartHorizon1: string;
+  chartHorizon3: string;
+  chartHorizon6: string;
   chartEstimatedBadge: string;
   chartLiveBadge: string;
   chartUnits: string;
-  /** `{n}` = week index */
-  chartWeekLabel: string;
   /** `{n}` = month index */
   chartMonthLabel: string;
   dataLive: string;
@@ -289,12 +289,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "Açılış",
     chartPeak: "Pik",
     chartNow: "Şimdi",
-    chartWeekly: "Haftalık",
-    chartMonthly: "Aylık",
+    chartHorizon1: "Aylık",
+    chartHorizon3: "3 aylık",
+    chartHorizon6: "6 aylık",
     chartEstimatedBadge: "TAHMİNİ",
     chartLiveBadge: "CANLI GEÇMİŞ",
     chartUnits: "adet",
-    chartWeekLabel: "H{n}",
     chartMonthLabel: "A{n}",
     dataLive: "CANLI LİSTE",
     dataCatalog: "DOĞRULANMIŞ KATALOG",
@@ -469,12 +469,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "Launch",
     chartPeak: "Peak",
     chartNow: "Now",
-    chartWeekly: "Weekly",
-    chartMonthly: "Monthly",
+    chartHorizon1: "1 month",
+    chartHorizon3: "3 months",
+    chartHorizon6: "6 months",
     chartEstimatedBadge: "ESTIMATED",
     chartLiveBadge: "LIVE HISTORY",
     chartUnits: "units",
-    chartWeekLabel: "W{n}",
     chartMonthLabel: "M{n}",
     dataLive: "LIVE LISTING",
     dataCatalog: "VERIFIED CATALOG",
@@ -662,12 +662,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "Start",
     chartPeak: "Peak",
     chartNow: "Jetzt",
-    chartWeekly: "Wöchentlich",
-    chartMonthly: "Monatlich",
+    chartHorizon1: "1 Monat",
+    chartHorizon3: "3 Monate",
+    chartHorizon6: "6 Monate",
     chartEstimatedBadge: "SCHÄTZUNG",
     chartLiveBadge: "LIVE-HISTORIE",
     chartUnits: "Stück",
-    chartWeekLabel: "W{n}",
     chartMonthLabel: "M{n}",
     dataLive: "LIVE-LISTING",
     dataCatalog: "GEPRÜFTER KATALOG",
@@ -855,12 +855,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "Lancement",
     chartPeak: "Pic",
     chartNow: "Maintenant",
-    chartWeekly: "Hebdo",
-    chartMonthly: "Mensuel",
+    chartHorizon1: "1 mois",
+    chartHorizon3: "3 mois",
+    chartHorizon6: "6 mois",
     chartEstimatedBadge: "ESTIMÉ",
     chartLiveBadge: "HISTORIQUE LIVE",
     chartUnits: "unités",
-    chartWeekLabel: "S{n}",
     chartMonthLabel: "M{n}",
     dataLive: "LISTING LIVE",
     dataCatalog: "CATALOGUE VÉRIFIÉ",
@@ -1042,12 +1042,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "上架",
     chartPeak: "峰值",
     chartNow: "当前",
-    chartWeekly: "周",
-    chartMonthly: "月",
+    chartHorizon1: "1个月",
+    chartHorizon3: "3个月",
+    chartHorizon6: "6个月",
     chartEstimatedBadge: "估算",
     chartLiveBadge: "实时历史",
     chartUnits: "件",
-    chartWeekLabel: "第{n}周",
     chartMonthLabel: "第{n}月",
     dataLive: "实时商品",
     dataCatalog: "已验证目录",
@@ -1235,12 +1235,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chartLaunch: "Старт",
     chartPeak: "Пик",
     chartNow: "Сейчас",
-    chartWeekly: "Недели",
-    chartMonthly: "Месяцы",
+    chartHorizon1: "1 мес.",
+    chartHorizon3: "3 мес.",
+    chartHorizon6: "6 мес.",
     chartEstimatedBadge: "ОЦЕНКА",
     chartLiveBadge: "ЖИВАЯ ИСТОРИЯ",
     chartUnits: "шт.",
-    chartWeekLabel: "Н{n}",
     chartMonthLabel: "М{n}",
     dataLive: "ЖИВОЙ ЛИСТИНГ",
     dataCatalog: "ПРОВЕРЕННЫЙ КАТАЛОГ",

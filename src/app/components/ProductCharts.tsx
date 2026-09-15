@@ -4,8 +4,10 @@ import { useId, useMemo, useState } from "react";
 import type { HuntProduct } from "@/lib/hunt";
 import {
   buildProductChartSeries,
+  forecastForHorizon,
   type ChartHistoryMode,
   type ChartPoint,
+  type ForecastHorizonMonths,
 } from "@/lib/hunt/charts";
 
 export type ProductChartsCopy = {
@@ -17,12 +19,16 @@ export type ProductChartsCopy = {
   chartLaunch: string;
   chartPeak: string;
   chartNow: string;
-  chartWeekly: string;
-  chartMonthly: string;
+  /** Toggle: 1 month */
+  chartHorizon1: string;
+  /** Toggle: 3 months (default) */
+  chartHorizon3: string;
+  /** Toggle: 6 months */
+  chartHorizon6: string;
   chartEstimatedBadge: string;
   chartLiveBadge: string;
   chartUnits: string;
-  chartWeekLabel: string;
+  /** `{n}` = month index */
   chartMonthLabel: string;
   currency: string;
 };
@@ -32,13 +38,22 @@ type Props = {
   copy: ProductChartsCopy;
 };
 
-type ForecastMode = "weekly" | "monthly";
+const HORIZONS: ForecastHorizonMonths[] = [1, 3, 6];
 
 function historyLabel(key: string, copy: ProductChartsCopy): string {
   if (key === "launch") return copy.chartLaunch;
   if (key === "peak") return copy.chartPeak;
   if (key === "now") return copy.chartNow;
   return key;
+}
+
+function horizonLabel(
+  months: ForecastHorizonMonths,
+  copy: ProductChartsCopy,
+): string {
+  if (months === 1) return copy.chartHorizon1;
+  if (months === 3) return copy.chartHorizon3;
+  return copy.chartHorizon6;
 }
 
 function formatInt(n: number): string {
@@ -304,21 +319,19 @@ function PointLegend({
 }
 
 export function ProductCharts({ product, copy }: Props) {
-  const [forecastMode, setForecastMode] = useState<ForecastMode>("weekly");
+  const [horizon, setHorizon] = useState<ForecastHorizonMonths>(3);
   const series = useMemo(() => buildProductChartSeries(product), [product]);
   const badge =
     series.historyMode === "live"
       ? copy.chartLiveBadge
       : copy.chartEstimatedBadge;
 
-  const forecast =
-    forecastMode === "weekly" ? series.weeklyForecast : series.monthlyForecast;
+  const forecast = useMemo(
+    () => forecastForHorizon(series.monthlyForecast, horizon),
+    [series.monthlyForecast, horizon],
+  );
 
   const forecastLabel = (p: ChartPoint) => {
-    if (forecastMode === "weekly") {
-      const n = p.key.replace(/^w/i, "");
-      return copy.chartWeekLabel.replace("{n}", n);
-    }
     const n = p.key.replace(/^m/i, "");
     return copy.chartMonthLabel.replace("{n}", n);
   };
@@ -372,7 +385,7 @@ export function ProductCharts({ product, copy }: Props) {
           <h3 className="text-[12px] font-medium tracking-[-0.01em] text-white/80">
             {copy.chartForecastTitle}
           </h3>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className={`mono rounded border px-1.5 py-0.5 text-[9px] tracking-[0.08em] ${
                 series.historyMode === "live"
@@ -387,28 +400,20 @@ export function ProductCharts({ product, copy }: Props) {
               aria-label={copy.chartForecastTitle}
               className="inline-flex rounded-md border border-white/[0.1] bg-black/30 p-0.5"
             >
-              <button
-                type="button"
-                onClick={() => setForecastMode("weekly")}
-                className={`mono rounded px-2 py-1 text-[9px] tracking-[0.1em] transition-colors ${
-                  forecastMode === "weekly"
-                    ? "bg-[#8CFF4D]/15 text-[#8CFF4D]"
-                    : "text-white/40 hover:text-white/70"
-                }`}
-              >
-                {copy.chartWeekly}
-              </button>
-              <button
-                type="button"
-                onClick={() => setForecastMode("monthly")}
-                className={`mono rounded px-2 py-1 text-[9px] tracking-[0.1em] transition-colors ${
-                  forecastMode === "monthly"
-                    ? "bg-[#8CFF4D]/15 text-[#8CFF4D]"
-                    : "text-white/40 hover:text-white/70"
-                }`}
-              >
-                {copy.chartMonthly}
-              </button>
+              {HORIZONS.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setHorizon(m)}
+                  className={`mono rounded px-2 py-1 text-[9px] tracking-[0.08em] transition-colors ${
+                    horizon === m
+                      ? "bg-[#8CFF4D]/15 text-[#8CFF4D]"
+                      : "text-white/40 hover:text-white/70"
+                  }`}
+                >
+                  {horizonLabel(m, copy)}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -419,7 +424,7 @@ export function ProductCharts({ product, copy }: Props) {
               {copy.chartForecastSales}
             </p>
             <LineSeries
-              key={`sales-${forecastMode}`}
+              key={`sales-${horizon}`}
               points={forecast}
               valueOf={(p) => p.sales}
               accent="#8CFF4D"
@@ -437,7 +442,7 @@ export function ProductCharts({ product, copy }: Props) {
               {copy.chartForecastProfit}
             </p>
             <LineSeries
-              key={`profit-${forecastMode}`}
+              key={`profit-${horizon}`}
               points={forecast}
               valueOf={(p) => p.profit}
               accent="#E8FF9A"

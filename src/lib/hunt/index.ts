@@ -12,14 +12,15 @@ export { filterAndSortProducts, TR_LIVE_PRODUCTS, huntApiStatus } from "./tr-cat
 export { DEMO_PRODUCTS } from "./demo-catalog";
 export {
   buildProductChartSeries,
+  forecastForHorizon,
   resolveChartHistoryMode,
 } from "./charts";
 export type {
   ChartHistoryMode,
   ChartPoint,
+  ForecastHorizonMonths,
   ProductChartSeries,
 } from "./charts";
-
 /**
  * Resolve hunt pool: TR uses live/catalog marketplace products;
  * other regions keep demo until those markets are wired.
