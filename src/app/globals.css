@@ -4,6 +4,19 @@
   --background: #070708;
   --foreground: #f4f4f5;
   --accent: #8cff4d;
+  --dragon-safe-top: env(safe-area-inset-top, 0px);
+  --dragon-header-h: 56px;
+  --dragon-filter-h: 52px;
+  --dragon-chrome-h: calc(
+    var(--dragon-safe-top) + var(--dragon-header-h) + var(--dragon-filter-h)
+  );
+}
+
+@media (min-width: 640px) {
+  :root {
+    --dragon-header-h: 64px;
+    --dragon-filter-h: 56px;
+  }
 }
 
 @theme inline {
@@ -18,7 +31,7 @@
 html {
   margin: 0;
   padding: 0;
-  scroll-padding-top: 0;
+  scroll-padding-top: var(--dragon-chrome-h);
   scroll-behavior: auto;
   overflow-anchor: none;
   background: #070708;
@@ -31,10 +44,26 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   overflow-anchor: none;
-  overflow-x: hidden;
-  /* Avoid iOS creating a scrollport that starts mid-page */
+  /* overflow-x on body breaks position:sticky in iOS Safari — clip on page shell */
   min-height: 100dvh;
   min-height: -webkit-fill-available;
+}
+
+/* Pin top chrome above hero — fixed beats iOS Safari sticky + overflow quirks */
+.dragon-top-chrome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  isolation: isolate;
+  background: #070708;
+  padding-top: var(--dragon-safe-top);
+}
+
+.dragon-chrome-spacer {
+  height: var(--dragon-chrome-h);
+  flex-shrink: 0;
 }
 
 .mono {
