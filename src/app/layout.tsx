@@ -42,11 +42,19 @@ const SCROLL_TOP_BOOT = `
       history.replaceState(null,"",location.pathname+location.search);
     }
   }catch(e){}
-  function t(){window.scrollTo(0,0);document.documentElement.scrollTop=0;if(document.body)document.body.scrollTop=0;}
+  function t(){
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    if(document.body)document.body.scrollTop=0;
+    if(window.visualViewport&&window.visualViewport.offsetTop>0){
+      window.scrollTo(0,0);
+    }
+  }
   t();
   document.addEventListener("DOMContentLoaded",t,{once:true});
   window.addEventListener("load",t,{once:true});
-  window.addEventListener("pageshow",function(e){t();});
+  window.addEventListener("pageshow",function(){t();});
+  window.addEventListener("orientationchange",t);
 })();
 `;
 

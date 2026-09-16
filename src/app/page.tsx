@@ -106,80 +106,83 @@ export default function Home() {
         />
       </div>
 
-      <header
-        id="top"
-        className="sticky top-0 z-[100] m-0 flex h-[56px] items-center justify-between gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:gap-0 sm:px-8"
-      >
-        <div className="flex min-w-0 shrink-0 items-center gap-4 sm:gap-8">
-          <span className="shrink-0 text-[13px] font-medium tracking-[0.28em] text-white sm:text-[16px] sm:tracking-[0.42em]">
-            DRAGON
-          </span>
-          <div className="mono hidden items-center gap-3 text-[10px] tracking-[0.2em] text-white/30 lg:flex">
-            <span className="h-px w-8 bg-white/10" />
-            <span>{t.headerTag}</span>
+      {/* Header + hunt filters stick together so mobile Safari never loses top chrome */}
+      <div className="dragon-top-chrome m-0 border-b border-white/[0.06] shadow-[0_1px_0_rgba(255,255,255,0.04)]">
+        <header
+          id="top"
+          className="m-0 flex h-[56px] items-center justify-between gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:gap-0 sm:px-8"
+        >
+          <div className="flex min-w-0 shrink-0 items-center gap-4 sm:gap-8">
+            <span className="shrink-0 text-[13px] font-medium tracking-[0.28em] text-white sm:text-[16px] sm:tracking-[0.42em]">
+              DRAGON
+            </span>
+            <div className="mono hidden items-center gap-3 text-[10px] tracking-[0.2em] text-white/30 lg:flex">
+              <span className="h-px w-8 bg-white/10" />
+              <span>{t.headerTag}</span>
+            </div>
           </div>
-        </div>
-        <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
-          <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
-            {t.keepaLive}
+          <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
+            <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
+              {t.keepaLive}
+            </div>
+            <MarketPicker
+              countries={countries}
+              onChange={setCountries}
+              copy={{
+                ariaLabel: t.marketAria,
+                regionsAria: t.regionsAria,
+                regionsChipAll: t.regionsAll,
+                countriesAll: t.marketCountriesAll,
+                regionsAll: t.marketRegionsAll,
+                countriesSection: t.marketCountriesSection,
+                regionsSection: t.marketRegionsSection,
+                groupSelectAll: t.marketGroupSelectAll,
+                marketGroups: t.marketGroups,
+                countries: t.countries,
+                regions: t.regions,
+                countryCount: t.marketCountryCount,
+                regionCount: t.marketRegionCount,
+                plusMore: t.marketPlusMore,
+                regionPlus: t.marketRegionPlus,
+              }}
+            />
+            <LanguageSwitcher
+              locale={lang}
+              onChange={setLang}
+              ariaLabel={t.langAria}
+            />
+            <DragonTopLogo />
           </div>
-          <MarketPicker
-            countries={countries}
-            onChange={setCountries}
-            copy={{
-              ariaLabel: t.marketAria,
-              regionsAria: t.regionsAria,
-              regionsChipAll: t.regionsAll,
-              countriesAll: t.marketCountriesAll,
-              regionsAll: t.marketRegionsAll,
-              countriesSection: t.marketCountriesSection,
-              regionsSection: t.marketRegionsSection,
-              groupSelectAll: t.marketGroupSelectAll,
-              marketGroups: t.marketGroups,
-              countries: t.countries,
-              regions: t.regions,
-              countryCount: t.marketCountryCount,
-              regionCount: t.marketRegionCount,
-              plusMore: t.marketPlusMore,
-              regionPlus: t.marketRegionPlus,
-            }}
-          />
-          <LanguageSwitcher
-            locale={lang}
-            onChange={setLang}
-            ariaLabel={t.langAria}
-          />
-          <DragonTopLogo />
-        </div>
-      </header>
+        </header>
 
-      {/* Compact hunt filters: sort · risk (region/country in header picker).
-          Stacking: keep this chrome above hero (z-10) so open menus stay clickable. */}
-      <div className="relative z-[90] isolate overflow-visible border-b border-white/[0.06] bg-[#070708] px-4 py-3 sm:px-8">
-        <div className="flex flex-col items-center gap-2.5 overflow-visible">
-          <HuntFilters
-            sort={sort}
-            onSortChange={setSort}
-            riskMode={riskMode}
-            onRiskModeChange={setRiskMode}
-            copy={{
-              sortAria: t.sortAria,
-              sortPrefix: t.sortPrefix,
-              sortProfit: t.sortProfit,
-              sortRisk: t.sortRisk,
-              riskAria: t.riskAria,
-              riskPrefix: t.riskPrefix,
-              riskLow: t.riskLow,
-              riskLowHint: t.riskLowHint,
-              riskBalanced: t.riskBalanced,
-              riskBalancedHint: t.riskBalancedHint,
-              riskHigh: t.riskHigh,
-              riskHighHint: t.riskHighHint,
-            }}
-          />
+        <div className="relative overflow-visible bg-[#070708] px-4 py-3 sm:px-8">
+          <div className="flex flex-col items-center gap-2.5 overflow-visible">
+            <HuntFilters
+              sort={sort}
+              onSortChange={setSort}
+              riskMode={riskMode}
+              onRiskModeChange={setRiskMode}
+              copy={{
+                sortAria: t.sortAria,
+                sortPrefix: t.sortPrefix,
+                sortProfit: t.sortProfit,
+                sortRisk: t.sortRisk,
+                riskAria: t.riskAria,
+                riskPrefix: t.riskPrefix,
+                riskLow: t.riskLow,
+                riskLowHint: t.riskLowHint,
+                riskBalanced: t.riskBalanced,
+                riskBalancedHint: t.riskBalancedHint,
+                riskHigh: t.riskHigh,
+                riskHighHint: t.riskHighHint,
+              }}
+            />
+          </div>
         </div>
       </div>
+
+      <div className="dragon-chrome-spacer" aria-hidden />
 
       <section className="relative z-10 flex flex-col items-center px-5 pb-10 pt-10 sm:px-10 sm:pt-14">
         <p
