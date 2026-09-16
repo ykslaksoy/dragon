@@ -269,7 +269,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "AVCILAR İÇİN YAPILDI",
     langAria: "Dil seçimi",
     live: "CANLI",
-    heroMeta: "SABİT • 0.20 OPAK • DEGRADE",
+    heroMeta: "TALEP • DOYGUNLUK • RİSK • NET KÂR",
   },
   en: {
     headerTag: "MULTI-PLATFORM • PROFIT + RISK • v2.2",
@@ -429,7 +429,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "BUILT FOR HUNTERS",
     langAria: "Language selection",
     live: "LIVE",
-    heroMeta: "FIXED • 0.20 OPACITY • GRADIENT",
+    heroMeta: "DEMAND • SATURATION • RISK • NET PROFIT",
   },
   de: {
     headerTag: "MULTI-PLATFORM • GEWINN + RISIKO • v2.2",
@@ -589,7 +589,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "FÜR JÄGER GEBAUT",
     langAria: "Sprachauswahl",
     live: "LIVE",
-    heroMeta: "FIX • 0.20 OPACITY • VERLAUF",
+    heroMeta: "NACHFRAGE • SÄTTIGUNG • RISIKO • NETTOGEWINN",
   },
   fr: {
     headerTag: "MULTI-PLATEFORME • PROFIT + RISQUE • v2.2",
@@ -749,7 +749,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "FAIT POUR LES CHASSEURS",
     langAria: "Choix de la langue",
     live: "EN DIRECT",
-    heroMeta: "FIXE • 0.20 OPACITÉ • DÉGRADÉ",
+    heroMeta: "DEMANDE • SATURATION • RISQUE • BÉNÉFICE NET",
   },
   zh: {
     headerTag: "多平台 • 利润 + 风险 • v2.2",
@@ -903,7 +903,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "为猎手而生",
     langAria: "语言选择",
     live: "实时",
-    heroMeta: "固定 • 0.20 透明度 • 渐变",
+    heroMeta: "需求 • 饱和度 • 风险 • 净利润",
   },
   ru: {
     headerTag: "МУЛЬТИПЛАТФОРМА • ПРИБЫЛЬ + РИСК • v2.2",
@@ -1063,7 +1063,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     footerRight: "СОЗДАНО ДЛЯ ОХОТНИКОВ",
     langAria: "Выбор языка",
     live: "В ЭФИРЕ",
-    heroMeta: "ФИКС • 0.20 ПРОЗРАЧНОСТЬ • ГРАДИЕНТ",
+    heroMeta: "СПРОС • НАСЫЩЕННОСТЬ • РИСК • ЧИСТАЯ ПРИБЫЛЬ",
   },
 };
 
