@@ -81,8 +81,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: "tr-ds-lamp",
     nameKey: "deskLamp",
-    platform: "CJ → Shopify",
-    path: "dropship",
+    platform: "Trendyol",
+    path: "marketplace",
     region: "tr",
     country: "tr",
     profit: 16,
@@ -95,8 +95,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: "tr-shop-mug",
     nameKey: "travelMug",
-    platform: "Shopify",
-    path: "shopify",
+    platform: "Trendyol",
+    path: "marketplace",
     region: "tr",
     country: "tr",
     profit: 14,
@@ -118,7 +118,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 76,
     saturation: 52,
     imageSrc: "/products/home-organizer.jpg",
-    productUrl: "https://www.trendyol.com/bino/mutfak-rafi-masaustu-duzenleyici-organizer-banyo-rafi-cok-amacli-duzenleyici-tezgah-ustu-raf-p-467236967",
+    productUrl: "https://www.trendyol.com/ikea/uppdatera-cekmece-duzenleyici-antrasit-p-211232427",
   },
   {
     id: "ptt-kit",
@@ -310,4 +310,3 @@ export function riskBandLabel(risk: number): "low" | "mid" | "high" {
   if (risk <= 60) return "mid";
   return "high";
 }
-
