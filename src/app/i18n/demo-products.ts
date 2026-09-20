@@ -151,7 +151,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     monthlySales: 2410,
     estMonthlySales: estimateAttainableSales(2410, 68, 31),
     imageSrc: "/products/travel-mug.jpg",
-    productUrl: "https://www.amazon.com/dp/B0DFMKH72M",
+    productUrl: "https://www.amazon.com/dp/B01GWUBWWA",
   },
   {
     id: "tr-ds-lamp",
@@ -236,7 +236,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(2210, 63, 33),
     imageSrc: "/products/cable-organizer.jpg",
     productUrl:
-      "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0",
+      "https://www.hepsiburada.com/berdina-home-100lu-seffaf-kablo-sabitleyici-duzenleyici-duvar-klipsi-yapiskanli-kablo-pm-HBC00005KBZVP",
   },
   {
     id: "amz-oa",
