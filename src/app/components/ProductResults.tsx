@@ -7,6 +7,8 @@ import {
   hasProductLink,
   isLowRiskPath,
   riskBandLabel,
+  salesScenarios,
+  scenarioProfit,
 } from "../i18n/demo-products";
 
 export type ProductResultsCopy = {
@@ -43,6 +45,14 @@ export type ProductResultsCopy = {
   detailPathSoft: string;
   detailPathMarket: string;
   detailPathAmazon: string;
+  demandLeadBadge: string;
+  scenarioTitle: string;
+  scenarioHint: string;
+  scenarioMin: string;
+  scenarioMid: string;
+  scenarioHigh: string;
+  /** `{units}` `{currency}` `{profit}` */
+  scenarioLine: string;
 };
 
 type Props = {
@@ -160,6 +170,13 @@ function ProductRow({
   const soft = isLowRiskPath(p.path);
   const band = bandText(p.risk, copy);
   const linked = hasProductLink(p);
+  const showDemandBadge = Boolean(p.demandLead) || !linked;
+  const scenarios = salesScenarios(p.estMonthlySales, p.monthlySales);
+  const scenarioLabel = {
+    min: copy.scenarioMin,
+    mid: copy.scenarioMid,
+    high: copy.scenarioHigh,
+  } as const;
 
   return (
     <li className="bg-[#0E0E10]">
@@ -167,20 +184,22 @@ function ProductRow({
         <ProductThumb product={p} name={name} openLabel={copy.openProduct} />
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[14px] font-medium leading-snug text-white/90">
-              {name}
-            </span>
-            {soft ? (
-              <span className="mono rounded border border-[#8CFF4D]/25 bg-[#8CFF4D]/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-[#8CFF4D]/90">
-                DS / SHOPIFY
+          <div className="flex flex-col gap-1.5">
+            {showDemandBadge ? (
+              <span className="mono w-fit rounded border border-amber-300/35 bg-amber-300/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-amber-100/95">
+                {copy.demandLeadBadge}
               </span>
             ) : null}
-            {!linked ? (
-              <span className="mono rounded border border-amber-300/30 bg-amber-300/10 px-1.5 py-0.5 text-[9px] tracking-[0.06em] text-amber-200/90">
-                {copy.noProductLink}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[14px] font-medium leading-snug text-white/90">
+                {name}
               </span>
-            ) : null}
+              {soft ? (
+                <span className="mono rounded border border-[#8CFF4D]/25 bg-[#8CFF4D]/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-[#8CFF4D]/90">
+                  DS / SHOPIFY
+                </span>
+              ) : null}
+            </div>
           </div>
           <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
             {p.platform}
@@ -295,6 +314,36 @@ function ProductRow({
               })}
             </li>
           </ul>
+          <div className="mt-4 rounded-md border border-white/[0.08] bg-white/[0.02] px-3 py-2.5">
+            <p className="mono text-[10px] tracking-[0.12em] text-[#8CFF4D]/85">
+              {copy.scenarioTitle}
+            </p>
+            <p className="mt-1 text-[11px] leading-snug text-white/40">
+              {copy.scenarioHint}
+            </p>
+            <ul className="mt-2.5 space-y-2">
+              {scenarios.map((s) => (
+                <li
+                  key={s.id}
+                  className="flex flex-wrap items-baseline justify-between gap-2 border-b border-white/[0.05] pb-2 text-[12px] last:border-0 last:pb-0"
+                >
+                  <span className="font-medium text-white/85">
+                    {scenarioLabel[s.id]}
+                    <span className="mono ml-2 text-[10px] text-white/35">
+                      ×{s.multiple}
+                    </span>
+                  </span>
+                  <span className="tabular-nums text-white/70">
+                    {fill(copy.scenarioLine, {
+                      units: formatUnits(s.units),
+                      currency: copy.currency,
+                      profit: formatUnits(scenarioProfit(p.profit, s.units)),
+                    })}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : null}
     </li>
