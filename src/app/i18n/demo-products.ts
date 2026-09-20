@@ -185,7 +185,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(2680, 61, 29),
     imageSrc: "/products/travel-mug.jpg",
     productUrl:
-      "https://www.trendyol.com/dkadi/2-5l-premium-travel-pot-304-celik-vakumlu-kamp-seyahat-termosu-p-1188101285",
+      "https://www.trendyol.com/mepal/insulated-bottle-gri-termos-ellipse-yalitimli-sise-p-750367964",
   },
   {
     id: "tr-home",
@@ -236,7 +236,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(2210, 63, 33),
     imageSrc: "/products/cable-organizer.jpg",
     productUrl:
-      "https://www.hepsiburada.com/berdina-home-100lu-seffaf-kablo-sabitleyici-duzenleyici-duvar-klipsi-yapiskanli-kablo-pm-HBC00005KBZVP",
+      "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0",
   },
   {
     id: "amz-oa",
