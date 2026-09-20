@@ -190,7 +190,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: "tr-home",
     nameKey: "homeOrganizer",
-    platform: "Trendyol",
+    platform: "IKEA",
     path: "marketplace",
     region: "tr",
     country: "tr",
@@ -201,9 +201,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     monthlySales: 4850,
     estMonthlySales: estimateAttainableSales(4850, 76, 52),
     imageSrc: "/products/home-organizer.jpg",
-    // IKEA UPPDATERA drawer organizer (matches product photo).
-    productUrl: "https://www.trendyol.com/ikea/uppdatera-cekmece-duzenleyici-antrasit-p-211232427",
-    demandLead: true,
+    // IKEA UPPDATERA — live ikea.com.tr product page + matching lifestyle photo.
+    productUrl: "https://www.ikea.com.tr/urun/uppdatera-antrasit-80-cm-cekmece-duzenleyici-00460011",
   },
   {
     id: "ptt-kit",
