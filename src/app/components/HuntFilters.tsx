@@ -6,6 +6,7 @@ import { CompactSelect } from "./CompactSelect";
 export type HuntFilterCopy = {
   sortAria: string;
   sortPrefix: string;
+  sortSales: string;
   sortProfit: string;
   sortRisk: string;
   riskAria: string;
@@ -26,7 +27,7 @@ type Props = {
   copy: HuntFilterCopy;
 };
 
-/** Compact profit/risk filters (country/region live in MarketPicker). */
+/** Compact sales/profit/risk filters (country/region live in MarketPicker). */
 export function HuntFilters({
   sort,
   onSortChange,
@@ -44,6 +45,7 @@ export function HuntFilters({
         value={sort}
         onChange={onSortChange}
         options={[
+          { value: "sales", label: copy.sortSales },
           { value: "profit", label: copy.sortProfit },
           { value: "risk", label: copy.sortRisk },
         ]}

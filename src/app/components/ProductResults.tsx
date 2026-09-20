@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 import type { DemoProduct, ProductPath } from "../i18n/demo-products";
-import { isLowRiskPath, riskBandLabel } from "../i18n/demo-products";
+import {
+  hasProductLink,
+  isLowRiskPath,
+  riskBandLabel,
+} from "../i18n/demo-products";
 
 export type ProductResultsCopy = {
   title: string;
@@ -12,9 +16,12 @@ export type ProductResultsCopy = {
   riskLabel: string;
   demandLabel: string;
   saturationLabel: string;
+  monthlySalesLabel: string;
+  estSalesLabel: string;
   softSteer: string;
   currency: string;
   openProduct: string;
+  noProductLink: string;
   detailOpen: string;
   detailClose: string;
   detailTitle: string;
@@ -22,10 +29,14 @@ export type ProductResultsCopy = {
   scoreSaturationHelp: string;
   scoreRiskHelp: string;
   scoreProfitHelp: string;
+  scoreMonthlySalesHelp: string;
+  scoreEstSalesHelp: string;
   detailDemand: string;
   detailSaturation: string;
   detailRisk: string;
   detailProfit: string;
+  detailMonthlySales: string;
+  detailEstSales: string;
   riskBandLow: string;
   riskBandMid: string;
   riskBandHigh: string;
@@ -70,6 +81,10 @@ function fill(
   return out;
 }
 
+function formatUnits(n: number): string {
+  return n.toLocaleString("tr-TR");
+}
+
 function Metric({
   label,
   value,
@@ -95,6 +110,42 @@ function Metric({
   );
 }
 
+function ProductThumb({
+  product: p,
+  name,
+  openLabel,
+}: {
+  product: DemoProduct;
+  name: string;
+  openLabel: string;
+}) {
+  const img = (
+    <Image
+      src={p.imageSrc}
+      alt=""
+      fill
+      sizes="84px"
+      className="object-cover transition-opacity hover:opacity-90"
+    />
+  );
+  const shell =
+    "relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-md border border-white/[0.08] bg-[#121214] sm:h-[84px] sm:w-[84px]";
+  if (hasProductLink(p) && p.productUrl) {
+    return (
+      <a
+        href={p.productUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={shell}
+        aria-label={`${openLabel}: ${name}`}
+      >
+        {img}
+      </a>
+    );
+  }
+  return <div className={shell}>{img}</div>;
+}
+
 function ProductRow({
   product: p,
   name,
@@ -108,25 +159,12 @@ function ProductRow({
   const panelId = useId();
   const soft = isLowRiskPath(p.path);
   const band = bandText(p.risk, copy);
+  const linked = hasProductLink(p);
 
   return (
     <li className="bg-[#0E0E10]">
       <div className="flex gap-3 px-3 py-3.5 sm:gap-4 sm:px-5 sm:py-4">
-        <a
-          href={p.productUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-md border border-white/[0.08] bg-[#121214] sm:h-[84px] sm:w-[84px]"
-          aria-label={`${copy.openProduct}: ${name}`}
-        >
-          <Image
-            src={p.imageSrc}
-            alt=""
-            fill
-            sizes="84px"
-            className="object-cover transition-opacity hover:opacity-90"
-          />
-        </a>
+        <ProductThumb product={p} name={name} openLabel={copy.openProduct} />
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -138,6 +176,11 @@ function ProductRow({
                 DS / SHOPIFY
               </span>
             ) : null}
+            {!linked ? (
+              <span className="mono rounded border border-amber-300/30 bg-amber-300/10 px-1.5 py-0.5 text-[9px] tracking-[0.06em] text-amber-200/90">
+                {copy.noProductLink}
+              </span>
+            ) : null}
           </div>
           <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
             {p.platform}
@@ -145,6 +188,17 @@ function ProductRow({
 
           <div className="mt-2.5 flex flex-wrap items-end justify-between gap-2">
             <div className="flex flex-wrap gap-3 sm:gap-4">
+              <Metric
+                label={copy.monthlySalesLabel}
+                value={formatUnits(p.monthlySales)}
+                valueClass="text-[#8CFF4D]/95"
+                help={copy.scoreMonthlySalesHelp}
+              />
+              <Metric
+                label={copy.estSalesLabel}
+                value={formatUnits(p.estMonthlySales)}
+                help={copy.scoreEstSalesHelp}
+              />
               <Metric
                 label={copy.demandLabel}
                 value={p.demand}
@@ -170,17 +224,23 @@ function ProductRow({
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <a
-              href={p.productUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-white/[0.12] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-white/75 transition-colors hover:border-[#8CFF4D]/35 hover:text-[#8CFF4D]"
-            >
-              {copy.openProduct}
-              <span aria-hidden className="text-[12px] opacity-70">
-                ↗
+            {linked && p.productUrl ? (
+              <a
+                href={p.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-md border border-white/[0.12] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-white/75 transition-colors hover:border-[#8CFF4D]/35 hover:text-[#8CFF4D]"
+              >
+                {copy.openProduct}
+                <span aria-hidden className="text-[12px] opacity-70">
+                  ↗
+                </span>
+              </a>
+            ) : (
+              <span className="inline-flex items-center rounded-md border border-amber-300/20 bg-amber-300/[0.06] px-2.5 py-1.5 text-[11px] font-medium text-amber-200/80">
+                {copy.noProductLink}
               </span>
-            </a>
+            )}
             <button
               type="button"
               aria-expanded={open}
@@ -210,6 +270,16 @@ function ProductRow({
             {pathWhy(p.path, copy)}
           </p>
           <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-white/55">
+            <li>
+              {fill(copy.detailMonthlySales, {
+                n: formatUnits(p.monthlySales),
+              })}
+            </li>
+            <li>
+              {fill(copy.detailEstSales, {
+                n: formatUnits(p.estMonthlySales),
+              })}
+            </li>
             <li>{fill(copy.detailDemand, { n: p.demand })}</li>
             <li>{fill(copy.detailSaturation, { n: p.saturation })}</li>
             <li>

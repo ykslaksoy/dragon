@@ -47,7 +47,7 @@ export default function Home() {
   const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE);
   const [mode, setMode] = useState<string>("all");
   const [countries, setCountries] = useState<CountryId[]>(DEFAULT_COUNTRIES);
-  const [sort, setSort] = useState<SortMode>("profit");
+  const [sort, setSort] = useState<SortMode>("sales");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
   const t = getDictionary(lang);
   const regions = useMemo(() => regionsFromCountries(countries), [countries]);
@@ -166,6 +166,7 @@ export default function Home() {
             copy={{
               sortAria: t.sortAria,
               sortPrefix: t.sortPrefix,
+              sortSales: t.sortSales,
               sortProfit: t.sortProfit,
               sortRisk: t.sortRisk,
               riskAria: t.riskAria,
@@ -242,8 +243,11 @@ export default function Home() {
           riskLabel: t.riskLabel,
           demandLabel: t.demandLabel,
           saturationLabel: t.saturationLabel,
+          monthlySalesLabel: t.monthlySalesLabel,
+          estSalesLabel: t.estSalesLabel,
           currency: t.currency,
           openProduct: t.openProduct,
+          noProductLink: t.noProductLink,
           detailOpen: t.detailOpen,
           detailClose: t.detailClose,
           detailTitle: t.detailTitle,
@@ -251,10 +255,14 @@ export default function Home() {
           scoreSaturationHelp: t.scoreSaturationHelp,
           scoreRiskHelp: t.scoreRiskHelp,
           scoreProfitHelp: t.scoreProfitHelp,
+          scoreMonthlySalesHelp: t.scoreMonthlySalesHelp,
+          scoreEstSalesHelp: t.scoreEstSalesHelp,
           detailDemand: t.detailDemand,
           detailSaturation: t.detailSaturation,
           detailRisk: t.detailRisk,
           detailProfit: t.detailProfit,
+          detailMonthlySales: t.detailMonthlySales,
+          detailEstSales: t.detailEstSales,
           riskBandLow: t.riskBandLow,
           riskBandMid: t.riskBandMid,
           riskBandHigh: t.riskBandHigh,

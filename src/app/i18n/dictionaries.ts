@@ -36,6 +36,7 @@ export type Dictionary = {
   marketGroups: Record<MarketGroupId, string>;
   sortAria: string;
   sortPrefix: string;
+  sortSales: string;
   sortProfit: string;
   sortRisk: string;
   riskAria: string;
@@ -53,9 +54,15 @@ export type Dictionary = {
   riskLabel: string;
   demandLabel: string;
   saturationLabel: string;
+  /** Marketplace listing monthly unit volume (demo). */
+  monthlySalesLabel: string;
+  /** Conservative attainable share if you sell — not 100% of demand. */
+  estSalesLabel: string;
   currency: string;
   /** Row actions + recommendation detail. */
   openProduct: string;
+  /** Demand exists but no live product URL. */
+  noProductLink: string;
   detailOpen: string;
   detailClose: string;
   detailTitle: string;
@@ -64,11 +71,15 @@ export type Dictionary = {
   scoreSaturationHelp: string;
   scoreRiskHelp: string;
   scoreProfitHelp: string;
-  /** Detail panel lines; `{n}` = score, `{currency}` `{profit}` for net. */
+  scoreMonthlySalesHelp: string;
+  scoreEstSalesHelp: string;
+  /** Detail panel lines; `{n}` = score/units, `{currency}` `{profit}` for net. */
   detailDemand: string;
   detailSaturation: string;
   detailRisk: string;
   detailProfit: string;
+  detailMonthlySales: string;
+  detailEstSales: string;
   riskBandLow: string;
   riskBandMid: string;
   riskBandHigh: string;
@@ -182,6 +193,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "Sıralama",
     sortPrefix: "SIRA",
+    sortSales: "Aylık satış",
     sortProfit: "En çok kazandıran",
     sortRisk: "Risk skoru",
     riskAria: "Risk tercihi",
@@ -192,16 +204,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "Kâr ve risk ortası",
     riskHigh: "Yüksek kâr + risk",
     riskHighHint: "Bilinçli yüksek getiri tercihi",
-    huntTitle: "Av sonuçları · talep · doygunluk · risk · net kâr",
+    huntTitle: "Av sonuçları · aylık satış · senin payın · talep · risk · net kâr",
     huntEmpty: "Bu filtrelerle ürün yok — bölge, ülke veya risk bandını değiştir.",
     huntSoftSteer:
-      "Varsayılan: düşük risk (dropship/Shopify). Yüksek kâr+risk serbest.",
+      "Demo av sonuçları (canlı tarama yok). Varsayılan sıra: aylık satış. Tahmini pay = konservatif niş payı, pazarın tamamı değil. Talep varken SKU yoksa kart kalır.",
     profitLabel: "NET KÂR",
     riskLabel: "RİSK",
     demandLabel: "TALEP",
     saturationLabel: "DOYGUNLUK",
+    monthlySalesLabel: "AYLIK SATIŞ",
+    estSalesLabel: "SENİN PAYIN",
     currency: "₺",
     openProduct: "Ürüne git",
+    noProductLink: "Talep var · ürün linki yok",
     detailOpen: "Öneri detayı",
     detailClose: "Detayı kapat",
     detailTitle: "Dragon önerisi",
@@ -212,6 +227,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreRiskHelp:
       "Risk 0–100: Dragon satış/iş riski. Düşük sayı = daha güvenli (örn. 22 = düşük).",
     scoreProfitHelp: "Net kâr: tahmini net kâr (para birimi).",
+    scoreMonthlySalesHelp:
+      "Aylık satış: bu ürünün pazaryerindeki tahmini aylık adet (listeleme hacmi).",
+    scoreEstSalesHelp:
+      "Senin payın: konservatif tahmin — pazarın %100’ü değil; doygunluk/talep ile ~%1,5–8 pay.",
     detailDemand:
       "Talep {n}/100 — seçilen pazarda göreli talep gücü. Sinyal son ~30 gün / aylık arama-satış hızına dayanır (ham sipariş sayısı değil, skor).",
     detailSaturation:
@@ -219,6 +238,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "Risk {n}/100 — Dragon’un satış/iş risk skoru. Düşük sayı = daha güvenli. Bu ürün: {band}.",
     detailProfit: "Net kâr {currency}{profit} — tahmini net kâr (para birimi).",
+    detailMonthlySales:
+      "Aylık satış {n} adet — bu listenin pazaryerindeki aylık satış hacmi (demo).",
+    detailEstSales:
+      "Senin payın (tahmini) {n} adet/ay — gerçekçi niş payı; tüm talebi alacağın anlamına gelmez.",
     riskBandLow: "düşük risk",
     riskBandMid: "orta risk",
     riskBandHigh: "yüksek risk",
@@ -329,6 +352,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "Sort",
     sortPrefix: "SORT",
+    sortSales: "Monthly sales",
     sortProfit: "Most profitable",
     sortRisk: "Risk score",
     riskAria: "Risk preference",
@@ -339,16 +363,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "Mid profit and risk",
     riskHigh: "High profit + risk",
     riskHighHint: "Intentional high-reward choice",
-    huntTitle: "Hunt results · demand · saturation · risk · net profit",
+    huntTitle: "Hunt results · monthly sales · your share · demand · risk · net profit",
     huntEmpty: "No products for these filters — change region, country, or risk band.",
     huntSoftSteer:
-      "Default: low risk (dropship/Shopify). High profit+risk stays available.",
+      "Curated demo picks (no live marketplace scan yet). Default sort: monthly sales. Your share is a conservative niche cut — not 100% of demand. Demand-only rows stay when SKU is missing.",
     profitLabel: "NET PROFIT",
     riskLabel: "RISK",
     demandLabel: "DEMAND",
     saturationLabel: "SATURATION",
+    monthlySalesLabel: "MO. SALES",
+    estSalesLabel: "YOUR SHARE",
     currency: "$",
     openProduct: "Open product",
+    noProductLink: "Demand · no product link",
     detailOpen: "Why we recommend",
     detailClose: "Close detail",
     detailTitle: "Dragon recommendation",
@@ -359,6 +386,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreRiskHelp:
       "Risk 0–100: Dragon sales/ops risk. Lower = safer (e.g. 22 = low).",
     scoreProfitHelp: "Net profit: estimated net profit (currency).",
+    scoreMonthlySalesHelp:
+      "Monthly sales: estimated units/month for this marketplace listing.",
+    scoreEstSalesHelp:
+      "Your share: conservative attainable units (~1.5–8% of listing volume) — not full demand.",
     detailDemand:
       "Demand {n}/100 — relative demand in the selected market. Based on ~30-day / monthly search–sales pace (a score, not raw order count).",
     detailSaturation:
@@ -366,6 +397,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "Risk {n}/100 — Dragon sales/ops risk score. Lower = safer. This product: {band}.",
     detailProfit: "Net profit {currency}{profit} — estimated net profit (currency).",
+    detailMonthlySales:
+      "Monthly sales {n} units — marketplace listing volume (demo).",
+    detailEstSales:
+      "Your estimated share {n} units/month — realistic niche cut; not capturing all demand.",
     riskBandLow: "low risk",
     riskBandMid: "mid risk",
     riskBandHigh: "high risk",
@@ -489,6 +524,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "Sortierung",
     sortPrefix: "SORT",
+    sortSales: "Monatsverkäufe",
     sortProfit: "Höchster Gewinn",
     sortRisk: "Risikoscore",
     riskAria: "Risikopräferenz",
@@ -499,16 +535,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "Mittlerer Gewinn und Risiko",
     riskHigh: "Hoher Gewinn + Risiko",
     riskHighHint: "Bewusste High-Reward-Wahl",
-    huntTitle: "Jagdergebnisse · Nachfrage · Sättigung · Risiko · Nettogewinn",
+    huntTitle: "Jagdergebnisse · Monatsverkäufe · dein Anteil · Nachfrage · Risiko · Nettogewinn",
     huntEmpty: "Keine Produkte für diese Filter — Region, Land oder Risikoband ändern.",
     huntSoftSteer:
-      "Standard: niedriges Risiko (Dropship/Shopify). Hoher Gewinn+Risiko bleibt frei.",
+      "Demo-Ergebnisse (noch kein Live-Scan). Standard: Monatsverkäufe. Dein Anteil ist konservativ — nicht 100 % der Nachfrage. Nachfrage ohne SKU bleibt sichtbar.",
     profitLabel: "NETTO",
     riskLabel: "RISIKO",
     demandLabel: "NACHFRAGE",
     saturationLabel: "SÄTTIGUNG",
+    monthlySalesLabel: "MTL. VERKAUF",
+    estSalesLabel: "DEIN ANTEIL",
     currency: "€",
     openProduct: "Produkt öffnen",
+    noProductLink: "Nachfrage · kein Produktlink",
     detailOpen: "Empfehlungsdetail",
     detailClose: "Detail schließen",
     detailTitle: "Dragon-Empfehlung",
@@ -519,6 +558,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreRiskHelp:
       "Risiko 0–100: Dragon Verkaufs-/Betriebsrisiko. Niedriger = sicherer (z. B. 22 = niedrig).",
     scoreProfitHelp: "Nettogewinn: geschätzter Nettogewinn (Währung).",
+    scoreMonthlySalesHelp:
+      "Monatsverkäufe: geschätzte Stück/Monat für dieses Listing.",
+    scoreEstSalesHelp:
+      "Dein Anteil: konservativ erreichbar (~1,5–8 % des Listing-Volumens) — nicht die volle Nachfrage.",
     detailDemand:
       "Nachfrage {n}/100 — relative Nachfrage im gewählten Markt. Signal aus ~30 Tagen / monatlichem Such-Verkaufstempo (Score, keine Rohbestellzahl).",
     detailSaturation:
@@ -526,6 +569,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "Risiko {n}/100 — Dragon Verkaufs-/Betriebsrisiko. Niedriger = sicherer. Dieses Produkt: {band}.",
     detailProfit: "Nettogewinn {currency}{profit} — geschätzter Nettogewinn (Währung).",
+    detailMonthlySales:
+      "Monatsverkäufe {n} Stück — Listing-Volumen (Demo).",
+    detailEstSales:
+      "Dein geschätzter Anteil {n} Stück/Monat — realistischer Nischenanteil, nicht die gesamte Nachfrage.",
     riskBandLow: "niedriges Risiko",
     riskBandMid: "mittleres Risiko",
     riskBandHigh: "hohes Risiko",
@@ -649,6 +696,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "Tri",
     sortPrefix: "TRI",
+    sortSales: "Ventes mensuelles",
     sortProfit: "Plus rentable",
     sortRisk: "Score de risque",
     riskAria: "Préférence de risque",
@@ -659,16 +707,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "Profit et risque moyens",
     riskHigh: "Haut profit + risque",
     riskHighHint: "Choix conscient haut rendement",
-    huntTitle: "Résultats · demande · saturation · risque · bénéfice net",
+    huntTitle: "Résultats · ventes mensuelles · votre part · demande · risque · bénéfice net",
     huntEmpty: "Aucun produit pour ces filtres — changez région, pays ou bande de risque.",
     huntSoftSteer:
-      "Défaut : faible risque (dropship/Shopify). Haut profit+risque reste libre.",
+      "Sélection démo (pas encore de scan live). Tri par défaut : ventes mensuelles. Votre part est conservative — pas 100 % de la demande. Demande sans SKU reste listée.",
     profitLabel: "BÉNÉFICE",
     riskLabel: "RISQUE",
     demandLabel: "DEMANDE",
     saturationLabel: "SATURATION",
+    monthlySalesLabel: "VENTES / MOIS",
+    estSalesLabel: "VOTRE PART",
     currency: "€",
     openProduct: "Voir le produit",
+    noProductLink: "Demande · pas de lien produit",
     detailOpen: "Détail de l’offre",
     detailClose: "Fermer le détail",
     detailTitle: "Recommandation Dragon",
@@ -679,6 +730,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreRiskHelp:
       "Risque 0–100 : risque vente/ops Dragon. Plus bas = plus sûr (ex. 22 = faible).",
     scoreProfitHelp: "Bénéfice net : bénéfice net estimé (devise).",
+    scoreMonthlySalesHelp:
+      "Ventes mensuelles : unités/mois estimées pour cette fiche marketplace.",
+    scoreEstSalesHelp:
+      "Votre part : volume atteignable (~1,5–8 %) — pas toute la demande.",
     detailDemand:
       "Demande {n}/100 — demande relative sur le marché choisi. Signal ~30 jours / rythme recherche-ventes mensuel (score, pas nombre de commandes).",
     detailSaturation:
@@ -686,6 +741,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "Risque {n}/100 — score de risque vente/ops Dragon. Plus bas = plus sûr. Ce produit : {band}.",
     detailProfit: "Bénéfice net {currency}{profit} — bénéfice net estimé (devise).",
+    detailMonthlySales:
+      "Ventes mensuelles {n} unités — volume de la fiche (démo).",
+    detailEstSales:
+      "Votre part estimée {n} unités/mois — part de niche réaliste, pas toute la demande.",
     riskBandLow: "faible risque",
     riskBandMid: "risque moyen",
     riskBandHigh: "risque élevé",
@@ -809,6 +868,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "排序",
     sortPrefix: "排序",
+    sortSales: "月销量",
     sortProfit: "最赚钱",
     sortRisk: "风险评分",
     riskAria: "风险偏好",
@@ -819,16 +879,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "利润与风险居中",
     riskHigh: "高利润 + 高风险",
     riskHighHint: "主动选择高回报",
-    huntTitle: "寻猎结果 · 需求 · 饱和度 · 风险 · 净利润",
+    huntTitle: "寻猎结果 · 月销量 · 预估份额 · 需求 · 风险 · 净利润",
     huntEmpty: "当前筛选无产品 — 请更改地区、国家或风险区间。",
     huntSoftSteer:
-      "默认：低风险（dropship/Shopify）。高利润+高风险仍可选。",
+      "演示结果（尚无实时扫描）。默认按月销量排序。预估份额为保守可达量，不是全部需求。有需求无 SKU 时卡片保留。",
     profitLabel: "净利润",
     riskLabel: "风险",
     demandLabel: "需求",
     saturationLabel: "饱和度",
+    monthlySalesLabel: "月销量",
+    estSalesLabel: "预估份额",
     currency: "¥",
     openProduct: "打开商品",
+    noProductLink: "有需求 · 无商品链接",
     detailOpen: "推荐详情",
     detailClose: "关闭详情",
     detailTitle: "Dragon 推荐",
@@ -836,6 +899,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreSaturationHelp: "饱和度 0–100：赛道拥挤程度。越高越挤。",
     scoreRiskHelp: "风险 0–100：Dragon 销售/运营风险。越低越安全（如 22 = 低）。",
     scoreProfitHelp: "净利润：预估净利润（货币）。",
+    scoreMonthlySalesHelp: "月销量：该商品在平台上的预估月销量。",
+    scoreEstSalesHelp: "预估份额：保守可达份额（约 1.5–8%），不是全部需求。",
     detailDemand:
       "需求 {n}/100 — 所选市场的相对需求。信号基于近约 30 天 / 月度搜索-销售节奏（评分，非原始订单数）。",
     detailSaturation:
@@ -843,6 +908,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "风险 {n}/100 — Dragon 销售/运营风险分。越低越安全。本产品：{band}。",
     detailProfit: "净利润 {currency}{profit} — 预估净利润（货币）。",
+    detailMonthlySales: "月销量 {n} 件 — 该商品 listing 月销量（演示）。",
+    detailEstSales: "预估份额 {n} 件/月 — 现实可达份额，不是全部需求。",
     riskBandLow: "低风险",
     riskBandMid: "中风险",
     riskBandHigh: "高风险",
@@ -963,6 +1030,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     sortAria: "Сортировка",
     sortPrefix: "СОРТ",
+    sortSales: "Месячные продажи",
     sortProfit: "Самый прибыльный",
     sortRisk: "Риск-скор",
     riskAria: "Предпочтение риска",
@@ -973,16 +1041,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskBalancedHint: "Средняя прибыль и риск",
     riskHigh: "Высокая прибыль + риск",
     riskHighHint: "Осознанный high-reward выбор",
-    huntTitle: "Результаты · спрос · насыщенность · риск · чистая прибыль",
+    huntTitle: "Результаты · продажи/мес · ваша доля · спрос · риск · чистая прибыль",
     huntEmpty: "Нет товаров по фильтрам — смените регион, страну или полосу риска.",
     huntSoftSteer:
-      "По умолчанию: низкий риск (dropship/Shopify). Высокая прибыль+риск доступны.",
+      "Демо-выборка (живого скана пока нет). Сортировка по умолчанию: продажи/мес. Ваша доля консервативна — не 100% спроса. Спрос без SKU остаётся в списке.",
     profitLabel: "ПРИБЫЛЬ",
     riskLabel: "РИСК",
     demandLabel: "СПРОС",
     saturationLabel: "НАСЫЩ.",
+    monthlySalesLabel: "ПРОДАЖИ/МЕС",
+    estSalesLabel: "ВАША ДОЛЯ",
     currency: "$",
     openProduct: "Открыть товар",
+    noProductLink: "Спрос · нет ссылки на товар",
     detailOpen: "Детали рекомендации",
     detailClose: "Закрыть детали",
     detailTitle: "Рекомендация Dragon",
@@ -993,6 +1064,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreRiskHelp:
       "Риск 0–100: риск продаж/операций Dragon. Ниже = безопаснее (напр. 22 = низкий).",
     scoreProfitHelp: "Чистая прибыль: оценка чистой прибыли (валюта).",
+    scoreMonthlySalesHelp:
+      "Продажи/мес: оценка единиц в месяц по этому листингу.",
+    scoreEstSalesHelp:
+      "Ваша доля: консервативно достижимый объём (~1,5–8%) — не весь спрос.",
     detailDemand:
       "Спрос {n}/100 — относительный спрос на выбранном рынке. Сигнал ~30 дней / месячный темп поиска-продаж (скор, не число заказов).",
     detailSaturation:
@@ -1000,6 +1075,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     detailRisk:
       "Риск {n}/100 — оценка риска продаж/операций Dragon. Ниже = безопаснее. Этот товар: {band}.",
     detailProfit: "Чистая прибыль {currency}{profit} — оценка чистой прибыли (валюта).",
+    detailMonthlySales:
+      "Продажи {n} шт/мес — объём листинга (демо).",
+    detailEstSales:
+      "Ваша оценка доли {n} шт/мес — реалистичная доля ниши, не весь спрос.",
     riskBandLow: "низкий риск",
     riskBandMid: "средний риск",
     riskBandHigh: "высокий риск",
