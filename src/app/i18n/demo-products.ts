@@ -48,7 +48,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 28,
     imageSrc: "/products/desk-lamp.jpg",
     productUrl:
-      "https://www.amazon.de/s?k=touch+desk+lamp&tag=dragon-demo-21",
+      "https://www.amazon.de/-/en/Touch-Desk-Lamp-Rechargeable-Adjustable/dp/B0G4JYNGW4",
   },
   {
     id: "ds-organizer",
@@ -62,7 +62,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 64,
     saturation: 22,
     imageSrc: "/products/cable-organizer.jpg",
-    productUrl: "https://www.aliexpress.com/w/wholesale-cable-organizer.html",
+    productUrl: "https://www.aliexpress.com/item/1005006782854602.html",
   },
   {
     id: "ds-mug",
@@ -76,7 +76,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 68,
     saturation: 31,
     imageSrc: "/products/travel-mug.jpg",
-    productUrl: "https://www.amazon.com/s?k=leak+proof+travel+mug",
+    productUrl: "https://www.amazon.com/dp/B0DFMKH72M",
   },
   {
     id: "tr-ds-lamp",
@@ -90,7 +90,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 69,
     saturation: 26,
     imageSrc: "/products/desk-lamp.jpg",
-    productUrl: "https://www.trendyol.com/sr?q=dokunmatik%20masa%20lambasi",
+    productUrl: "https://www.trendyol.com/indecor-houseware/metal-dokunmatik-mantar-masa-lambasi-3-isik-renkli-sarjli-modern-kafe-masa-lambasi-gold-p-1152926937",
   },
   {
     id: "tr-shop-mug",
@@ -104,7 +104,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 61,
     saturation: 29,
     imageSrc: "/products/travel-mug.jpg",
-    productUrl: "https://www.trendyol.com/sr?q=seyahat%20termosu",
+    productUrl: "https://www.trendyol.com/dkadi/2-5l-premium-travel-pot-304-celik-vakumlu-kamp-seyahat-termosu-p-1188101285",
   },
   {
     id: "tr-home",
@@ -118,7 +118,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 76,
     saturation: 52,
     imageSrc: "/products/home-organizer.jpg",
-    productUrl: "https://www.trendyol.com/sr?q=mutfak%20duzenleyici",
+    productUrl: "https://www.trendyol.com/bino/mutfak-rafi-masaustu-duzenleyici-organizer-banyo-rafi-cok-amacli-duzenleyici-tezgah-ustu-raf-p-467236967",
   },
   {
     id: "ptt-kit",
@@ -132,7 +132,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 58,
     saturation: 35,
     imageSrc: "/products/kitchen-kit.jpg",
-    productUrl: "https://www.pttavm.com/arama?q=pisirme%20gerec%20seti",
+    productUrl: "https://www.pttavm.com/6li-kasik-kupasi-pisirme-gerec-seti-seti-araclari-renkli-6-adet-mutfak-aletleri-olcum-kasik-seti-p-869539305",
   },
   {
     id: "tr-cable",
@@ -146,7 +146,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 63,
     saturation: 33,
     imageSrc: "/products/cable-organizer.jpg",
-    productUrl: "https://www.hepsiburada.com/ara?q=kablo%20duzenleyici",
+    productUrl: "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0",
   },
   {
     id: "amz-oa",
@@ -160,7 +160,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 88,
     saturation: 78,
     imageSrc: "/products/wireless-buds.jpg",
-    productUrl: "https://www.amazon.com/s?k=wireless+earbuds",
+    productUrl: "https://www.amazon.com/dp/B09DT48V16",
   },
   {
     id: "amz-eu",
@@ -174,7 +174,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 74,
     saturation: 66,
     imageSrc: "/products/protein-shaker.jpg",
-    productUrl: "https://www.amazon.de/s?k=protein+shaker",
+    productUrl: "https://www.amazon.de/-/en/FSA-Nutrition-Compartment-Container-Leak-Proof/dp/B07C2ZHJNF",
   },
   {
     id: "noon-gadget",
@@ -188,7 +188,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 62,
     saturation: 44,
     imageSrc: "/products/phone-mount.jpg",
-    productUrl: "https://www.noon.com/uae-en/search?q=car%20phone%20mount",
+    productUrl: "https://www.noon.com/uae-en/magnetic-car-phone-mount-vacuum-suction-foldable-dashboard-holder-universal-4-7-7-inch-smartphones-360-adjustable-strong-magnetic-grip-durable-aluminum-alloy-magnetic-phone-holder-car-mobile-holder-magnetic-phone-holder-for-car/ZF35CE0D5F420249849B1Z/p/",
   },
   {
     id: "tt-viral",
@@ -202,7 +202,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 91,
     saturation: 71,
     imageSrc: "/products/led-strip.jpg",
-    productUrl: "https://www.amazon.com/s?k=led+strip+lights",
+    productUrl: "https://www.amazon.com/dp/B07XGKX327",
   },
   {
     id: "shop-me",
@@ -216,7 +216,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 55,
     saturation: 24,
     imageSrc: "/products/prayer-mat.jpg",
-    productUrl: "https://www.noon.com/saudi-en/search?q=travel%20prayer%20mat",
+    productUrl: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/",
   },
   {
     id: "shopee-asia",
@@ -230,7 +230,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 67,
     saturation: 49,
     imageSrc: "/products/mini-fan.jpg",
-    productUrl: "https://shopee.sg/search?keyword=mini%20usb%20fan",
+    productUrl: "https://shopee.sg/product/299068948/55860784071",
   },
   {
     id: "amz-high",
@@ -244,7 +244,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     demand: 82,
     saturation: 86,
     imageSrc: "/products/gaming-chair.jpg",
-    productUrl: "https://www.amazon.fr/s?k=fauteuil+gaming",
+    productUrl: "https://www.amazon.fr/-/en/GTPLAYER-GTPF59/dp/B0H68VN5MQ",
   },
 ];
 
@@ -310,3 +310,4 @@ export function riskBandLabel(risk: number): "low" | "mid" | "high" {
   if (risk <= 60) return "mid";
   return "high";
 }
+
