@@ -310,3 +310,5 @@ export function riskBandLabel(risk: number): "low" | "mid" | "high" {
   if (risk <= 60) return "mid";
   return "high";
 }
+
+
