@@ -170,8 +170,8 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     monthlySales: 4850,
     estMonthlySales: estimateAttainableSales(4850, 76, 52),
     imageSrc: "/products/home-organizer.jpg",
-    // Live SKU 404 — keep card for demand; no product link.
-    productUrl: null,
+    // IKEA UPPDATERA drawer organizer (matches product photo).
+    productUrl: "https://www.trendyol.com/ikea/uppdatera-cekmece-duzenleyici-antrasit-p-211232427",
   },
   {
     id: "ptt-kit",
@@ -288,7 +288,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(640, 55, 24),
     imageSrc: "/products/prayer-mat.jpg",
     // Unreliable SKU path — demand kept; no live product link.
-    productUrl: null,
+    productUrl: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/",
   },
   {
     id: "shopee-asia",
