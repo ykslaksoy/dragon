@@ -38,6 +38,8 @@ export type DemoProduct = {
    * `null` = demand signal without a live SKU link (keep in list).
    */
   productUrl: string | null;
+  /** Show “Talep var · ürün yok” on top; link may still appear below. */
+  demandLead?: boolean;
 };
 
 /** Top hunt picks shown in the results list. */
@@ -62,6 +64,35 @@ export function estimateAttainableSales(
 
 export function hasProductLink(p: DemoProduct): boolean {
   return Boolean(p.productUrl && p.productUrl.trim().length > 0);
+}
+
+/** Realistic sales scenarios from attainable base — never 100% of market volume. */
+export type SalesScenarioId = "min" | "mid" | "high";
+
+export type SalesScenario = {
+  id: SalesScenarioId;
+  units: number;
+  multiple: number;
+};
+
+export function salesScenarios(
+  estMonthlySales: number,
+  monthlySales: number,
+): SalesScenario[] {
+  const base = Math.max(1, estMonthlySales);
+  const cap = Math.max(base, Math.floor(monthlySales * 0.12));
+  const minU = Math.max(1, Math.round(base * 0.5));
+  const midU = base;
+  const highU = Math.min(cap, Math.round(base * 1.85));
+  return [
+    { id: "min", units: minU, multiple: 0.5 },
+    { id: "mid", units: midU, multiple: 1 },
+    { id: "high", units: highU, multiple: Math.round((highU / base) * 100) / 100 },
+  ];
+}
+
+export function scenarioProfit(unitProfit: number, units: number): number {
+  return Math.round(unitProfit * units);
 }
 
 /**
@@ -172,6 +203,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     imageSrc: "/products/home-organizer.jpg",
     // IKEA UPPDATERA drawer organizer (matches product photo).
     productUrl: "https://www.trendyol.com/ikea/uppdatera-cekmece-duzenleyici-antrasit-p-211232427",
+    demandLead: true,
   },
   {
     id: "ptt-kit",
@@ -289,6 +321,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     imageSrc: "/products/prayer-mat.jpg",
     // Unreliable SKU path — demand kept; no live product link.
     productUrl: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/",
+    demandLead: true,
   },
   {
     id: "shopee-asia",
