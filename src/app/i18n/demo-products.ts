@@ -119,7 +119,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(1860, 71, 28),
     imageSrc: "/products/desk-lamp.jpg",
     productUrl:
-      "https://www.amazon.de/-/en/Touch-Desk-Lamp-Rechargeable-Adjustable/dp/B0G4JYNGW4",
+      "https://www.amazon.com/dp/B08N5WRWNW",
   },
   {
     id: "ds-organizer",
@@ -168,7 +168,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(3120, 69, 26),
     imageSrc: "/products/desk-lamp.jpg",
     productUrl:
-      "https://www.trendyol.com/indecor-houseware/metal-dokunmatik-mantar-masa-lambasi-3-isik-renkli-sarjli-modern-kafe-masa-lambasi-gold-p-1152926937",
+      "https://www.trendyol.com/robeve/80-led-uzun-kollu-kelepceli-masa-lambasi-3-renk-10-kademe-parlaklik-360-ayarlanabilir-baslik-usb-mimar-calisma-okuma-cizim-lambasi-bilgisayar-masasi-lambasi-akrobatik-lamba-p-1198143553",
   },
   {
     id: "tr-shop-mug",
@@ -207,7 +207,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: "ptt-kit",
     nameKey: "kitchenKit",
-    platform: "PTT AVM",
+    platform: "Trendyol",
     path: "marketplace",
     region: "tr",
     country: "tr",
@@ -219,7 +219,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     estMonthlySales: estimateAttainableSales(1540, 58, 35),
     imageSrc: "/products/kitchen-kit.jpg",
     productUrl:
-      "https://www.pttavm.com/6li-kasik-kupasi-pisirme-gerec-seti-seti-araclari-renkli-6-adet-mutfak-aletleri-olcum-kasik-seti-p-869539305",
+      "https://www.trendyol.com/mirilliahome/50-parca-paslanmaz-celik-mutfak-seti-profesyonel-mutfak-gerecleri-ve-saklama-kaplari-p-355743489",
   },
   {
     id: "tr-cable",
