@@ -63,6 +63,15 @@ export type Dictionary = {
   openProduct: string;
   /** Demand exists but no live product URL. */
   noProductLink: string;
+  /** Top badge: demand exists / no product (or demand-led). */
+  demandLeadBadge: string;
+  scenarioTitle: string;
+  scenarioHint: string;
+  scenarioMin: string;
+  scenarioMid: string;
+  scenarioHigh: string;
+  /** `{units}` `{currency}` `{profit}` */
+  scenarioLine: string;
   detailOpen: string;
   detailClose: string;
   detailTitle: string;
@@ -216,7 +225,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "SENİN PAYIN",
     currency: "₺",
     openProduct: "Ürüne git",
-    noProductLink: "Talep var · ürün linki yok",
+    noProductLink: "Talep var · ürün yok",
+    demandLeadBadge: "Talep var · ürün yok",
+    scenarioTitle: "SATIŞ SENARYOLARI",
+    scenarioHint: "Senin aylık satışın — pazarın tamamı değil. Min / orta / iyi çalışılırsa.",
+    scenarioMin: "Minimum",
+    scenarioMid: "Orta",
+    scenarioHigh: "Yüksek (iyi çalışılırsa)",
+    scenarioLine: "{units} adet/ay · net kâr {currency}{profit}",
     detailOpen: "Öneri detayı",
     detailClose: "Detayı kapat",
     detailTitle: "Dragon önerisi",
@@ -375,7 +391,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "YOUR SHARE",
     currency: "$",
     openProduct: "Open product",
-    noProductLink: "Demand · no product link",
+    noProductLink: "Demand · no product",
+    demandLeadBadge: "Demand · no product",
+    scenarioTitle: "SALES SCENARIOS",
+    scenarioHint: "Your monthly units — not the whole market. Min / mid / if it goes well.",
+    scenarioMin: "Minimum",
+    scenarioMid: "Mid",
+    scenarioHigh: "High (if it goes well)",
+    scenarioLine: "{units} units/mo · net profit {currency}{profit}",
     detailOpen: "Why we recommend",
     detailClose: "Close detail",
     detailTitle: "Dragon recommendation",
@@ -547,7 +570,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "DEIN ANTEIL",
     currency: "€",
     openProduct: "Produkt öffnen",
-    noProductLink: "Nachfrage · kein Produktlink",
+    noProductLink: "Nachfrage · kein Produkt",
+    demandLeadBadge: "Nachfrage · kein Produkt",
+    scenarioTitle: "VERKAUFSSZENARIEN",
+    scenarioHint: "Deine Monatsmenge — nicht der ganze Markt. Min / mittel / wenn es gut läuft.",
+    scenarioMin: "Minimum",
+    scenarioMid: "Mittel",
+    scenarioHigh: "Hoch (wenn es gut läuft)",
+    scenarioLine: "{units} Stk/Monat · Nettogewinn {currency}{profit}",
     detailOpen: "Empfehlungsdetail",
     detailClose: "Detail schließen",
     detailTitle: "Dragon-Empfehlung",
@@ -719,7 +749,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "VOTRE PART",
     currency: "€",
     openProduct: "Voir le produit",
-    noProductLink: "Demande · pas de lien produit",
+    noProductLink: "Demande · pas de produit",
+    demandLeadBadge: "Demande · pas de produit",
+    scenarioTitle: "SCÉNARIOS DE VENTE",
+    scenarioHint: "Vos unités / mois — pas tout le marché. Min / moyen / si ça marche bien.",
+    scenarioMin: "Minimum",
+    scenarioMid: "Moyen",
+    scenarioHigh: "Élevé (si ça marche bien)",
+    scenarioLine: "{units} u/mois · profit net {currency}{profit}",
     detailOpen: "Détail de l’offre",
     detailClose: "Fermer le détail",
     detailTitle: "Recommandation Dragon",
@@ -891,7 +928,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "预估份额",
     currency: "¥",
     openProduct: "打开商品",
-    noProductLink: "有需求 · 无商品链接",
+    noProductLink: "有需求 · 无商品",
+    demandLeadBadge: "有需求 · 无商品",
+    scenarioTitle: "销售情景",
+    scenarioHint: "你的月销量 — 不是整个市场。最低 / 中等 / 运营得好。",
+    scenarioMin: "最低",
+    scenarioMid: "中等",
+    scenarioHigh: "高（运营得好）",
+    scenarioLine: "{units} 件/月 · 净利润 {currency}{profit}",
     detailOpen: "推荐详情",
     detailClose: "关闭详情",
     detailTitle: "Dragon 推荐",
@@ -1053,7 +1097,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
     estSalesLabel: "ВАША ДОЛЯ",
     currency: "$",
     openProduct: "Открыть товар",
-    noProductLink: "Спрос · нет ссылки на товар",
+    noProductLink: "Спрос · нет товара",
+    demandLeadBadge: "Спрос · нет товара",
+    scenarioTitle: "СЦЕНАРИИ ПРОДАЖ",
+    scenarioHint: "Ваши шт/мес — не весь рынок. Мин / средне / если пойдёт хорошо.",
+    scenarioMin: "Минимум",
+    scenarioMid: "Средне",
+    scenarioHigh: "Высокий (если пойдёт хорошо)",
+    scenarioLine: "{units} шт/мес · чистая прибыль {currency}{profit}",
     detailOpen: "Детали рекомендации",
     detailClose: "Закрыть детали",
     detailTitle: "Рекомендация Dragon",
