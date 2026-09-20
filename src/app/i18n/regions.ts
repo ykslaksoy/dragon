@@ -100,7 +100,8 @@ export const PLATFORMS: Platform[] = [
     id: "keepa",
     name: "Keepa",
     src: "/platforms/keepa.svg",
-    regions: ["tr", "eu", "us"],
+    // Keepa does not track amazon.com.tr — omit TR.
+    regions: ["eu", "us"],
     kind: "tool",
   },
   // Orta Doğu
