@@ -8,16 +8,13 @@ import {
   isLowRiskPath,
   salesScenarios,
   scenarioProfit,
+  totalProfit,
+  totalRevenue,
 } from "../i18n/demo-products";
 
 export type ProductResultsCopy = {
   title: string;
   empty: string;
-  profitLabel: string;
-  demandLabel: string;
-  saturationLabel: string;
-  monthlySalesLabel: string;
-  estSalesLabel: string;
   softSteer: string;
   currency: string;
   openProduct: string;
@@ -25,12 +22,19 @@ export type ProductResultsCopy = {
   detailOpen: string;
   detailClose: string;
   detailTitle: string;
-  scoreDemandHelp: string;
-  scoreSaturationHelp: string;
-  scoreProfitHelp: string;
-  scoreMonthlySalesHelp: string;
-  scoreEstSalesHelp: string;
   demandLeadBadge: string;
+  /** Row 1 */
+  monthlySalesLabel: string;
+  netProfitLabel: string;
+  totalProfitLabel: string;
+  totalRevenueLabel: string;
+  /** Row 2 */
+  targetSalesLabel: string;
+  scoreMonthlySalesHelp: string;
+  scoreNetProfitHelp: string;
+  scoreTotalProfitHelp: string;
+  scoreTotalRevenueHelp: string;
+  scoreTargetSalesHelp: string;
   platformBreakdownTitle: string;
   platformCol: string;
   unitsCol: string;
@@ -43,7 +47,6 @@ export type ProductResultsCopy = {
   scenarioMid: string;
   scenarioHigh: string;
   platformsCol: string;
-  /** `{n}` */
   platformsCell: string;
   scenarioUnits: string;
   scenarioProfitCol: string;
@@ -222,7 +225,7 @@ function ProductRow({
             {tracked > 1 ? ` · ${tracked} platform` : ""}
           </div>
 
-          <div className="mt-2.5 flex flex-wrap items-end justify-between gap-2">
+          <div className="mt-2.5 space-y-2">
             <div className="flex flex-wrap gap-3 sm:gap-4">
               <Metric
                 label={copy.monthlySalesLabel}
@@ -231,24 +234,42 @@ function ProductRow({
                 help={copy.scoreMonthlySalesHelp}
               />
               <Metric
-                label={copy.estSalesLabel}
+                label={copy.netProfitLabel}
+                value={`${copy.currency}${formatUnits(p.profit)}`}
+                help={copy.scoreNetProfitHelp}
+              />
+              <Metric
+                label={copy.totalProfitLabel}
+                value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.monthlySales))}`}
+                help={copy.scoreTotalProfitHelp}
+              />
+              <Metric
+                label={copy.totalRevenueLabel}
+                value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.monthlySales))}`}
+                help={copy.scoreTotalRevenueHelp}
+              />
+            </div>
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              <Metric
+                label={copy.targetSalesLabel}
                 value={formatUnits(p.estMonthlySales)}
-                help={copy.scoreEstSalesHelp}
+                valueClass="text-white/90"
+                help={copy.scoreTargetSalesHelp}
               />
               <Metric
-                label={copy.demandLabel}
-                value={p.demand}
-                help={copy.scoreDemandHelp}
+                label={copy.netProfitLabel}
+                value={`${copy.currency}${formatUnits(p.profit)}`}
+                help={copy.scoreNetProfitHelp}
               />
               <Metric
-                label={copy.saturationLabel}
-                value={p.saturation}
-                help={copy.scoreSaturationHelp}
+                label={copy.totalProfitLabel}
+                value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.estMonthlySales))}`}
+                help={copy.scoreTotalProfitHelp}
               />
               <Metric
-                label={copy.profitLabel}
-                value={`${copy.currency}${p.profit}`}
-                help={copy.scoreProfitHelp}
+                label={copy.totalRevenueLabel}
+                value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.estMonthlySales))}`}
+                help={copy.scoreTotalRevenueHelp}
               />
             </div>
           </div>
