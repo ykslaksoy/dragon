@@ -85,12 +85,12 @@ function Metric({
   help: string;
 }) {
   return (
-    <div className="min-w-[3.1rem] text-right" title={help}>
-      <div className="mono text-[9px] tracking-[0.14em] text-white/25">
+    <div className="min-w-0 text-left" title={help}>
+      <div className="mono truncate text-[8px] tracking-[0.1em] text-white/30 sm:text-[9px] sm:tracking-[0.12em]">
         {label}
       </div>
       <div
-        className={`mt-0.5 text-[14px] font-semibold tabular-nums sm:text-[15px] ${valueClass ?? "text-white/90"}`}
+        className={`mt-0.5 truncate text-[13px] font-semibold tabular-nums sm:text-[14px] ${valueClass ?? "text-white/90"}`}
       >
         {value}
       </div>
@@ -199,82 +199,84 @@ function ProductRow({
 
   return (
     <li className="bg-[#0E0E10]">
-      <div className="flex gap-3 px-3 py-3.5 sm:gap-4 sm:px-5 sm:py-4">
-        <ProductThumb product={p} name={name} openLabel={copy.openProduct} />
-
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-col gap-1.5">
-            {showDemandBadge ? (
-              <span className="mono w-fit rounded border border-amber-300/35 bg-amber-300/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-amber-100/95">
-                {copy.demandLeadBadge}
-              </span>
-            ) : null}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[14px] font-medium leading-snug text-white/90">
-                {name}
-              </span>
-              {soft ? (
-                <span className="mono rounded border border-[#8CFF4D]/25 bg-[#8CFF4D]/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-[#8CFF4D]/90">
-                  DS / SHOPIFY
+      <div className="px-3 py-3.5 sm:px-5 sm:py-4">
+        <div className="flex gap-3 sm:gap-4">
+          <ProductThumb product={p} name={name} openLabel={copy.openProduct} />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-col gap-1.5">
+              {showDemandBadge ? (
+                <span className="mono w-fit rounded border border-amber-300/35 bg-amber-300/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-amber-100/95">
+                  {copy.demandLeadBadge}
                 </span>
               ) : null}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[14px] font-medium leading-snug text-white/90">
+                  {name}
+                </span>
+                {soft ? (
+                  <span className="mono rounded border border-[#8CFF4D]/25 bg-[#8CFF4D]/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-[#8CFF4D]/90">
+                    DS / SHOPIFY
+                  </span>
+                ) : null}
+              </div>
+            </div>
+            <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
+              {p.platform}
+              {tracked > 1 ? ` · ${tracked} platform` : ""}
             </div>
           </div>
-          <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
-            {p.platform}
-            {tracked > 1 ? ` · ${tracked} platform` : ""}
-          </div>
+        </div>
 
-          <div className="mt-2.5 space-y-2">
-            <div className="flex flex-wrap gap-3 sm:gap-4">
-              <Metric
-                label={copy.monthlySalesLabel}
-                value={formatUnits(p.monthlySales)}
-                valueClass="text-[#8CFF4D]/95"
-                help={copy.scoreMonthlySalesHelp}
-              />
-              <Metric
-                label={copy.netProfitLabel}
-                value={`${copy.currency}${formatUnits(p.profit)}`}
-                help={copy.scoreNetProfitHelp}
-              />
-              <Metric
-                label={copy.totalProfitLabel}
-                value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.monthlySales))}`}
-                help={copy.scoreTotalProfitHelp}
-              />
-              <Metric
-                label={copy.totalRevenueLabel}
-                value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.monthlySales))}`}
-                help={copy.scoreTotalRevenueHelp}
-              />
-            </div>
-            <div className="flex flex-wrap gap-3 sm:gap-4">
-              <Metric
-                label={copy.targetSalesLabel}
-                value={formatUnits(p.estMonthlySales)}
-                valueClass="text-white/90"
-                help={copy.scoreTargetSalesHelp}
-              />
-              <Metric
-                label={copy.netProfitLabel}
-                value={`${copy.currency}${formatUnits(p.profit)}`}
-                help={copy.scoreNetProfitHelp}
-              />
-              <Metric
-                label={copy.totalProfitLabel}
-                value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.estMonthlySales))}`}
-                help={copy.scoreTotalProfitHelp}
-              />
-              <Metric
-                label={copy.totalRevenueLabel}
-                value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.estMonthlySales))}`}
-                help={copy.scoreTotalRevenueHelp}
-              />
-            </div>
+        <div className="mt-3 space-y-2">
+          <div className="grid grid-cols-4 gap-2 sm:gap-3">
+            <Metric
+              label={copy.monthlySalesLabel}
+              value={formatUnits(p.monthlySales)}
+              valueClass="text-[#8CFF4D]/95"
+              help={copy.scoreMonthlySalesHelp}
+            />
+            <Metric
+              label={copy.netProfitLabel}
+              value={`${copy.currency}${formatUnits(p.profit)}`}
+              help={copy.scoreNetProfitHelp}
+            />
+            <Metric
+              label={copy.totalProfitLabel}
+              value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.monthlySales))}`}
+              help={copy.scoreTotalProfitHelp}
+            />
+            <Metric
+              label={copy.totalRevenueLabel}
+              value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.monthlySales))}`}
+              help={copy.scoreTotalRevenueHelp}
+            />
           </div>
+          <div className="grid grid-cols-4 gap-2 sm:gap-3">
+            <Metric
+              label={copy.targetSalesLabel}
+              value={formatUnits(p.estMonthlySales)}
+              valueClass="text-white/90"
+              help={copy.scoreTargetSalesHelp}
+            />
+            <Metric
+              label={copy.netProfitLabel}
+              value={`${copy.currency}${formatUnits(p.profit)}`}
+              help={copy.scoreNetProfitHelp}
+            />
+            <Metric
+              label={copy.totalProfitLabel}
+              value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.estMonthlySales))}`}
+              help={copy.scoreTotalProfitHelp}
+            />
+            <Metric
+              label={copy.totalRevenueLabel}
+              value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.estMonthlySales))}`}
+              help={copy.scoreTotalRevenueHelp}
+            />
+          </div>
+        </div>
 
-          <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
             {linked && p.productUrl ? (
               <a
                 href={p.productUrl}
@@ -399,7 +401,7 @@ export function ProductResults({ products, nameOf, copy }: Props) {
   return (
     <section
       id="hunt"
-      className="relative z-10 mx-auto max-w-[1280px] px-4 pb-10 sm:px-10 sm:pb-12"
+      className="relative z-10 mx-auto max-w-[1400px] px-4 pb-10 sm:px-10 sm:pb-12"
     >
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
         <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-white/85 sm:text-[16px]">
@@ -415,7 +417,7 @@ export function ProductResults({ products, nameOf, copy }: Props) {
           {copy.empty}
         </p>
       ) : (
-        <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-[14px] border border-white/[0.06] bg-white/[0.06] p-px lg:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-[14px] border border-white/[0.06] bg-white/[0.06] p-px xl:grid-cols-2">
           {products.map((p) => (
             <ProductRow
               key={p.id}
