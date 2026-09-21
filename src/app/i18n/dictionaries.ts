@@ -56,6 +56,15 @@ export type Dictionary = {
   saturationLabel: string;
   /** Marketplace listing monthly unit volume (demo). */
   monthlySalesLabel: string;
+
+  netProfitLabel: string;
+  totalProfitLabel: string;
+  totalRevenueLabel: string;
+  targetSalesLabel: string;
+  scoreNetProfitHelp: string;
+  scoreTotalProfitHelp: string;
+  scoreTotalRevenueHelp: string;
+  scoreTargetSalesHelp: string;
   /** Conservative attainable share if you sell — not 100% of demand. */
   estSalesLabel: string;
   currency: string;
@@ -232,8 +241,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "RİSK",
     demandLabel: "TALEP",
     saturationLabel: "DOYGUNLUK",
-    monthlySalesLabel: "AYLIK TOPLAM",
-    estSalesLabel: "SENİN PAYIN",
+    monthlySalesLabel: "AYLIK SATIŞ",
+    scoreTargetSalesHelp: "Senin hedeflediğin / erişilebilir ortalama aylık satış adedi (pazarın tamamı değil).",
+    scoreTotalRevenueHelp: "Fiyat × adet (ilgili satırın hacmi).",
+    scoreTotalProfitHelp: "Net kâr × adet (ilgili satırın hacmi).",
+    scoreNetProfitHelp: "Birim başına tahmini net kâr.",
+    targetSalesLabel: "HEDEFLENEN AYLIK SATIŞ",
+    totalRevenueLabel: "TOPLAM CİRO",
+    totalProfitLabel: "TOPLAM KÂR",
+    netProfitLabel: "NET KÂR",
+    estSalesLabel: "HEDEFLENEN AYLIK SATIŞ",
     currency: "₺",
     openProduct: "Ürüne git",
     noProductLink: "Talep var · ürün yok",
@@ -265,9 +282,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Risk 0–100: Dragon satış/iş riski. Düşük sayı = daha güvenli (örn. 22 = düşük).",
     scoreProfitHelp: "Net kâr: tahmini net kâr (para birimi).",
     scoreMonthlySalesHelp:
-      "Aylık satış: bu ürünün pazaryerindeki tahmini aylık adet (listeleme hacmi).",
+      "Pazaryerinde bu ürünün tahmini aylık satış adedi.",
     scoreEstSalesHelp:
-      "Senin payın: konservatif tahmin — pazarın %100’ü değil; doygunluk/talep ile ~%1,5–8 pay.",
+      "Senin hedeflediğin / erişilebilir ortalama aylık satış adedi (pazarın tamamı değil).",
     detailDemand:
       "Talep {n}/100 — seçilen pazarda göreli talep gücü. Sinyal son ~30 gün / aylık arama-satış hızına dayanır (ham sipariş sayısı değil, skor).",
     detailSaturation:
@@ -408,8 +425,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "RISK",
     demandLabel: "DEMAND",
     saturationLabel: "SATURATION",
-    monthlySalesLabel: "MONTHLY TOTAL",
-    estSalesLabel: "YOUR SHARE",
+    monthlySalesLabel: "MO. SALES",
+    scoreTargetSalesHelp: "Your target / attainable average monthly units — not the whole market.",
+    scoreTotalRevenueHelp: "Price × units for this row’s volume.",
+    scoreTotalProfitHelp: "Net profit × units for this row’s volume.",
+    scoreNetProfitHelp: "Estimated net profit per unit.",
+    targetSalesLabel: "TARGET MO. SALES",
+    totalRevenueLabel: "TOTAL REVENUE",
+    totalProfitLabel: "TOTAL PROFIT",
+    netProfitLabel: "NET PROFIT",
+    estSalesLabel: "TARGET MO. SALES",
     currency: "$",
     openProduct: "Open product",
     noProductLink: "Demand · no product",
@@ -441,9 +466,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Risk 0–100: Dragon sales/ops risk. Lower = safer (e.g. 22 = low).",
     scoreProfitHelp: "Net profit: estimated net profit (currency).",
     scoreMonthlySalesHelp:
-      "Monthly sales: estimated units/month for this marketplace listing.",
+      "Estimated monthly units sold for this listing on the marketplace.",
     scoreEstSalesHelp:
-      "Your share: conservative attainable units (~1.5–8% of listing volume) — not full demand.",
+      "Your target / attainable average monthly units — not the whole market.",
     detailDemand:
       "Demand {n}/100 — relative demand in the selected market. Based on ~30-day / monthly search–sales pace (a score, not raw order count).",
     detailSaturation:
@@ -597,8 +622,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "RISIKO",
     demandLabel: "NACHFRAGE",
     saturationLabel: "SÄTTIGUNG",
-    monthlySalesLabel: "MONATLICH GESAMT",
-    estSalesLabel: "DEIN ANTEIL",
+    monthlySalesLabel: "MTL. VERKAUF",
+    scoreTargetSalesHelp: "Dein Ziel / erreichbarer Monatsabsatz — nicht der ganze Markt.",
+    scoreTotalRevenueHelp: "Preis × Stückzahl dieser Zeile.",
+    scoreTotalProfitHelp: "Nettogewinn × Stückzahl dieser Zeile.",
+    scoreNetProfitHelp: "Geschätzter Nettogewinn pro Stück.",
+    targetSalesLabel: "ZIEL MTL. VERKAUF",
+    totalRevenueLabel: "GESAMTUMSATZ",
+    totalProfitLabel: "GESAMTGEWINN",
+    netProfitLabel: "NETTOGEWINN",
+    estSalesLabel: "ZIEL MTL. VERKAUF",
     currency: "€",
     openProduct: "Produkt öffnen",
     noProductLink: "Nachfrage · kein Produkt",
@@ -630,9 +663,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Risiko 0–100: Dragon Verkaufs-/Betriebsrisiko. Niedriger = sicherer (z. B. 22 = niedrig).",
     scoreProfitHelp: "Nettogewinn: geschätzter Nettogewinn (Währung).",
     scoreMonthlySalesHelp:
-      "Monatsverkäufe: geschätzte Stück/Monat für dieses Listing.",
+      "Geschätzte monatliche Stückzahl dieses Listings.",
     scoreEstSalesHelp:
-      "Dein Anteil: konservativ erreichbar (~1,5–8 % des Listing-Volumens) — nicht die volle Nachfrage.",
+      "Dein Ziel / erreichbarer Monatsabsatz — nicht der ganze Markt.",
     detailDemand:
       "Nachfrage {n}/100 — relative Nachfrage im gewählten Markt. Signal aus ~30 Tagen / monatlichem Such-Verkaufstempo (Score, keine Rohbestellzahl).",
     detailSaturation:
@@ -786,8 +819,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "RISQUE",
     demandLabel: "DEMANDE",
     saturationLabel: "SATURATION",
-    monthlySalesLabel: "TOTAL MENSUEL",
-    estSalesLabel: "VOTRE PART",
+    monthlySalesLabel: "VENTES / MOIS",
+    scoreTargetSalesHelp: "Ton volume mensuel cible / accessible — pas tout le marché.",
+    scoreTotalRevenueHelp: "Prix × unités de cette ligne.",
+    scoreTotalProfitHelp: "Bénéfice net × unités de cette ligne.",
+    scoreNetProfitHelp: "Bénéfice net estimé par unité.",
+    targetSalesLabel: "VENTES CIBLES / MOIS",
+    totalRevenueLabel: "CA TOTAL",
+    totalProfitLabel: "BÉNÉFICE TOTAL",
+    netProfitLabel: "BÉNÉFICE NET",
+    estSalesLabel: "VENTES CIBLES / MOIS",
     currency: "€",
     openProduct: "Voir le produit",
     noProductLink: "Demande · pas de produit",
@@ -819,9 +860,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Risque 0–100 : risque vente/ops Dragon. Plus bas = plus sûr (ex. 22 = faible).",
     scoreProfitHelp: "Bénéfice net : bénéfice net estimé (devise).",
     scoreMonthlySalesHelp:
-      "Ventes mensuelles : unités/mois estimées pour cette fiche marketplace.",
+      "Unités mensuelles estimées pour cette fiche.",
     scoreEstSalesHelp:
-      "Votre part : volume atteignable (~1,5–8 %) — pas toute la demande.",
+      "Ton volume mensuel cible / accessible — pas tout le marché.",
     detailDemand:
       "Demande {n}/100 — demande relative sur le marché choisi. Signal ~30 jours / rythme recherche-ventes mensuel (score, pas nombre de commandes).",
     detailSaturation:
@@ -975,8 +1016,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "风险",
     demandLabel: "需求",
     saturationLabel: "饱和度",
-    monthlySalesLabel: "月销量合计",
-    estSalesLabel: "你的份额",
+    monthlySalesLabel: "月销量",
+    scoreTargetSalesHelp: "你的目标/可达月销量 — 不是整个市场。",
+    scoreTotalRevenueHelp: "价格 × 本行件数。",
+    scoreTotalProfitHelp: "净利润 × 本行件数。",
+    scoreNetProfitHelp: "单件预估净利润。",
+    targetSalesLabel: "目标月销量",
+    totalRevenueLabel: "总营收",
+    totalProfitLabel: "总利润",
+    netProfitLabel: "净利润",
+    estSalesLabel: "目标月销量",
     currency: "¥",
     openProduct: "打开商品",
     noProductLink: "有需求 · 无商品",
@@ -1004,8 +1053,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     scoreSaturationHelp: "饱和度 0–100：赛道拥挤程度。越高越挤。",
     scoreRiskHelp: "风险 0–100：Dragon 销售/运营风险。越低越安全（如 22 = 低）。",
     scoreProfitHelp: "净利润：预估净利润（货币）。",
-    scoreMonthlySalesHelp: "月销量：该商品在平台上的预估月销量。",
-    scoreEstSalesHelp: "预估份额：保守可达份额（约 1.5–8%），不是全部需求。",
+    scoreMonthlySalesHelp: "该 listing 的预估月销量。",
+    scoreEstSalesHelp: "你的目标/可达月销量 — 不是整个市场。",
     detailDemand:
       "需求 {n}/100 — 所选市场的相对需求。信号基于近约 30 天 / 月度搜索-销售节奏（评分，非原始订单数）。",
     detailSaturation:
@@ -1154,8 +1203,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
     riskLabel: "РИСК",
     demandLabel: "СПРОС",
     saturationLabel: "НАСЫЩ.",
-    monthlySalesLabel: "ИТОГО В МЕСЯЦ",
-    estSalesLabel: "ВАША ДОЛЯ",
+    monthlySalesLabel: "ПРОДАЖИ / МЕС",
+    scoreTargetSalesHelp: "Твой целевой / достижимый месячный объём — не весь рынок.",
+    scoreTotalRevenueHelp: "Цена × штуки этой строки.",
+    scoreTotalProfitHelp: "Чистая прибыль × штуки этой строки.",
+    scoreNetProfitHelp: "Оценка чистой прибыли за единицу.",
+    targetSalesLabel: "ЦЕЛЬ ПРОДАЖ / МЕС",
+    totalRevenueLabel: "ОБЩАЯ ВЫРУЧКА",
+    totalProfitLabel: "ОБЩАЯ ПРИБЫЛЬ",
+    netProfitLabel: "ЧИСТАЯ ПРИБЫЛЬ",
+    estSalesLabel: "ЦЕЛЬ ПРОДАЖ / МЕС",
     currency: "$",
     openProduct: "Открыть товар",
     noProductLink: "Спрос · нет товара",
@@ -1187,9 +1244,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "Риск 0–100: риск продаж/операций Dragon. Ниже = безопаснее (напр. 22 = низкий).",
     scoreProfitHelp: "Чистая прибыль: оценка чистой прибыли (валюта).",
     scoreMonthlySalesHelp:
-      "Продажи/мес: оценка единиц в месяц по этому листингу.",
+      "Оценка месячных продаж этого листинга.",
     scoreEstSalesHelp:
-      "Ваша доля: консервативно достижимый объём (~1,5–8%) — не весь спрос.",
+      "Твой целевой / достижимый месячный объём — не весь рынок.",
     detailDemand:
       "Спрос {n}/100 — относительный спрос на выбранном рынке. Сигнал ~30 дней / месячный темп поиска-продаж (скор, не число заказов).",
     detailSaturation:
