@@ -6,7 +6,8 @@ export type RiskMode = "low" | "balanced" | "high";
 export type SortMode = "sales" | "profit" | "risk";
 export type ProductPath = "dropship" | "shopify" | "amazon" | "marketplace";
 
-/** Per-marketplace monthly unit volume (demo / research estimate). */
+/** Per-marketplace row — only include platforms with a real product URL (no invented splits). */
+/** Only platforms with a real productUrl — never invent cross-marketplace splits. */
 export type PlatformSale = {
   platform: string;
   units: number;
@@ -138,9 +139,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 28,
     monthlySales: 1860,
     platformSales: [
-      { platform: "Amazon", units: 1240, url: "https://www.amazon.com/dp/B08N5WRWNW" },
-      { platform: "Walmart", units: 420 },
-      { platform: "eBay", units: 200 },
+      { platform: "Amazon", units: 1860, url: "https://www.amazon.com/dp/B08N5WRWNW" },
     ],
     estMonthlySales: estimateAttainableSales(1860, 71, 28),
     imageSrc: "/products/desk-lamp.jpg",
@@ -160,9 +159,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 22,
     monthlySales: 4200,
     platformSales: [
-      { platform: "AliExpress", units: 2800, url: "https://www.aliexpress.com/item/1005006782854602.html" },
-      { platform: "Amazon", units: 980 },
-      { platform: "eBay", units: 420 },
+      { platform: "AliExpress", units: 4200, url: "https://www.aliexpress.com/item/1005006782854602.html" },
     ],
     estMonthlySales: estimateAttainableSales(4200, 64, 22),
     imageSrc: "/products/cable-organizer.jpg",
@@ -181,9 +178,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 31,
     monthlySales: 2410,
     platformSales: [
-      { platform: "Amazon", units: 1680, url: "https://www.amazon.com/dp/B01GWUBWWA" },
-      { platform: "Walmart", units: 520 },
-      { platform: "Target", units: 210 },
+      { platform: "Amazon", units: 2410, url: "https://www.amazon.com/dp/B01GWUBWWA" },
     ],
     estMonthlySales: estimateAttainableSales(2410, 68, 31),
     imageSrc: "/products/travel-mug.jpg",
@@ -202,9 +197,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 26,
     monthlySales: 3120,
     platformSales: [
-      { platform: "Trendyol", units: 2140, url: "https://www.trendyol.com/robeve/80-led-uzun-kollu-kelepceli-masa-lambasi-3-renk-10-kademe-parlaklik-360-ayarlanabilir-baslik-usb-mimar-calisma-okuma-cizim-lambasi-bilgisayar-masasi-lambasi-akrobatik-lamba-p-1198143553" },
-      { platform: "Hepsiburada", units: 720 },
-      { platform: "Amazon TR", units: 260 },
+      { platform: "Trendyol", units: 3120, url: "https://www.trendyol.com/robeve/80-led-uzun-kollu-kelepceli-masa-lambasi-3-renk-10-kademe-parlaklik-360-ayarlanabilir-baslik-usb-mimar-calisma-okuma-cizim-lambasi-bilgisayar-masasi-lambasi-akrobatik-lamba-p-1198143553" },
     ],
     estMonthlySales: estimateAttainableSales(3120, 69, 26),
     imageSrc: "/products/desk-lamp.jpg",
@@ -224,9 +217,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 29,
     monthlySales: 2680,
     platformSales: [
-      { platform: "Trendyol", units: 1620, url: "https://www.trendyol.com/mepal/insulated-bottle-gri-termos-ellipse-yalitimli-sise-p-750367964" },
-      { platform: "Hepsiburada", units: 740 },
-      { platform: "Amazon TR", units: 320 },
+      { platform: "Trendyol", units: 2680, url: "https://www.trendyol.com/mepal/insulated-bottle-gri-termos-ellipse-yalitimli-sise-p-750367964" },
     ],
     estMonthlySales: estimateAttainableSales(2680, 61, 29),
     imageSrc: "/products/travel-mug.jpg",
@@ -246,9 +237,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 52,
     monthlySales: 4850,
     platformSales: [
-      { platform: "IKEA", units: 3180, url: "https://www.ikea.com.tr/urun/uppdatera-antrasit-80-cm-cekmece-duzenleyici-00460011" },
-      { platform: "Trendyol", units: 1120 },
-      { platform: "Hepsiburada", units: 550 },
+      { platform: "IKEA", units: 4850, url: "https://www.ikea.com.tr/urun/uppdatera-antrasit-80-cm-cekmece-duzenleyici-00460011" },
     ],
     estMonthlySales: estimateAttainableSales(4850, 76, 52),
     imageSrc: "/products/home-organizer.jpg",
@@ -268,9 +257,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 35,
     monthlySales: 1540,
     platformSales: [
-      { platform: "Trendyol", units: 980, url: "https://www.trendyol.com/mirilliahome/50-parca-paslanmaz-celik-mutfak-seti-profesyonel-mutfak-gerecleri-ve-saklama-kaplari-p-355743489" },
-      { platform: "Hepsiburada", units: 410 },
-      { platform: "PTT AVM", units: 150 },
+      { platform: "Trendyol", units: 1540, url: "https://www.trendyol.com/mirilliahome/50-parca-paslanmaz-celik-mutfak-seti-profesyonel-mutfak-gerecleri-ve-saklama-kaplari-p-355743489" },
     ],
     estMonthlySales: estimateAttainableSales(1540, 58, 35),
     imageSrc: "/products/kitchen-kit.jpg",
@@ -290,9 +277,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 33,
     monthlySales: 2210,
     platformSales: [
-      { platform: "Hepsiburada", units: 1280, url: "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0" },
-      { platform: "Trendyol", units: 690 },
-      { platform: "Amazon TR", units: 240 },
+      { platform: "Hepsiburada", units: 2210, url: "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0" },
     ],
     estMonthlySales: estimateAttainableSales(2210, 63, 33),
     imageSrc: "/products/cable-organizer.jpg",
@@ -312,9 +297,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 78,
     monthlySales: 9200,
     platformSales: [
-      { platform: "Amazon US", units: 6100, url: "https://www.amazon.com/dp/B09DT48V16" },
-      { platform: "Amazon CA", units: 1800 },
-      { platform: "Walmart", units: 1300 },
+      { platform: "Amazon US", units: 9200, url: "https://www.amazon.com/dp/B09DT48V16" },
     ],
     estMonthlySales: estimateAttainableSales(9200, 88, 78),
     imageSrc: "/products/wireless-buds.jpg",
@@ -333,9 +316,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 66,
     monthlySales: 5100,
     platformSales: [
-      { platform: "Amazon DE", units: 2900, url: "https://www.amazon.de/-/en/FSA-Nutrition-Compartment-Container-Leak-Proof/dp/B07C2ZHJNF" },
-      { platform: "Amazon FR", units: 1400 },
-      { platform: "Amazon UK", units: 800 },
+      { platform: "Amazon DE", units: 5100, url: "https://www.amazon.de/-/en/FSA-Nutrition-Compartment-Container-Leak-Proof/dp/B07C2ZHJNF" },
     ],
     estMonthlySales: estimateAttainableSales(5100, 74, 66),
     imageSrc: "/products/protein-shaker.jpg",
@@ -355,9 +336,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 44,
     monthlySales: 980,
     platformSales: [
-      { platform: "noon AE", units: 620, url: "https://www.noon.com/uae-en/magnetic-car-phone-mount-vacuum-suction-foldable-dashboard-holder-universal-4-7-7-inch-smartphones-360-adjustable-strong-magnetic-grip-durable-aluminum-alloy-magnetic-phone-holder-car-mobile-holder-magnetic-phone-holder-for-car/ZF35CE0D5F420249849B1Z/p/" },
-      { platform: "Amazon AE", units: 240 },
-      { platform: "noon SA", units: 120 },
+      { platform: "noon AE", units: 980, url: "https://www.noon.com/uae-en/magnetic-car-phone-mount-vacuum-suction-foldable-dashboard-holder-universal-4-7-7-inch-smartphones-360-adjustable-strong-magnetic-grip-durable-aluminum-alloy-magnetic-phone-holder-car-mobile-holder-magnetic-phone-holder-for-car/ZF35CE0D5F420249849B1Z/p/" },
     ],
     estMonthlySales: estimateAttainableSales(980, 62, 44),
     imageSrc: "/products/phone-mount.jpg",
@@ -367,7 +346,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: "tt-viral",
     nameKey: "ledStrip",
-    platform: "TikTok Shop",
+    platform: "Amazon",
     path: "marketplace",
     region: "us",
     country: "us",
@@ -377,9 +356,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 71,
     monthlySales: 11200,
     platformSales: [
-      { platform: "TikTok Shop", units: 6400, url: "https://www.amazon.com/dp/B07XGKX327" },
-      { platform: "Amazon", units: 3100 },
-      { platform: "Walmart", units: 1700 },
+      { platform: "Amazon", units: 11200, url: "https://www.amazon.com/dp/B07XGKX327" },
     ],
     estMonthlySales: estimateAttainableSales(11200, 91, 71),
     imageSrc: "/products/led-strip.jpg",
@@ -398,9 +375,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 24,
     monthlySales: 640,
     platformSales: [
-      { platform: "noon SA", units: 410, url: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/" },
-      { platform: "Shopify", units: 150 },
-      { platform: "Amazon SA", units: 80 },
+      { platform: "noon SA", units: 640, url: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/" },
     ],
     estMonthlySales: estimateAttainableSales(640, 55, 24),
     imageSrc: "/products/prayer-mat.jpg",
@@ -421,9 +396,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 49,
     monthlySales: 1730,
     platformSales: [
-      { platform: "Shopee SG", units: 980, url: "https://shopee.sg/product/299068948/55860784071" },
-      { platform: "Shopee MY", units: 480 },
-      { platform: "Lazada", units: 270 },
+      { platform: "Shopee SG", units: 1730, url: "https://shopee.sg/product/299068948/55860784071" },
     ],
     estMonthlySales: estimateAttainableSales(1730, 67, 49),
     imageSrc: "/products/mini-fan.jpg",
@@ -442,9 +415,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     saturation: 86,
     monthlySales: 760,
     platformSales: [
-      { platform: "Amazon FR", units: 420, url: "https://www.amazon.fr/-/en/GTPLAYER-GTPF59/dp/B0H68VN5MQ" },
-      { platform: "Amazon DE", units: 220 },
-      { platform: "Amazon ES", units: 120 },
+      { platform: "Amazon FR", units: 760, url: "https://www.amazon.fr/-/en/GTPLAYER-GTPF59/dp/B0H68VN5MQ" },
     ],
     estMonthlySales: estimateAttainableSales(760, 82, 86),
     imageSrc: "/products/gaming-chair.jpg",
