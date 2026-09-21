@@ -22,6 +22,7 @@ export type DemoProduct = {
   region: RegionId;
   country: CountryId;
   /** Net profit in local display units (demo). */
+  price: number;
   profit: number;
   /** Dragon risk score 1–100 (lower = safer). */
   risk: number;
@@ -113,6 +114,14 @@ export function salesScenarios(
   ];
 }
 
+export function totalProfit(unitProfit: number, units: number): number {
+  return Math.round(unitProfit * units);
+}
+
+export function totalRevenue(price: number, units: number): number {
+  return Math.round(price * units);
+}
+
 export function scenarioProfit(unitProfit: number, units: number): number {
   return Math.round(unitProfit * units);
 }
@@ -133,6 +142,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "shopify",
     region: "eu",
     country: "de",
+    price: 49,
     profit: 18,
     risk: 22,
     demand: 71,
@@ -153,6 +163,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "dropship",
     region: "asia",
     country: "cn",
+    price: 29,
     profit: 12,
     risk: 18,
     demand: 64,
@@ -172,6 +183,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "dropship",
     region: "us",
     country: "us",
+    price: 35,
     profit: 15,
     risk: 24,
     demand: 68,
@@ -191,6 +203,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "tr",
     country: "tr",
+    price: 449,
     profit: 16,
     risk: 20,
     demand: 69,
@@ -211,6 +224,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "tr",
     country: "tr",
+    price: 389,
     profit: 14,
     risk: 23,
     demand: 61,
@@ -231,6 +245,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "tr",
     country: "tr",
+    price: 799,
     profit: 28,
     risk: 24,
     demand: 76,
@@ -251,6 +266,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "tr",
     country: "tr",
+    price: 1299,
     profit: 22,
     risk: 22,
     demand: 58,
@@ -271,6 +287,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "tr",
     country: "tr",
+    price: 249,
     profit: 11,
     risk: 21,
     demand: 63,
@@ -291,6 +308,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "amazon",
     region: "us",
     country: "us",
+    price: 129,
     profit: 54,
     risk: 72,
     demand: 88,
@@ -310,6 +328,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "amazon",
     region: "eu",
     country: "de",
+    price: 89,
     profit: 41,
     risk: 65,
     demand: 74,
@@ -330,6 +349,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "me",
     country: "ae",
+    price: 79,
     profit: 33,
     risk: 48,
     demand: 62,
@@ -350,6 +370,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "us",
     country: "us",
+    price: 24,
     profit: 47,
     risk: 69,
     demand: 91,
@@ -369,6 +390,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "shopify",
     region: "me",
     country: "sa",
+    price: 55,
     profit: 21,
     risk: 26,
     demand: 55,
@@ -390,6 +412,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "marketplace",
     region: "asia",
     country: "sg",
+    price: 18,
     profit: 19,
     risk: 44,
     demand: 67,
@@ -409,6 +432,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     path: "amazon",
     region: "eu",
     country: "fr",
+    price: 299,
     profit: 89,
     risk: 84,
     demand: 82,
