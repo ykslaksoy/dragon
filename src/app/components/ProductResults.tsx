@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useState } from "react";
-import type { DemoProduct, ProductPath } from "../i18n/demo-products";
+import { useId, useState, type ReactNode } from "react";
+import type { DemoProduct } from "../i18n/demo-products";
 import {
   hasProductLink,
   isLowRiskPath,
-  riskBandLabel,
   salesScenarios,
   scenarioProfit,
 } from "../i18n/demo-products";
@@ -15,7 +14,6 @@ export type ProductResultsCopy = {
   title: string;
   empty: string;
   profitLabel: string;
-  riskLabel: string;
   demandLabel: string;
   saturationLabel: string;
   monthlySalesLabel: string;
@@ -29,30 +27,26 @@ export type ProductResultsCopy = {
   detailTitle: string;
   scoreDemandHelp: string;
   scoreSaturationHelp: string;
-  scoreRiskHelp: string;
   scoreProfitHelp: string;
   scoreMonthlySalesHelp: string;
   scoreEstSalesHelp: string;
-  detailDemand: string;
-  detailSaturation: string;
-  detailRisk: string;
-  detailProfit: string;
-  detailMonthlySales: string;
-  detailEstSales: string;
-  riskBandLow: string;
-  riskBandMid: string;
-  riskBandHigh: string;
-  detailPathSoft: string;
-  detailPathMarket: string;
-  detailPathAmazon: string;
   demandLeadBadge: string;
+  platformBreakdownTitle: string;
+  platformCol: string;
+  unitsCol: string;
+  linkCol: string;
+  openPlatform: string;
   scenarioTitle: string;
+  scenarioCol: string;
   scenarioHint: string;
   scenarioMin: string;
   scenarioMid: string;
   scenarioHigh: string;
-  /** `{units}` `{currency}` `{profit}` */
-  scenarioLine: string;
+  platformsCol: string;
+  /** `{n}` */
+  platformsCell: string;
+  scenarioUnits: string;
+  scenarioProfitCol: string;
 };
 
 type Props = {
@@ -60,25 +54,6 @@ type Props = {
   nameOf: (key: string) => string;
   copy: ProductResultsCopy;
 };
-
-function riskTone(risk: number): string {
-  if (risk <= 35) return "text-[#8CFF4D]";
-  if (risk <= 60) return "text-amber-300/90";
-  return "text-rose-300/90";
-}
-
-function pathWhy(path: ProductPath, copy: ProductResultsCopy): string {
-  if (path === "dropship" || path === "shopify") return copy.detailPathSoft;
-  if (path === "amazon") return copy.detailPathAmazon;
-  return copy.detailPathMarket;
-}
-
-function bandText(risk: number, copy: ProductResultsCopy): string {
-  const band = riskBandLabel(risk);
-  if (band === "low") return copy.riskBandLow;
-  if (band === "mid") return copy.riskBandMid;
-  return copy.riskBandHigh;
-}
 
 function fill(
   template: string,
@@ -156,6 +131,47 @@ function ProductThumb({
   return <div className={shell}>{img}</div>;
 }
 
+function DataTable({
+  headers,
+  rows,
+}: {
+  headers: string[];
+  rows: ReactNode[][];
+}) {
+  return (
+    <div className="overflow-x-auto rounded-md border border-white/[0.08]">
+      <table className="w-full min-w-[280px] border-collapse text-left text-[12px]">
+        <thead>
+          <tr className="border-b border-white/[0.08] bg-white/[0.03]">
+            {headers.map((h) => (
+              <th
+                key={h}
+                className="mono px-2.5 py-2 text-[9px] font-medium tracking-[0.12em] text-white/40"
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((cells, i) => (
+            <tr
+              key={i}
+              className="border-b border-white/[0.05] last:border-0"
+            >
+              {cells.map((cell, j) => (
+                <td key={j} className="px-2.5 py-2 align-middle text-white/75">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function ProductRow({
   product: p,
   name,
@@ -168,10 +184,10 @@ function ProductRow({
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const soft = isLowRiskPath(p.path);
-  const band = bandText(p.risk, copy);
   const linked = hasProductLink(p);
   const showDemandBadge = Boolean(p.demandLead) || !linked;
-  const scenarios = salesScenarios(p.estMonthlySales, p.monthlySales);
+  const tracked = Math.max(1, p.platformSales?.length ?? 1);
+  const scenarios = salesScenarios(p.estMonthlySales, p.monthlySales, tracked);
   const scenarioLabel = {
     min: copy.scenarioMin,
     mid: copy.scenarioMid,
@@ -203,6 +219,7 @@ function ProductRow({
           </div>
           <div className="mono mt-1 text-[10px] tracking-[0.12em] text-white/30">
             {p.platform}
+            {tracked > 1 ? ` · ${tracked} platform` : ""}
           </div>
 
           <div className="mt-2.5 flex flex-wrap items-end justify-between gap-2">
@@ -227,12 +244,6 @@ function ProductRow({
                 label={copy.saturationLabel}
                 value={p.saturation}
                 help={copy.scoreSaturationHelp}
-              />
-              <Metric
-                label={copy.riskLabel}
-                value={p.risk}
-                valueClass={riskTone(p.risk)}
-                help={copy.scoreRiskHelp}
               />
               <Metric
                 label={copy.profitLabel}
@@ -280,69 +291,82 @@ function ProductRow({
       {open ? (
         <div
           id={panelId}
-          className="border-t border-white/[0.06] bg-[#0A0A0C] px-3 py-3 sm:px-5 sm:py-3.5"
+          className="space-y-4 border-t border-white/[0.06] bg-[#0A0A0C] px-3 py-3.5 sm:px-5 sm:py-4"
         >
-          <p className="mono text-[10px] tracking-[0.14em] text-[#8CFF4D]/80">
-            {copy.detailTitle}
-          </p>
-          <p className="mt-2 text-[12px] leading-relaxed text-white/70">
-            {pathWhy(p.path, copy)}
-          </p>
-          <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-white/55">
-            <li>
-              {fill(copy.detailMonthlySales, {
-                n: formatUnits(p.monthlySales),
-              })}
-            </li>
-            <li>
-              {fill(copy.detailEstSales, {
-                n: formatUnits(p.estMonthlySales),
-              })}
-            </li>
-            <li>{fill(copy.detailDemand, { n: p.demand })}</li>
-            <li>{fill(copy.detailSaturation, { n: p.saturation })}</li>
-            <li>
-              {fill(copy.detailRisk, {
-                n: p.risk,
-                band,
-              })}
-            </li>
-            <li>
-              {fill(copy.detailProfit, {
-                currency: copy.currency,
-                profit: p.profit,
-              })}
-            </li>
-          </ul>
-          <div className="mt-4 rounded-md border border-white/[0.08] bg-white/[0.02] px-3 py-2.5">
-            <p className="mono text-[10px] tracking-[0.12em] text-[#8CFF4D]/85">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className="mono text-[10px] tracking-[0.14em] text-[#8CFF4D]/80">
+              {copy.detailTitle}
+            </p>
+            <p className="mono text-[11px] tabular-nums text-white/70">
+              {copy.monthlySalesLabel}:{" "}
+              <span className="font-semibold text-[#8CFF4D]">
+                {formatUnits(p.monthlySales)}
+              </span>
+            </p>
+          </div>
+
+          <div>
+            <p className="mono mb-2 text-[9px] tracking-[0.12em] text-white/35">
+              {copy.platformBreakdownTitle}
+            </p>
+            <DataTable
+              headers={[copy.platformCol, copy.unitsCol, copy.linkCol]}
+              rows={(p.platformSales ?? []).map((s) => [
+                <span key="p" className="font-medium text-white/85">
+                  {s.platform}
+                </span>,
+                <span key="u" className="tabular-nums text-white/80">
+                  {formatUnits(s.units)}
+                </span>,
+                s.url ? (
+                  <a
+                    key="l"
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#8CFF4D]/85 hover:underline"
+                  >
+                    {copy.openPlatform} ↗
+                  </a>
+                ) : (
+                  <span key="l" className="text-white/25">
+                    —
+                  </span>
+                ),
+              ])}
+            />
+          </div>
+
+          <div>
+            <p className="mono mb-1 text-[9px] tracking-[0.12em] text-white/35">
               {copy.scenarioTitle}
             </p>
-            <p className="mt-1 text-[11px] leading-snug text-white/40">
+            <p className="mb-2 text-[11px] leading-snug text-white/40">
               {copy.scenarioHint}
             </p>
-            <ul className="mt-2.5 space-y-2">
-              {scenarios.map((s) => (
-                <li
-                  key={s.id}
-                  className="flex flex-wrap items-baseline justify-between gap-2 border-b border-white/[0.05] pb-2 text-[12px] last:border-0 last:pb-0"
-                >
-                  <span className="font-medium text-white/85">
-                    {scenarioLabel[s.id]}
-                    <span className="mono ml-2 text-[10px] text-white/35">
-                      ×{s.multiple}
-                    </span>
-                  </span>
-                  <span className="tabular-nums text-white/70">
-                    {fill(copy.scenarioLine, {
-                      units: formatUnits(s.units),
-                      currency: copy.currency,
-                      profit: formatUnits(scenarioProfit(p.profit, s.units)),
-                    })}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <DataTable
+              headers={[
+                copy.scenarioCol,
+                copy.platformsCol,
+                copy.scenarioUnits,
+                copy.scenarioProfitCol,
+              ]}
+              rows={scenarios.map((s) => [
+                <span key="n" className="font-medium text-white/85">
+                  {scenarioLabel[s.id]}
+                </span>,
+                <span key="p" className="tabular-nums text-white/70">
+                  {fill(copy.platformsCell, { n: s.platforms })}
+                </span>,
+                <span key="u" className="tabular-nums text-[#8CFF4D]/90">
+                  {formatUnits(s.units)}
+                </span>,
+                <span key="$" className="tabular-nums text-white/80">
+                  {copy.currency}
+                  {formatUnits(scenarioProfit(p.profit, s.units))}
+                </span>,
+              ])}
+            />
           </div>
         </div>
       ) : null}
