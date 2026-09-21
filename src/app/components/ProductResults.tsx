@@ -307,7 +307,6 @@ function ProductRow({
             >
               {open ? copy.detailClose : copy.detailOpen}
             </button>
-          </div>
         </div>
       </div>
 
