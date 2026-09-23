@@ -74,6 +74,11 @@ body {
 .dragon-logo-stage {
   background: transparent;
   isolation: isolate;
+  /* Match Studio: never shrink in crowded header; block iOS image-save callout */
+  flex-shrink: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Soft elliptical feather — kills hard PNG plate edges */
