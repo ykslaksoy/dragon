@@ -17,6 +17,7 @@ type Props = {
 export function LanguageSwitcher({ locale, onChange, ariaLabel }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const holdCloseTimer = useRef<number | null>(null);
   const listId = useId();
   const current = LOCALE_META.find((l) => l.code === locale) ?? LOCALE_META[0];
 
@@ -28,13 +29,36 @@ export function LanguageSwitcher({ locale, onChange, ariaLabel }: Props) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const onCloseMenus = () => setOpen(false);
     document.addEventListener("mousedown", onDoc);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("dragon:close-menus", onCloseMenus);
     return () => {
       document.removeEventListener("mousedown", onDoc);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("dragon:close-menus", onCloseMenus);
+      if (holdCloseTimer.current != null) {
+        window.clearTimeout(holdCloseTimer.current);
+        holdCloseTimer.current = null;
+      }
     };
   }, [open]);
+
+  const clearHoldClose = () => {
+    if (holdCloseTimer.current != null) {
+      window.clearTimeout(holdCloseTimer.current);
+      holdCloseTimer.current = null;
+    }
+  };
+
+  const startHoldClose = () => {
+    clearHoldClose();
+    // Basılı tutunca açık menüyü kapat (kayıt/context menüsü + header menüleri)
+    holdCloseTimer.current = window.setTimeout(() => {
+      holdCloseTimer.current = null;
+      setOpen(false);
+    }, 380);
+  };
 
   return (
     <div ref={rootRef} className={`relative ${open ? "z-[110]" : "z-20"}`}>
@@ -44,6 +68,10 @@ export function LanguageSwitcher({ locale, onChange, ariaLabel }: Props) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
+        onPointerDown={startHoldClose}
+        onPointerUp={clearHoldClose}
+        onPointerCancel={clearHoldClose}
+        onPointerLeave={clearHoldClose}
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white"
       >
