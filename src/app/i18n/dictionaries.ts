@@ -126,6 +126,7 @@ export type Dictionary = {
   features: { title: string; desc: string }[];
   footerLeft: string;
   footerRight: string;
+  termsLink: string;
   langAria: string;
   live: string;
   heroMeta: string;
@@ -344,6 +345,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • TALEP · DOYGUNLUK · RİSK · NET KÂR",
     footerRight: "AVCILAR İÇİN YAPILDI",
+    termsLink: "Kullanım Şartları",
     langAria: "Dil seçimi",
     live: "CANLI",
     heroMeta: "SABİT • 0.20 OPAK • DEGRADE",
@@ -541,6 +543,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • DEMAND · SATURATION · RISK · NET PROFIT",
     footerRight: "BUILT FOR HUNTERS",
+    termsLink: "Terms of Use",
     langAria: "Language selection",
     live: "LIVE",
     heroMeta: "FIXED • 0.20 OPACITY • GRADIENT",
@@ -738,6 +741,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • NACHFRAGE · SÄTTIGUNG · RISIKO · NETTOGEWINN",
     footerRight: "FÜR JÄGER GEBAUT",
+    termsLink: "Nutzungsbedingungen",
     langAria: "Sprachauswahl",
     live: "LIVE",
     heroMeta: "FIX • 0.20 OPACITY • VERLAUF",
@@ -935,6 +939,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • DEMANDE · SATURATION · RISQUE · BÉNÉFICE NET",
     footerRight: "FAIT POUR LES CHASSEURS",
+    termsLink: "Conditions d’utilisation",
     langAria: "Choix de la langue",
     live: "EN DIRECT",
     heroMeta: "FIXE • 0.20 OPACITÉ • DÉGRADÉ",
@@ -1122,6 +1127,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • 需求 · 饱和度 · 风险 · 净利润",
     footerRight: "为猎手而生",
+    termsLink: "使用条款",
     langAria: "语言选择",
     live: "实时",
     heroMeta: "固定 • 0.20 透明度 • 渐变",
@@ -1319,6 +1325,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • СПРОС · НАСЫЩЕННОСТЬ · РИСК · ЧИСТАЯ ПРИБЫЛЬ",
     footerRight: "СОЗДАНО ДЛЯ ОХОТНИКОВ",
+    termsLink: "Условия использования",
     langAria: "Выбор языка",
     live: "В ЭФИРЕ",
     heroMeta: "ФИКС • 0.20 ПРОЗРАЧНОСТЬ • ГРАДИЕНТ",
