@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { DragonTopLogo } from "./components/DragonTopLogo";
 import { HuntFilters } from "./components/HuntFilters";
@@ -362,6 +363,12 @@ export default function Home() {
 
         <div className="mono mt-8 flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.18em] text-white/20">
           <span>{t.footerLeft}</span>
+          <Link
+            href={`/terms?lang=${lang}`}
+            className="text-white/35 transition-colors hover:text-[#8CFF4D]"
+          >
+            {t.termsLink}
+          </Link>
           <span className="flex items-center gap-2">
             <span className="h-1 w-1 rounded-full bg-[#8CFF4D]" />
             {t.footerRight}
