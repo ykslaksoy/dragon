@@ -113,13 +113,6 @@ function TermsContent() {
           </a>
         </p>
 
-        {uiLocale !== "tr" && (
-          <p className="mono mt-6 text-[10px] text-white/30">
-            {uiLocale === "en"
-              ? "Turkish version: select Türkçe in the language menu."
-              : "English text shown. Select Türkçe for the Turkish version."}
-          </p>
-        )}
       </main>
     </div>
   );
