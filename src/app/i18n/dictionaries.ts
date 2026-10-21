@@ -7,6 +7,9 @@ export type Locale = "tr" | "en" | "de" | "fr" | "zh" | "ru";
 export type Dictionary = {
   headerTag: string;
   keepaLive: string;
+  keepaOffline: string;
+  tahminBadge: string;
+  salesUnavailable: string;
   awaken: string;
   heroLine1: string;
   heroLine2: string;
@@ -181,6 +184,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   tr: {
     headerTag: "ÇOK PLATFORM • KÂR + RİSK • v2.2",
     keepaLive: "KEEPA • CANLI",
+    keepaOffline: "KEEPA • ANAHTAR YOK",
+    tahminBadge: "TAHMİN",
+    salesUnavailable: "Veri yok",
     awaken: "Dragon Uyanıyor",
     heroLine1: "Talep, doygunluk, risk.",
     heroLine2: "Net kârı gör.",
@@ -353,6 +359,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   en: {
     headerTag: "MULTI-PLATFORM • PROFIT + RISK • v2.2",
     keepaLive: "KEEPA • LIVE",
+    keepaOffline: "KEEPA • NO KEY",
+    tahminBadge: "EST.",
+    salesUnavailable: "No data",
     awaken: "Dragon Awakens",
     heroLine1: "Demand, saturation, risk.",
     heroLine2: "See net profit.",
@@ -551,6 +560,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   de: {
     headerTag: "MULTI-PLATFORM • GEWINN + RISIKO • v2.2",
     keepaLive: "KEEPA • LIVE",
+    keepaOffline: "KEEPA • KEIN KEY",
+    tahminBadge: "SCHÄTZ.",
+    salesUnavailable: "Keine Daten",
     awaken: "Dragon erwacht",
     heroLine1: "Nachfrage, Sättigung, Risiko.",
     heroLine2: "Nettogewinn sehen.",
@@ -749,6 +761,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   fr: {
     headerTag: "MULTI-PLATEFORME • PROFIT + RISQUE • v2.2",
     keepaLive: "KEEPA • EN DIRECT",
+    keepaOffline: "KEEPA • PAS DE CLÉ",
+    tahminBadge: "ESTIM.",
+    salesUnavailable: "Pas de données",
     awaken: "Dragon s’éveille",
     heroLine1: "Demande, saturation, risque.",
     heroLine2: "Voir le bénéfice net.",
@@ -947,6 +962,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   zh: {
     headerTag: "多平台 • 利润 + 风险 • v2.2",
     keepaLive: "KEEPA • 实时",
+    keepaOffline: "KEEPA • 无密钥",
+    tahminBadge: "估算",
+    salesUnavailable: "无数据",
     awaken: "龙已苏醒",
     heroLine1: "需求、饱和度、风险。",
     heroLine2: "看见净利润。",
@@ -1135,6 +1153,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   ru: {
     headerTag: "МУЛЬТИПЛАТФОРМА • ПРИБЫЛЬ + РИСК • v2.2",
     keepaLive: "KEEPA • В ЭФИРЕ",
+    keepaOffline: "KEEPA • НЕТ КЛЮЧА",
+    tahminBadge: "ОЦЕНКА",
+    salesUnavailable: "Нет данных",
     awaken: "Дракон пробуждается",
     heroLine1: "Спрос, насыщенность, риск.",
     heroLine2: "Видьте чистую прибыль.",
