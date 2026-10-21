@@ -18,12 +18,7 @@ import {
   getDictionary,
   type Locale,
 } from "./i18n/dictionaries";
-import {
-  DEMO_PRODUCTS,
-  filterAndSortProducts,
-  type RiskMode,
-  type SortMode,
-} from "./i18n/demo-products";
+import type { DemoProduct, RiskMode, SortMode } from "./i18n/demo-products";
 import {
   DEFAULT_COUNTRIES,
   regionsFromCountries,
@@ -50,6 +45,8 @@ export default function Home() {
   const [countries, setCountries] = useState<CountryId[]>(DEFAULT_COUNTRIES);
   const [sort, setSort] = useState<SortMode>("sales");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
+  const [products, setProducts] = useState<DemoProduct[]>([]);
+  const [keepaActive, setKeepaActive] = useState(false);
   const t = getDictionary(lang);
   const regions = useMemo(() => regionsFromCountries(countries), [countries]);
   const platforms = platformsForRegions(regions);
@@ -69,16 +66,23 @@ export default function Home() {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
 
-  const products = useMemo(
-    () =>
-      filterAndSortProducts(DEMO_PRODUCTS, {
-        regions,
-        countries,
-        riskMode,
-        sort,
-      }),
-    [regions, countries, riskMode, sort],
-  );
+  useEffect(() => {
+    const ac = new AbortController();
+    const qs = new URLSearchParams({
+      regions: regions.join(","),
+      countries: countries.join(","),
+      risk: riskMode,
+      sort,
+    });
+    fetch(`/api/hunt?${qs}`, { signal: ac.signal })
+      .then((r) => r.json())
+      .then((data) => {
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setKeepaActive(Boolean(data.apiStatus?.keepa));
+      })
+      .catch(() => setProducts([]));
+    return () => ac.abort();
+  }, [regions, countries, riskMode, sort]);
 
   const modeStatus =
     activeMode === "all"
@@ -123,7 +127,7 @@ export default function Home() {
         <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
           <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
-            {t.keepaLive}
+            {keepaActive ? t.keepaLive : t.keepaOffline}
           </div>
           <MarketPicker
             countries={countries}
@@ -257,6 +261,8 @@ export default function Home() {
           scoreTotalProfitHelp: t.scoreTotalProfitHelp,
           scoreTotalRevenueHelp: t.scoreTotalRevenueHelp,
           scoreTargetSalesHelp: t.scoreTargetSalesHelp,
+          tahminBadge: t.tahminBadge,
+          salesUnavailable: t.salesUnavailable,
           platformBreakdownTitle: t.platformBreakdownTitle,
           platformCol: t.platformCol,
           unitsCol: t.unitsCol,
