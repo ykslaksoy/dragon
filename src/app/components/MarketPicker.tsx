@@ -113,7 +113,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
           role="listbox"
           aria-label={copy.ariaLabel}
           aria-multiselectable
-          className="fixed left-1/2 top-[56px] z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:translate-x-0"
+          className="fixed left-1/2 top-[calc(var(--dragon-safe-top)+var(--dragon-header-h))] z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:translate-x-0"
         >
           <button
             type="button"

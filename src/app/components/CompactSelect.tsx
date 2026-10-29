@@ -76,7 +76,7 @@ export function CompactSelect<T extends string>({
           id={listId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 z-[120] mt-2 min-w-[168px] overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+          className="fixed left-1/2 top-[var(--dragon-chrome-h)] z-[120] mt-2 min-w-[168px] -translate-x-1/2 overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-0 sm:top-auto sm:translate-x-0"
         >
           {options.map((item) => {
             const selected = item.value === value;

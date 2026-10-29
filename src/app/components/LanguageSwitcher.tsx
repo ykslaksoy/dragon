@@ -66,7 +66,7 @@ export function LanguageSwitcher({ locale, onChange, ariaLabel }: Props) {
           id={listId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute right-0 z-[120] mt-2 min-w-[148px] overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+          className="fixed right-3 top-[calc(var(--dragon-safe-top)+var(--dragon-header-h))] z-[120] mt-2 min-w-[148px] overflow-hidden rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:right-0 sm:top-auto"
         >
           {LOCALE_META.map((item) => {
             const selected = item.code === locale;
