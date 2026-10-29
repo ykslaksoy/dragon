@@ -6,17 +6,21 @@ export type RiskMode = "low" | "balanced" | "high";
 export type SortMode = "sales" | "profit" | "risk";
 export type ProductPath = "dropship" | "shopify" | "amazon" | "marketplace";
 
-/** Per-marketplace row — only include platforms with a real product URL (no invented splits). */
-/** Only platforms with a real productUrl — never invent cross-marketplace splits. */
+export type SalesUnitsSource = "keepa" | "estimate" | "partner" | "none";
+
+/** Per-marketplace row — only platforms with a real product URL. */
 export type PlatformSale = {
   platform: string;
-  units: number;
+  units: number | null;
+  unitsSource: SalesUnitsSource;
   url?: string | null;
 };
 
 export type DemoProduct = {
   id: string;
   nameKey: string;
+  /** Live marketplace title (TR catalog); falls back to i18n nameKey. */
+  title?: string;
   platform: string;
   path: ProductPath;
   region: RegionId;
@@ -32,9 +36,11 @@ export type DemoProduct = {
   saturation: number;
   /**
    * Total monthly units across tracked marketplaces
-   * (= sum of platformSales.units).
+   * (= sum of platformSales.units when sourced).
    */
   monthlySales: number;
+  /** How monthlySales was produced — `none` hides volume on cards. */
+  monthlySalesSource: SalesUnitsSource;
   /** Per-platform monthly units (drives detail breakdown). */
   platformSales: PlatformSale[];
   /**
@@ -134,318 +140,8 @@ export function scenarioProfit(unitProfit: number, units: number): number {
  * Rows with `productUrl: null` stay listed when demand exists
  * (“talep var · ürün linki yok”).
  */
-export const DEMO_PRODUCTS: DemoProduct[] = [
-  {
-    id: "ds-lamp",
-    nameKey: "deskLamp",
-    platform: "Shopify",
-    path: "shopify",
-    region: "eu",
-    country: "de",
-    price: 49,
-    profit: 18,
-    risk: 22,
-    demand: 71,
-    saturation: 28,
-    monthlySales: 1860,
-    platformSales: [
-      { platform: "Amazon", units: 1860, url: "https://www.amazon.com/dp/B08N5WRWNW" },
-    ],
-    estMonthlySales: estimateAttainableSales(1860, 71, 28),
-    imageSrc: "/products/desk-lamp.jpg",
-    productUrl:
-      "https://www.amazon.com/dp/B08N5WRWNW",
-  },
-  {
-    id: "ds-organizer",
-    nameKey: "cableOrganizer",
-    platform: "AliExpress → Shopify",
-    path: "dropship",
-    region: "asia",
-    country: "cn",
-    price: 29,
-    profit: 12,
-    risk: 18,
-    demand: 64,
-    saturation: 22,
-    monthlySales: 4200,
-    platformSales: [
-      { platform: "AliExpress", units: 4200, url: "https://www.aliexpress.com/item/1005006782854602.html" },
-    ],
-    estMonthlySales: estimateAttainableSales(4200, 64, 22),
-    imageSrc: "/products/cable-organizer.jpg",
-    productUrl: "https://www.aliexpress.com/item/1005006782854602.html",
-  },
-  {
-    id: "ds-mug",
-    nameKey: "travelMug",
-    platform: "CJ → Shopify",
-    path: "dropship",
-    region: "us",
-    country: "us",
-    price: 35,
-    profit: 15,
-    risk: 24,
-    demand: 68,
-    saturation: 31,
-    monthlySales: 2410,
-    platformSales: [
-      { platform: "Amazon", units: 2410, url: "https://www.amazon.com/dp/B01GWUBWWA" },
-    ],
-    estMonthlySales: estimateAttainableSales(2410, 68, 31),
-    imageSrc: "/products/travel-mug.jpg",
-    productUrl: "https://www.amazon.com/dp/B01GWUBWWA",
-  },
-  {
-    id: "tr-ds-lamp",
-    nameKey: "deskLamp",
-    platform: "Trendyol",
-    path: "marketplace",
-    region: "tr",
-    country: "tr",
-    price: 449,
-    profit: 16,
-    risk: 20,
-    demand: 69,
-    saturation: 26,
-    monthlySales: 3120,
-    platformSales: [
-      { platform: "Trendyol", units: 3120, url: "https://www.trendyol.com/robeve/80-led-uzun-kollu-kelepceli-masa-lambasi-3-renk-10-kademe-parlaklik-360-ayarlanabilir-baslik-usb-mimar-calisma-okuma-cizim-lambasi-bilgisayar-masasi-lambasi-akrobatik-lamba-p-1198143553" },
-    ],
-    estMonthlySales: estimateAttainableSales(3120, 69, 26),
-    imageSrc: "/products/desk-lamp.jpg",
-    productUrl:
-      "https://www.trendyol.com/robeve/80-led-uzun-kollu-kelepceli-masa-lambasi-3-renk-10-kademe-parlaklik-360-ayarlanabilir-baslik-usb-mimar-calisma-okuma-cizim-lambasi-bilgisayar-masasi-lambasi-akrobatik-lamba-p-1198143553",
-  },
-  {
-    id: "tr-shop-mug",
-    nameKey: "travelMug",
-    platform: "Trendyol",
-    path: "marketplace",
-    region: "tr",
-    country: "tr",
-    price: 389,
-    profit: 14,
-    risk: 23,
-    demand: 61,
-    saturation: 29,
-    monthlySales: 2680,
-    platformSales: [
-      { platform: "Trendyol", units: 2680, url: "https://www.trendyol.com/mepal/insulated-bottle-gri-termos-ellipse-yalitimli-sise-p-750367964" },
-    ],
-    estMonthlySales: estimateAttainableSales(2680, 61, 29),
-    imageSrc: "/products/travel-mug.jpg",
-    productUrl:
-      "https://www.trendyol.com/mepal/insulated-bottle-gri-termos-ellipse-yalitimli-sise-p-750367964",
-  },
-  {
-    id: "tr-home",
-    nameKey: "homeOrganizer",
-    platform: "IKEA",
-    path: "marketplace",
-    region: "tr",
-    country: "tr",
-    price: 799,
-    profit: 28,
-    risk: 24,
-    demand: 76,
-    saturation: 52,
-    monthlySales: 4850,
-    platformSales: [
-      { platform: "IKEA", units: 4850, url: "https://www.ikea.com.tr/urun/uppdatera-antrasit-80-cm-cekmece-duzenleyici-00460011" },
-    ],
-    estMonthlySales: estimateAttainableSales(4850, 76, 52),
-    imageSrc: "/products/home-organizer.jpg",
-    // IKEA UPPDATERA — live ikea.com.tr product page + matching lifestyle photo.
-    productUrl: "https://www.ikea.com.tr/urun/uppdatera-antrasit-80-cm-cekmece-duzenleyici-00460011",
-  },
-  {
-    id: "ptt-kit",
-    nameKey: "kitchenKit",
-    platform: "Trendyol",
-    path: "marketplace",
-    region: "tr",
-    country: "tr",
-    price: 1299,
-    profit: 22,
-    risk: 22,
-    demand: 58,
-    saturation: 35,
-    monthlySales: 1540,
-    platformSales: [
-      { platform: "Trendyol", units: 1540, url: "https://www.trendyol.com/mirilliahome/50-parca-paslanmaz-celik-mutfak-seti-profesyonel-mutfak-gerecleri-ve-saklama-kaplari-p-355743489" },
-    ],
-    estMonthlySales: estimateAttainableSales(1540, 58, 35),
-    imageSrc: "/products/kitchen-kit.jpg",
-    productUrl:
-      "https://www.trendyol.com/mirilliahome/50-parca-paslanmaz-celik-mutfak-seti-profesyonel-mutfak-gerecleri-ve-saklama-kaplari-p-355743489",
-  },
-  {
-    id: "tr-cable",
-    nameKey: "cableOrganizer",
-    platform: "Hepsiburada",
-    path: "marketplace",
-    region: "tr",
-    country: "tr",
-    price: 249,
-    profit: 11,
-    risk: 21,
-    demand: 63,
-    saturation: 33,
-    monthlySales: 2210,
-    platformSales: [
-      { platform: "Hepsiburada", units: 2210, url: "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0" },
-    ],
-    estMonthlySales: estimateAttainableSales(2210, 63, 33),
-    imageSrc: "/products/cable-organizer.jpg",
-    productUrl:
-      "https://www.hepsiburada.com/ugreen-3-1-kanalli-silikon-kablo-duzenleyici-organizator-70585-pm-HBC00003R17T0",
-  },
-  {
-    id: "amz-oa",
-    nameKey: "wirelessBuds",
-    platform: "Amazon",
-    path: "amazon",
-    region: "us",
-    country: "us",
-    price: 129,
-    profit: 54,
-    risk: 72,
-    demand: 88,
-    saturation: 78,
-    monthlySales: 9200,
-    platformSales: [
-      { platform: "Amazon US", units: 9200, url: "https://www.amazon.com/dp/B09DT48V16" },
-    ],
-    estMonthlySales: estimateAttainableSales(9200, 88, 78),
-    imageSrc: "/products/wireless-buds.jpg",
-    productUrl: "https://www.amazon.com/dp/B09DT48V16",
-  },
-  {
-    id: "amz-eu",
-    nameKey: "proteinShaker",
-    platform: "Amazon",
-    path: "amazon",
-    region: "eu",
-    country: "de",
-    price: 89,
-    profit: 41,
-    risk: 65,
-    demand: 74,
-    saturation: 66,
-    monthlySales: 5100,
-    platformSales: [
-      { platform: "Amazon DE", units: 5100, url: "https://www.amazon.de/-/en/FSA-Nutrition-Compartment-Container-Leak-Proof/dp/B07C2ZHJNF" },
-    ],
-    estMonthlySales: estimateAttainableSales(5100, 74, 66),
-    imageSrc: "/products/protein-shaker.jpg",
-    productUrl:
-      "https://www.amazon.de/-/en/FSA-Nutrition-Compartment-Container-Leak-Proof/dp/B07C2ZHJNF",
-  },
-  {
-    id: "noon-gadget",
-    nameKey: "phoneMount",
-    platform: "noon",
-    path: "marketplace",
-    region: "me",
-    country: "ae",
-    price: 79,
-    profit: 33,
-    risk: 48,
-    demand: 62,
-    saturation: 44,
-    monthlySales: 980,
-    platformSales: [
-      { platform: "noon AE", units: 980, url: "https://www.noon.com/uae-en/magnetic-car-phone-mount-vacuum-suction-foldable-dashboard-holder-universal-4-7-7-inch-smartphones-360-adjustable-strong-magnetic-grip-durable-aluminum-alloy-magnetic-phone-holder-car-mobile-holder-magnetic-phone-holder-for-car/ZF35CE0D5F420249849B1Z/p/" },
-    ],
-    estMonthlySales: estimateAttainableSales(980, 62, 44),
-    imageSrc: "/products/phone-mount.jpg",
-    productUrl:
-      "https://www.noon.com/uae-en/magnetic-car-phone-mount-vacuum-suction-foldable-dashboard-holder-universal-4-7-7-inch-smartphones-360-adjustable-strong-magnetic-grip-durable-aluminum-alloy-magnetic-phone-holder-car-mobile-holder-magnetic-phone-holder-for-car/ZF35CE0D5F420249849B1Z/p/",
-  },
-  {
-    id: "tt-viral",
-    nameKey: "ledStrip",
-    platform: "Amazon",
-    path: "marketplace",
-    region: "us",
-    country: "us",
-    price: 24,
-    profit: 47,
-    risk: 69,
-    demand: 91,
-    saturation: 71,
-    monthlySales: 11200,
-    platformSales: [
-      { platform: "Amazon", units: 11200, url: "https://www.amazon.com/dp/B07XGKX327" },
-    ],
-    estMonthlySales: estimateAttainableSales(11200, 91, 71),
-    imageSrc: "/products/led-strip.jpg",
-    productUrl: "https://www.amazon.com/dp/B07XGKX327",
-  },
-  {
-    id: "shop-me",
-    nameKey: "prayerMat",
-    platform: "Shopify",
-    path: "shopify",
-    region: "me",
-    country: "sa",
-    price: 55,
-    profit: 21,
-    risk: 26,
-    demand: 55,
-    saturation: 24,
-    monthlySales: 640,
-    platformSales: [
-      { platform: "noon SA", units: 640, url: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/" },
-    ],
-    estMonthlySales: estimateAttainableSales(640, 55, 24),
-    imageSrc: "/products/prayer-mat.jpg",
-    // Unreliable SKU path — demand kept; no live product link.
-    productUrl: "https://www.noon.com/saudi-en/product/Z4F9AF3AFFE0D82380EBDZ/p/",
-    demandLead: true,
-  },
-  {
-    id: "shopee-asia",
-    nameKey: "miniFan",
-    platform: "Shopee",
-    path: "marketplace",
-    region: "asia",
-    country: "sg",
-    price: 18,
-    profit: 19,
-    risk: 44,
-    demand: 67,
-    saturation: 49,
-    monthlySales: 1730,
-    platformSales: [
-      { platform: "Shopee SG", units: 1730, url: "https://shopee.sg/product/299068948/55860784071" },
-    ],
-    estMonthlySales: estimateAttainableSales(1730, 67, 49),
-    imageSrc: "/products/mini-fan.jpg",
-    productUrl: "https://shopee.sg/product/299068948/55860784071",
-  },
-  {
-    id: "amz-high",
-    nameKey: "gamingChair",
-    platform: "Amazon",
-    path: "amazon",
-    region: "eu",
-    country: "fr",
-    price: 299,
-    profit: 89,
-    risk: 84,
-    demand: 82,
-    saturation: 86,
-    monthlySales: 760,
-    platformSales: [
-      { platform: "Amazon FR", units: 760, url: "https://www.amazon.fr/-/en/GTPLAYER-GTPF59/dp/B0H68VN5MQ" },
-    ],
-    estMonthlySales: estimateAttainableSales(760, 82, 86),
-    imageSrc: "/products/gaming-chair.jpg",
-    productUrl: "https://www.amazon.fr/-/en/GTPLAYER-GTPF59/dp/B0H68VN5MQ",
-  },
-];
+/** Client-side placeholder until `/api/hunt` responds. */
+export const DEMO_PRODUCTS: DemoProduct[] = [];
 
 const LOW_RISK_PATHS = new Set<ProductPath>(["dropship", "shopify"]);
 

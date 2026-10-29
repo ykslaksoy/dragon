@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useId, useState, type ReactNode } from "react";
+import { ProductCharts, type ProductChartsCopy } from "./ProductCharts";
 import type { DemoProduct } from "../i18n/demo-products";
 import {
   hasProductLink,
@@ -12,7 +13,7 @@ import {
   totalRevenue,
 } from "../i18n/demo-products";
 
-export type ProductResultsCopy = {
+export type ProductResultsCopy = ProductChartsCopy & {
   title: string;
   empty: string;
   softSteer: string;
@@ -35,6 +36,8 @@ export type ProductResultsCopy = {
   scoreTotalProfitHelp: string;
   scoreTotalRevenueHelp: string;
   scoreTargetSalesHelp: string;
+  tahminBadge: string;
+  salesUnavailable: string;
   platformBreakdownTitle: string;
   platformCol: string;
   unitsCol: string;
@@ -73,21 +76,42 @@ function formatUnits(n: number): string {
   return n.toLocaleString("tr-TR");
 }
 
+function formatMonthlyVolume(p: DemoProduct): string {
+  if (p.monthlySalesSource === "none") return "—";
+  return formatUnits(p.monthlySales);
+}
+
+function formatPlatformUnits(
+  units: number | null,
+  source: DemoProduct["platformSales"][0]["unitsSource"],
+  unavailable: string,
+): string {
+  if (units == null || source === "none") return unavailable;
+  return formatUnits(units);
+}
+
 function Metric({
   label,
   value,
   valueClass,
   help,
+  badge,
 }: {
   label: string;
   value: string | number;
   valueClass?: string;
   help: string;
+  badge?: string;
 }) {
   return (
     <div className="min-w-0 text-left" title={help}>
       <div className="mono truncate text-[8px] tracking-[0.1em] text-white/30 sm:text-[9px] sm:tracking-[0.12em]">
         {label}
+        {badge ? (
+          <span className="ml-1 rounded border border-amber-300/30 bg-amber-300/10 px-1 py-px text-[7px] tracking-[0.06em] text-amber-100/90">
+            {badge}
+          </span>
+        ) : null}
       </div>
       <div
         className={`mt-0.5 truncate text-[13px] font-semibold tabular-nums sm:text-[14px] ${valueClass ?? "text-white/90"}`}
@@ -190,7 +214,14 @@ function ProductRow({
   const linked = hasProductLink(p);
   const showDemandBadge = Boolean(p.demandLead) || !linked;
   const tracked = Math.max(1, p.platformSales?.length ?? 1);
-  const scenarios = salesScenarios(p.estMonthlySales, p.monthlySales, tracked);
+  const volumeBase =
+    p.monthlySalesSource === "none" ? p.estMonthlySales : p.monthlySales;
+  const scenarios = salesScenarios(p.estMonthlySales, volumeBase, tracked);
+  const monthlyBadge =
+    p.monthlySalesSource === "estimate" ? copy.tahminBadge : undefined;
+  const targetBadge = copy.tahminBadge;
+  const row1Units =
+    p.monthlySalesSource === "none" ? 0 : p.monthlySales;
   const scenarioLabel = {
     min: copy.scenarioMin,
     mid: copy.scenarioMid,
@@ -211,7 +242,7 @@ function ProductRow({
               ) : null}
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-[14px] font-medium leading-snug text-white/90">
-                  {name}
+                  {p.title ?? name}
                 </span>
                 {soft ? (
                   <span className="mono rounded border border-[#8CFF4D]/25 bg-[#8CFF4D]/10 px-1.5 py-0.5 text-[9px] tracking-[0.08em] text-[#8CFF4D]/90">
@@ -231,9 +262,10 @@ function ProductRow({
           <div className="grid grid-cols-4 gap-2 sm:gap-3">
             <Metric
               label={copy.monthlySalesLabel}
-              value={formatUnits(p.monthlySales)}
+              value={formatMonthlyVolume(p)}
               valueClass="text-[#8CFF4D]/95"
               help={copy.scoreMonthlySalesHelp}
+              badge={monthlyBadge}
             />
             <Metric
               label={copy.netProfitLabel}
@@ -242,12 +274,20 @@ function ProductRow({
             />
             <Metric
               label={copy.totalProfitLabel}
-              value={`${copy.currency}${formatUnits(totalProfit(p.profit, p.monthlySales))}`}
+              value={
+                p.monthlySalesSource === "none"
+                  ? "—"
+                  : `${copy.currency}${formatUnits(totalProfit(p.profit, row1Units))}`
+              }
               help={copy.scoreTotalProfitHelp}
             />
             <Metric
               label={copy.totalRevenueLabel}
-              value={`${copy.currency}${formatUnits(totalRevenue(p.price, p.monthlySales))}`}
+              value={
+                p.monthlySalesSource === "none"
+                  ? "—"
+                  : `${copy.currency}${formatUnits(totalRevenue(p.price, row1Units))}`
+              }
               help={copy.scoreTotalRevenueHelp}
             />
           </div>
@@ -257,6 +297,7 @@ function ProductRow({
               value={formatUnits(p.estMonthlySales)}
               valueClass="text-white/90"
               help={copy.scoreTargetSalesHelp}
+              badge={targetBadge}
             />
             <Metric
               label={copy.netProfitLabel}
@@ -322,10 +363,17 @@ function ProductRow({
             <p className="mono text-[11px] tabular-nums text-white/70">
               {copy.monthlySalesLabel}:{" "}
               <span className="font-semibold text-[#8CFF4D]">
-                {formatUnits(p.monthlySales)}
+                {formatMonthlyVolume(p)}
               </span>
+              {monthlyBadge ? (
+                <span className="ml-2 text-[9px] text-amber-200/80">
+                  {monthlyBadge}
+                </span>
+              ) : null}
             </p>
           </div>
+
+          <ProductCharts product={p} copy={copy} />
 
           <div>
             <p className="mono mb-2 text-[9px] tracking-[0.12em] text-white/35">
@@ -338,7 +386,12 @@ function ProductRow({
                   {s.platform}
                 </span>,
                 <span key="u" className="tabular-nums text-white/80">
-                  {formatUnits(s.units)}
+                  {formatPlatformUnits(s.units, s.unitsSource, copy.salesUnavailable)}
+                  {s.unitsSource === "estimate" && s.units != null ? (
+                    <span className="ml-1 text-[9px] text-amber-200/75">
+                      {copy.tahminBadge}
+                    </span>
+                  ) : null}
                 </span>,
                 s.url ? (
                   <a
@@ -421,7 +474,7 @@ export function ProductResults({ products, nameOf, copy }: Props) {
             <ProductRow
               key={p.id}
               product={p}
-              name={nameOf(p.nameKey)}
+              name={p.title ?? nameOf(p.nameKey)}
               copy={copy}
             />
           ))}

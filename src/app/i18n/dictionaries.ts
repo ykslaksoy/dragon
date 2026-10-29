@@ -7,6 +7,9 @@ export type Locale = "tr" | "en" | "de" | "fr" | "zh" | "ru";
 export type Dictionary = {
   headerTag: string;
   keepaLive: string;
+  keepaOffline: string;
+  tahminBadge: string;
+  salesUnavailable: string;
   awaken: string;
   heroLine1: string;
   heroLine2: string;
@@ -126,6 +129,22 @@ export type Dictionary = {
   features: { title: string; desc: string }[];
   footerLeft: string;
   footerRight: string;
+  /** Sales / profit history + forecast charts (Öneri detayı). */
+  chartSalesTitle: string;
+  chartProfitTitle: string;
+  chartForecastTitle: string;
+  chartForecastSales: string;
+  chartForecastProfit: string;
+  chartLaunch: string;
+  chartPeak: string;
+  chartNow: string;
+  chartHorizon1: string;
+  chartHorizon3: string;
+  chartHorizon6: string;
+  chartEstimatedBadge: string;
+  chartLiveBadge: string;
+  chartUnits: string;
+  chartMonthLabel: string;
   termsLink: string;
   langAria: string;
   live: string;
@@ -181,6 +200,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   tr: {
     headerTag: "ÇOK PLATFORM • KÂR + RİSK • v2.2",
     keepaLive: "KEEPA • CANLI",
+    keepaOffline: "KEEPA • ANAHTAR YOK",
+    tahminBadge: "TAHMİN",
+    salesUnavailable: "Veri yok",
     awaken: "Dragon Uyanıyor",
     heroLine1: "Talep, doygunluk, risk.",
     heroLine2: "Net kârı gör.",
@@ -345,14 +367,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • TALEP · DOYGUNLUK · RİSK · NET KÂR",
     footerRight: "AVCILAR İÇİN YAPILDI",
+    chartSalesTitle: "Satış adedi · Açılış · Pik · Şimdi",
+    chartProfitTitle: "Kâr · Açılış · Pik · Şimdi",
+    chartForecastTitle: "İleriki dönem tahmini",
+    chartForecastSales: "Satış adedi (tahmini)",
+    chartForecastProfit: "Kâr (tahmini)",
+    chartLaunch: "Açılış",
+    chartPeak: "Pik",
+    chartNow: "Şimdi",
+    chartHorizon1: "Aylık",
+    chartHorizon3: "3 aylık",
+    chartHorizon6: "6 aylık",
+    chartEstimatedBadge: "TAHMİNİ",
+    chartLiveBadge: "CANLI GEÇMİŞ",
+    chartUnits: "adet",
+    chartMonthLabel: "A{n}",
     termsLink: "Kullanım Şartları",
     langAria: "Dil seçimi",
     live: "CANLI",
-    heroMeta: "SABİT • 0.20 OPAK • DEGRADE",
+    heroMeta: "TALEP • DOYGUNLUK • RİSK • NET KÂR",
   },
   en: {
     headerTag: "MULTI-PLATFORM • PROFIT + RISK • v2.2",
     keepaLive: "KEEPA • LIVE",
+    keepaOffline: "KEEPA • NO KEY",
+    tahminBadge: "EST.",
+    salesUnavailable: "No data",
     awaken: "Dragon Awakens",
     heroLine1: "Demand, saturation, risk.",
     heroLine2: "See net profit.",
@@ -543,14 +583,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • DEMAND · SATURATION · RISK · NET PROFIT",
     footerRight: "BUILT FOR HUNTERS",
+    chartSalesTitle: "Sales volume · Launch · Peak · Now",
+    chartProfitTitle: "Profit · Launch · Peak · Now",
+    chartForecastTitle: "Forward outlook",
+    chartForecastSales: "Sales units (estimate)",
+    chartForecastProfit: "Profit (estimate)",
+    chartLaunch: "Launch",
+    chartPeak: "Peak",
+    chartNow: "Now",
+    chartHorizon1: "1 month",
+    chartHorizon3: "3 months",
+    chartHorizon6: "6 months",
+    chartEstimatedBadge: "ESTIMATED",
+    chartLiveBadge: "LIVE HISTORY",
+    chartUnits: "units",
+    chartMonthLabel: "M{n}",
     termsLink: "Terms of Use",
     langAria: "Language selection",
     live: "LIVE",
-    heroMeta: "FIXED • 0.20 OPACITY • GRADIENT",
+    heroMeta: "DEMAND • SATURATION • RISK • NET PROFIT",
   },
   de: {
     headerTag: "MULTI-PLATFORM • GEWINN + RISIKO • v2.2",
     keepaLive: "KEEPA • LIVE",
+    keepaOffline: "KEEPA • KEIN KEY",
+    tahminBadge: "SCHÄTZ.",
+    salesUnavailable: "Keine Daten",
     awaken: "Dragon erwacht",
     heroLine1: "Nachfrage, Sättigung, Risiko.",
     heroLine2: "Nettogewinn sehen.",
@@ -741,14 +799,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • NACHFRAGE · SÄTTIGUNG · RISIKO · NETTOGEWINN",
     footerRight: "FÜR JÄGER GEBAUT",
+    chartSalesTitle: "Absatz · Start · Peak · Jetzt",
+    chartProfitTitle: "Gewinn · Start · Peak · Jetzt",
+    chartForecastTitle: "Ausblick",
+    chartForecastSales: "Absatz (Schätzung)",
+    chartForecastProfit: "Gewinn (Schätzung)",
+    chartLaunch: "Start",
+    chartPeak: "Peak",
+    chartNow: "Jetzt",
+    chartHorizon1: "1 Monat",
+    chartHorizon3: "3 Monate",
+    chartHorizon6: "6 Monate",
+    chartEstimatedBadge: "SCHÄTZUNG",
+    chartLiveBadge: "LIVE-HISTORIE",
+    chartUnits: "Stück",
+    chartMonthLabel: "M{n}",
     termsLink: "Nutzungsbedingungen",
     langAria: "Sprachauswahl",
     live: "LIVE",
-    heroMeta: "FIX • 0.20 OPACITY • VERLAUF",
+    heroMeta: "NACHFRAGE • SÄTTIGUNG • RISIKO • NETTOGEWINN",
   },
   fr: {
     headerTag: "MULTI-PLATEFORME • PROFIT + RISQUE • v2.2",
     keepaLive: "KEEPA • EN DIRECT",
+    keepaOffline: "KEEPA • PAS DE CLÉ",
+    tahminBadge: "ESTIM.",
+    salesUnavailable: "Pas de données",
     awaken: "Dragon s’éveille",
     heroLine1: "Demande, saturation, risque.",
     heroLine2: "Voir le bénéfice net.",
@@ -939,14 +1015,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • DEMANDE · SATURATION · RISQUE · BÉNÉFICE NET",
     footerRight: "FAIT POUR LES CHASSEURS",
+    chartSalesTitle: "Volume · Lancement · Pic · Maintenant",
+    chartProfitTitle: "Profit · Lancement · Pic · Maintenant",
+    chartForecastTitle: "Perspectives",
+    chartForecastSales: "Unités (estimé)",
+    chartForecastProfit: "Profit (estimé)",
+    chartLaunch: "Lancement",
+    chartPeak: "Pic",
+    chartNow: "Maintenant",
+    chartHorizon1: "1 mois",
+    chartHorizon3: "3 mois",
+    chartHorizon6: "6 mois",
+    chartEstimatedBadge: "ESTIMÉ",
+    chartLiveBadge: "HISTORIQUE LIVE",
+    chartUnits: "unités",
+    chartMonthLabel: "M{n}",
     termsLink: "Conditions d’utilisation",
     langAria: "Choix de la langue",
     live: "EN DIRECT",
-    heroMeta: "FIXE • 0.20 OPACITÉ • DÉGRADÉ",
+    heroMeta: "DEMANDE • SATURATION • RISQUE • BÉNÉFICE NET",
   },
   zh: {
     headerTag: "多平台 • 利润 + 风险 • v2.2",
     keepaLive: "KEEPA • 实时",
+    keepaOffline: "KEEPA • 无密钥",
+    tahminBadge: "估算",
+    salesUnavailable: "无数据",
     awaken: "龙已苏醒",
     heroLine1: "需求、饱和度、风险。",
     heroLine2: "看见净利润。",
@@ -1127,14 +1221,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • 需求 · 饱和度 · 风险 · 净利润",
     footerRight: "为猎手而生",
+    chartSalesTitle: "销量 · 上架 · 峰值 · 当前",
+    chartProfitTitle: "利润 · 上架 · 峰值 · 当前",
+    chartForecastTitle: "未来展望",
+    chartForecastSales: "销量（估算）",
+    chartForecastProfit: "利润（估算）",
+    chartLaunch: "上架",
+    chartPeak: "峰值",
+    chartNow: "当前",
+    chartHorizon1: "1个月",
+    chartHorizon3: "3个月",
+    chartHorizon6: "6个月",
+    chartEstimatedBadge: "估算",
+    chartLiveBadge: "实时历史",
+    chartUnits: "件",
+    chartMonthLabel: "第{n}月",
     termsLink: "使用条款",
     langAria: "语言选择",
     live: "实时",
-    heroMeta: "固定 • 0.20 透明度 • 渐变",
+    heroMeta: "需求 • 饱和度 • 风险 • 净利润",
   },
   ru: {
     headerTag: "МУЛЬТИПЛАТФОРМА • ПРИБЫЛЬ + РИСК • v2.2",
     keepaLive: "KEEPA • В ЭФИРЕ",
+    keepaOffline: "KEEPA • НЕТ КЛЮЧА",
+    tahminBadge: "ОЦЕНКА",
+    salesUnavailable: "Нет данных",
     awaken: "Дракон пробуждается",
     heroLine1: "Спрос, насыщенность, риск.",
     heroLine2: "Видьте чистую прибыль.",
@@ -1325,10 +1437,25 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     footerLeft: "© DRAGON • СПРОС · НАСЫЩЕННОСТЬ · РИСК · ЧИСТАЯ ПРИБЫЛЬ",
     footerRight: "СОЗДАНО ДЛЯ ОХОТНИКОВ",
+    chartSalesTitle: "Продажи · Старт · Пик · Сейчас",
+    chartProfitTitle: "Прибыль · Старт · Пик · Сейчас",
+    chartForecastTitle: "Прогноз вперёд",
+    chartForecastSales: "Продажи (оценка)",
+    chartForecastProfit: "Прибыль (оценка)",
+    chartLaunch: "Старт",
+    chartPeak: "Пик",
+    chartNow: "Сейчас",
+    chartHorizon1: "1 мес.",
+    chartHorizon3: "3 мес.",
+    chartHorizon6: "6 мес.",
+    chartEstimatedBadge: "ОЦЕНКА",
+    chartLiveBadge: "ЖИВАЯ ИСТОРИЯ",
+    chartUnits: "шт.",
+    chartMonthLabel: "М{n}",
     termsLink: "Условия использования",
     langAria: "Выбор языка",
     live: "В ЭФИРЕ",
-    heroMeta: "ФИКС • 0.20 ПРОЗРАЧНОСТЬ • ГРАДИЕНТ",
+    heroMeta: "СПРОС • НАСЫЩЕННОСТЬ • РИСК • ЧИСТАЯ ПРИБЫЛЬ",
   },
 };
 

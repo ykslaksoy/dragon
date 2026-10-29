@@ -52,6 +52,7 @@ function toggleMany(list: CountryId[], ids: CountryId[], on: boolean): CountryId
 export function MarketPicker({ countries, onChange, copy }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const holdCloseTimer = useRef<number | null>(null);
   const listId = useId();
   const selected = useMemo(() => normalizeCountries(countries), [countries]);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
@@ -67,11 +68,18 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const onCloseMenus = () => setOpen(false);
     document.addEventListener("mousedown", onDoc);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("dragon:close-menus", onCloseMenus);
     return () => {
       document.removeEventListener("mousedown", onDoc);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("dragon:close-menus", onCloseMenus);
+      if (holdCloseTimer.current != null) {
+        window.clearTimeout(holdCloseTimer.current);
+        holdCloseTimer.current = null;
+      }
     };
   }, [open]);
 
@@ -90,6 +98,21 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
     onChange(toggleMany(selected, ids, !fully));
   }
 
+  const clearHoldClose = () => {
+    if (holdCloseTimer.current != null) {
+      window.clearTimeout(holdCloseTimer.current);
+      holdCloseTimer.current = null;
+    }
+  };
+
+  const startHoldClose = () => {
+    clearHoldClose();
+    holdCloseTimer.current = window.setTimeout(() => {
+      holdCloseTimer.current = null;
+      setOpen(false);
+    }, 380);
+  };
+
   return (
     <div ref={rootRef} className={`relative ${open ? "z-[110]" : "z-30"}`}>
       <button
@@ -98,6 +121,10 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
+        onPointerDown={startHoldClose}
+        onPointerUp={clearHoldClose}
+        onPointerCancel={clearHoldClose}
+        onPointerLeave={clearHoldClose}
         onClick={() => setOpen((v) => !v)}
         className="flex max-w-[132px] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/70 transition hover:bg-white/[0.06] hover:text-white sm:max-w-[240px]"
       >
@@ -113,7 +140,7 @@ export function MarketPicker({ countries, onChange, copy }: Props) {
           role="listbox"
           aria-label={copy.ariaLabel}
           aria-multiselectable
-          className="fixed left-1/2 top-[56px] z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:translate-x-0"
+          className="fixed left-1/2 top-[calc(var(--dragon-safe-top)+var(--dragon-header-h))] z-[120] mt-2 max-h-[min(70vh,420px)] w-[min(92vw,280px)] -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-[#0E0E10] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:translate-x-0"
         >
           <button
             type="button"

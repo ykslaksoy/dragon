@@ -18,12 +18,7 @@ import {
   getDictionary,
   type Locale,
 } from "./i18n/dictionaries";
-import {
-  DEMO_PRODUCTS,
-  filterAndSortProducts,
-  type RiskMode,
-  type SortMode,
-} from "./i18n/demo-products";
+import type { DemoProduct, RiskMode, SortMode } from "./i18n/demo-products";
 import {
   DEFAULT_COUNTRIES,
   regionsFromCountries,
@@ -50,6 +45,8 @@ export default function Home() {
   const [countries, setCountries] = useState<CountryId[]>(DEFAULT_COUNTRIES);
   const [sort, setSort] = useState<SortMode>("sales");
   const [riskMode, setRiskMode] = useState<RiskMode>("low");
+  const [products, setProducts] = useState<DemoProduct[]>([]);
+  const [keepaActive, setKeepaActive] = useState(false);
   const t = getDictionary(lang);
   const regions = useMemo(() => regionsFromCountries(countries), [countries]);
   const platforms = platformsForRegions(regions);
@@ -69,16 +66,23 @@ export default function Home() {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   }, [lang]);
 
-  const products = useMemo(
-    () =>
-      filterAndSortProducts(DEMO_PRODUCTS, {
-        regions,
-        countries,
-        riskMode,
-        sort,
-      }),
-    [regions, countries, riskMode, sort],
-  );
+  useEffect(() => {
+    const ac = new AbortController();
+    const qs = new URLSearchParams({
+      regions: regions.join(","),
+      countries: countries.join(","),
+      risk: riskMode,
+      sort,
+    });
+    fetch(`/api/hunt?${qs}`, { signal: ac.signal })
+      .then((r) => r.json())
+      .then((data) => {
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setKeepaActive(Boolean(data.apiStatus?.keepa));
+      })
+      .catch(() => setProducts([]));
+    return () => ac.abort();
+  }, [regions, countries, riskMode, sort]);
 
   const modeStatus =
     activeMode === "all"
@@ -107,81 +111,84 @@ export default function Home() {
         />
       </div>
 
-      <header
-        id="top"
-        className="sticky top-0 z-[100] m-0 flex h-[56px] items-center justify-between gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:gap-0 sm:px-8"
-      >
-        <div className="flex min-w-0 shrink-0 items-center gap-4 sm:gap-8">
-          <span className="shrink-0 text-[13px] font-medium tracking-[0.28em] text-white sm:text-[16px] sm:tracking-[0.42em]">
-            DRAGON
-          </span>
-          <div className="mono hidden items-center gap-3 text-[10px] tracking-[0.2em] text-white/30 lg:flex">
-            <span className="h-px w-8 bg-white/10" />
-            <span>{t.headerTag}</span>
+      {/* Header + hunt filters stick together so mobile Safari never loses top chrome */}
+      <div className="dragon-top-chrome m-0 border-b border-white/[0.06] shadow-[0_1px_0_rgba(255,255,255,0.04)]">
+        <header
+          id="top"
+          className="m-0 flex h-[56px] items-center justify-between gap-2 border-b border-white/[0.06] bg-[#070708] px-3 pt-0 sm:h-[64px] sm:gap-0 sm:px-8"
+        >
+          <div className="flex min-w-0 shrink-0 items-center gap-4 sm:gap-8">
+            <span className="shrink-0 text-[13px] font-medium tracking-[0.28em] text-white sm:text-[16px] sm:tracking-[0.42em]">
+              DRAGON
+            </span>
+            <div className="mono hidden items-center gap-3 text-[10px] tracking-[0.2em] text-white/30 lg:flex">
+              <span className="h-px w-8 bg-white/10" />
+              <span>{t.headerTag}</span>
+            </div>
           </div>
-        </div>
-        <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
-          <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
-            {t.keepaLive}
+          <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
+            <div className="mono hidden items-center gap-2 text-[10px] text-white/40 md:flex">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[#8CFF4D] shadow-[0_0_8px_#8CFF4D]" />
+              {keepaActive ? t.keepaLive : t.keepaOffline}
+            </div>
+            <MarketPicker
+              countries={countries}
+              onChange={setCountries}
+              copy={{
+                ariaLabel: t.marketAria,
+                regionsAria: t.regionsAria,
+                regionsChipAll: t.regionsAll,
+                countriesAll: t.marketCountriesAll,
+                regionsAll: t.marketRegionsAll,
+                countriesSection: t.marketCountriesSection,
+                regionsSection: t.marketRegionsSection,
+                groupSelectAll: t.marketGroupSelectAll,
+                marketGroups: t.marketGroups,
+                countries: t.countries,
+                regions: t.regions,
+                countryCount: t.marketCountryCount,
+                regionCount: t.marketRegionCount,
+                plusMore: t.marketPlusMore,
+                regionPlus: t.marketRegionPlus,
+              }}
+            />
+            <LanguageSwitcher
+              locale={lang}
+              onChange={setLang}
+              ariaLabel={t.langAria}
+            />
+            <DragonTopLogo />
           </div>
-          <MarketPicker
-            countries={countries}
-            onChange={setCountries}
-            copy={{
-              ariaLabel: t.marketAria,
-              regionsAria: t.regionsAria,
-              regionsChipAll: t.regionsAll,
-              countriesAll: t.marketCountriesAll,
-              regionsAll: t.marketRegionsAll,
-              countriesSection: t.marketCountriesSection,
-              regionsSection: t.marketRegionsSection,
-              groupSelectAll: t.marketGroupSelectAll,
-              marketGroups: t.marketGroups,
-              countries: t.countries,
-              regions: t.regions,
-              countryCount: t.marketCountryCount,
-              regionCount: t.marketRegionCount,
-              plusMore: t.marketPlusMore,
-              regionPlus: t.marketRegionPlus,
-            }}
-          />
-          <LanguageSwitcher
-            locale={lang}
-            onChange={setLang}
-            ariaLabel={t.langAria}
-          />
-          <DragonTopLogo />
-        </div>
-      </header>
+        </header>
 
-      {/* Compact hunt filters: sort · risk (region/country in header picker).
-          Stacking: keep this chrome above hero (z-10) so open menus stay clickable. */}
-      <div className="relative z-[90] isolate overflow-visible border-b border-white/[0.06] bg-[#070708] px-4 py-3 sm:px-8">
-        <div className="flex flex-col items-center gap-2.5 overflow-visible">
-          <HuntFilters
-            sort={sort}
-            onSortChange={setSort}
-            riskMode={riskMode}
-            onRiskModeChange={setRiskMode}
-            copy={{
-              sortAria: t.sortAria,
-              sortPrefix: t.sortPrefix,
-              sortSales: t.sortSales,
-              sortProfit: t.sortProfit,
-              sortRisk: t.sortRisk,
-              riskAria: t.riskAria,
-              riskPrefix: t.riskPrefix,
-              riskLow: t.riskLow,
-              riskLowHint: t.riskLowHint,
-              riskBalanced: t.riskBalanced,
-              riskBalancedHint: t.riskBalancedHint,
-              riskHigh: t.riskHigh,
-              riskHighHint: t.riskHighHint,
-            }}
-          />
+        <div className="relative overflow-visible bg-[#070708] px-4 py-3 sm:px-8">
+          <div className="flex flex-col items-center gap-2.5 overflow-visible">
+            <HuntFilters
+              sort={sort}
+              onSortChange={setSort}
+              riskMode={riskMode}
+              onRiskModeChange={setRiskMode}
+              copy={{
+                sortAria: t.sortAria,
+                sortPrefix: t.sortPrefix,
+                sortSales: t.sortSales,
+                sortProfit: t.sortProfit,
+                sortRisk: t.sortRisk,
+                riskAria: t.riskAria,
+                riskPrefix: t.riskPrefix,
+                riskLow: t.riskLow,
+                riskLowHint: t.riskLowHint,
+                riskBalanced: t.riskBalanced,
+                riskBalancedHint: t.riskBalancedHint,
+                riskHigh: t.riskHigh,
+                riskHighHint: t.riskHighHint,
+              }}
+            />
+          </div>
         </div>
       </div>
+
+      <div className="dragon-chrome-spacer" aria-hidden />
 
       <section className="relative z-10 flex flex-col items-center px-5 pb-10 pt-10 sm:px-10 sm:pt-14">
         <p
@@ -257,6 +264,8 @@ export default function Home() {
           scoreTotalProfitHelp: t.scoreTotalProfitHelp,
           scoreTotalRevenueHelp: t.scoreTotalRevenueHelp,
           scoreTargetSalesHelp: t.scoreTargetSalesHelp,
+          tahminBadge: t.tahminBadge,
+          salesUnavailable: t.salesUnavailable,
           platformBreakdownTitle: t.platformBreakdownTitle,
           platformCol: t.platformCol,
           unitsCol: t.unitsCol,
@@ -272,6 +281,21 @@ export default function Home() {
           platformsCell: t.platformsCell,
           scenarioUnits: t.scenarioUnits,
           scenarioProfitCol: t.scenarioProfitCol,
+          chartSalesTitle: t.chartSalesTitle,
+          chartProfitTitle: t.chartProfitTitle,
+          chartForecastTitle: t.chartForecastTitle,
+          chartForecastSales: t.chartForecastSales,
+          chartForecastProfit: t.chartForecastProfit,
+          chartLaunch: t.chartLaunch,
+          chartPeak: t.chartPeak,
+          chartNow: t.chartNow,
+          chartHorizon1: t.chartHorizon1,
+          chartHorizon3: t.chartHorizon3,
+          chartHorizon6: t.chartHorizon6,
+          chartEstimatedBadge: t.chartEstimatedBadge,
+          chartLiveBadge: t.chartLiveBadge,
+          chartUnits: t.chartUnits,
+          chartMonthLabel: t.chartMonthLabel,
         }}
       />
 
