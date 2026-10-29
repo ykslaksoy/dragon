@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useId, useState, type ReactNode } from "react";
+import { ProductCharts, type ProductChartsCopy } from "./ProductCharts";
 import type { DemoProduct } from "../i18n/demo-products";
 import {
   hasProductLink,
@@ -12,7 +13,7 @@ import {
   totalRevenue,
 } from "../i18n/demo-products";
 
-export type ProductResultsCopy = {
+export type ProductResultsCopy = ProductChartsCopy & {
   title: string;
   empty: string;
   softSteer: string;
@@ -371,6 +372,8 @@ function ProductRow({
               ) : null}
             </p>
           </div>
+
+          <ProductCharts product={p} copy={copy} />
 
           <div>
             <p className="mono mb-2 text-[9px] tracking-[0.12em] text-white/35">

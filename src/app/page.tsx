@@ -281,6 +281,21 @@ export default function Home() {
           platformsCell: t.platformsCell,
           scenarioUnits: t.scenarioUnits,
           scenarioProfitCol: t.scenarioProfitCol,
+          chartSalesTitle: t.chartSalesTitle,
+          chartProfitTitle: t.chartProfitTitle,
+          chartForecastTitle: t.chartForecastTitle,
+          chartForecastSales: t.chartForecastSales,
+          chartForecastProfit: t.chartForecastProfit,
+          chartLaunch: t.chartLaunch,
+          chartPeak: t.chartPeak,
+          chartNow: t.chartNow,
+          chartHorizon1: t.chartHorizon1,
+          chartHorizon3: t.chartHorizon3,
+          chartHorizon6: t.chartHorizon6,
+          chartEstimatedBadge: t.chartEstimatedBadge,
+          chartLiveBadge: t.chartLiveBadge,
+          chartUnits: t.chartUnits,
+          chartMonthLabel: t.chartMonthLabel,
         }}
       />
 
